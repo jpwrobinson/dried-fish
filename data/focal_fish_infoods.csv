@@ -1,0 +1,13 @@
+"species","prep_form","n_cite","n_sample","Calcium","Iron","Omega_3","Protein","Selenium","Vitamin_A","Zinc"
+"Engraulis_encrasicolus","wet",1,2,373,2, , , ,66, 
+"Engraulis_encrasicolus","dry",1,1, ,1.13,5.077508352,14.1, , ,2.11
+"Engraulis_encrasicolus","wet",2,4, , ,1.4223899755, , , , 
+"Engraulis_encrasicolus","wet",3,6, , , ,18.87, , , 
+"Engraulis_encrasicolus","wet",2,3, , , , ,22.7666666666667, ,1.40136666666667
+"Sardina_pilchardus","dry",1,1,544.4,8.55, , , , ,5.99
+"Sardina_pilchardus","wet",1,2,512.5,2.75,2.7, , ,60.2, 
+"Sardina_pilchardus","wet",3,8, , , ,20.055, , , 
+"Sardina_pilchardus","wet",2,3, , , , ,44.7666666666667, ,1.48603333333333
+"Sardinella_aurita","wet",1,1,71.2,1.84, , ,37, ,0.52
+"Sardinella_aurita","wet",2,9, , , ,19.9788888888889, , , 
+"Sardinella_maderensis","wet",1,1,89.6,1.52, ,21,50.4, ,0.56
