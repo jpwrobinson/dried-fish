@@ -2,7 +2,6 @@ library(tidyverse)
 library(janitor)
 library(readxl)
 
-
 ## Read dried Ghana + Kenya samples Jan/Feb 2022
 
 ## Dried fish size, species, source
@@ -16,18 +15,20 @@ path<-'data/norway_sep22/2022-734 LIMS downloaded 01.09.22 modified by mk 01.09.
 
 ## combine mineral + vitamin sheets
 sheets<-c(1,3,4,5,6,7,9,12)
+
+drop_vars<-c('project', 'customer', 'jnr_analysis_replicate', 'batch', 
+	'product', 'subproduct', 'project_comments', 'sample_comments', 'variation', 'test_comments', 'test_status', 'reviewed_by')
+
 for(i in sheets){
-	print(paste('Reading sheet', sheets[i]))
 	df<-read_excel(path, sheet = i) %>% clean_names() 
-	if(i == 1){dat <- df} 
-	if(i != 1){dat<-dat %>% left_join(df)}
-	dat<-dat %>% left_join(df)
+	if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
+	if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
 }
 
-dat<-dat %>% select(-c(project, customer, jnr_analysis_replicate, batch, 
-	product, subproduct, project_comments, sample_comments, variation, test_comments, test_status, reviewed_by)) %>% 
+dat<-dat %>% 
 		mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
-		rename(sample_id = customer_marking)
+		rename(sample_id = customer_marking) %>% 
+		select(-folat_mg_100_g_ww)
 
 dried<-dried %>% left_join(dat)
 
@@ -38,6 +39,7 @@ datl<-dried %>% mutate_if(is.numeric, as.character) %>%
 		pivot_longer(-c(sample_id:latin_name), values_to = 'value', names_to = 'nutrient') %>% 
 		mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst'),'g_100g',
 			ifelse(str_detect(nutrient, 'folat'), 'mg_100g', 'mg_kg')),
+				nutrient = str_replace_all(nutrient, '_mg_kg_mg_kg_ww', '_mg_kg_ww'),
 				nutrient = str_replace_all(nutrient, '_mg_kg_dw', ''),
 				nutrient = str_replace_all(nutrient, '_mg_kg_ww', ''),
 				nutrient = str_replace_all(nutrient, '_g_100g_ww', ''),
@@ -49,7 +51,8 @@ datl<-dried %>% mutate_if(is.numeric, as.character) %>%
 				fe = 'iron', co = 'cobalt', ni = 'nickel', cu = 'copper', zn = 'zinc',
 				as = 'arsenic', se = 'selenium', mo = 'molybdenum', ag = 'silver', cd = 'cadmium',
 				hg = 'mercury', pb = 'lead', jod = 'iodine', ca = 'calcium', na = 'sodium', k = 'potassium', mg = 'magnesium',
-				p = 'phosphorus', folat = 'folate'))
+				p = 'phosphorus', folat = 'folate', cobalamin = 'vitamin_b12')) %>% 
+		mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value))
 
 write.csv(datl, file = 'data/clean/dried_nutrient_estimates_long.csv')
 
@@ -90,6 +93,7 @@ datl<-tilap %>% mutate_if(is.numeric, as.character) %>%
 				fe = 'iron', co = 'cobalt', ni = 'nickel', cu = 'copper', zn = 'zinc',
 				as = 'arsenic', se = 'selenium', mo = 'molybdenum', ag = 'silver', cd = 'cadmium',
 				hg = 'mercury', pb = 'lead', jod = 'iodine', ca = 'calcium', na = 'sodium', k = 'potassium', mg = 'magnesium',
-				p = 'phosphorus', folat = 'folate'))
+				p = 'phosphorus', folat = 'folate',cobalamin = 'vitamin_b12')) %>% 
+		mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value))
 
-write.csv(datl, file = 'data/clean/dried_nutrient_estimates_long.csv')
+write.csv(datl, file = 'data/clean/tilapia_nutrient_estimates_long.csv')
