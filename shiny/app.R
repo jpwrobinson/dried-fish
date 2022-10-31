@@ -21,7 +21,7 @@ rda$nutrient[rda$nutrient=='Vitamin_b12']<-'Vitamin B12'
 # rda$nutrient[rda$nutrient=='Omega_3']<-'Omega3'
 
 ## get nutrient units
-units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega3', 'VitaminA', 'VitaminD', 'VitaminB12', 'Folate'),
+units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega3', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
                   unit = c('percent', 'mg', 'mg', 'mcg', 'mg','mcg', 'g', 'mcg', 'mcg', 'mcg', 'mcg'))
 
 ## load data
@@ -36,7 +36,10 @@ nutl<-nut_dry_whole %>%
                                               #'Omega3', 
                                               'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Folate'))) %>%
     mutate(nutrient = recode(nutrient, #Omega3 = 'Omega-3\nfatty acids', 
-                             Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D'))
+                             Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
+    mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
+           fbname = ifelse(species == 'Rastrineobola argenteus', 'Omena (freshwater)', fbname))
+
     
 
 ## units in labels
@@ -64,24 +67,28 @@ ui <- fluidPage(
     useShinyjs(),
     theme = bslib::bs_theme(bootswatch = "lux"),
     headerPanel(div("Fish nutrient content", img(src = "FishNapp_logo.png", height=98, width=130)), windowTitle = 'Fish nutrient content'),
-    p('Dried fish nutrient content in Ghana & Kenya (sampled in 2022)'),
+    p('Dried fish nutrient content in Ghana & Kenya: use the drop-down box below to select species by their scientific name'),
     sidebarLayout(
         # Sidebar panel for inputs
         sidebarPanel(
             selectizeInput("sp", label = "Scientific name", choices = NULL, multiple=FALSE),
-            # selectizeInput("form", label = "Food type", choices = NULL),
             selectizeInput("diet", label = "Dietary population", choices = NULL),
             sliderInput("portion", "Portion size, g", value = 50, min = 10, max = 250, step=10),
-            h4('Background')),
+            tabPanel("Recommend intakes",
+                     tableOutput('rda_table')),
+            h4('Background'),
+        HTML(r"(
+             Use the drop-down box above to select species by their scientific name. Plots will be generated for 1 species, showing nutrient content of different processing forms (e.g. fresh, smoked, sun-dried).
+             <br> <br>
+             Nutrient data are observed values in samples collected in Kenya and Ghana in January/February 2022. Samples were analyzed at IMR Bergen.
+             <br> <br>
+             Recommended intakes for minerals and vitamin are from <a href="http://apps.who.int/iris/bitstream/handle/10665/42716/9241546123.pdf" target="_blank">WHO/FAO</a>,
+             assuming 10% bioavailability for iron and moderate bioavailabity for zinc.)")),
         # Main panel for displaying outputs
         mainPanel(
             tabsetPanel(
                 tabPanel("Recommend intakes", downloadButton('downloadP1', 'Save as PDF'), plotOutput('spider')),
-                tabPanel("Nutrient concentrations", downloadButton('downloadP2', 'Save as PDF'), plotOutput('posteriors')),
-                # tabPanel("Download table",p(''), p(''),
-                #          downloadButton('download', 'Download .csv'),
-                #          tableOutput("table")
-                #          )
+                tabPanel("Nutrient concentrations", downloadButton('downloadP2', 'Save as PDF'), plotOutput('posteriors'))
                 )
         )
     )
@@ -185,6 +192,7 @@ server<-function(input, output, session) {
         dat<-nutl_agg[nutl_agg$species %in% nutSelect(),]
         dat2<-nutl[nutl$species %in% nutSelect(),] 
         fbname_long<-paste0(unique(dat2$species), ' = ', unique(dat2$fbname), collapse='\n')
+        cap<-paste('\n\n\n', fbname_long)
             
         ggplot(dat, aes(form, mu, fill=form)) + 
             geom_bar(stat='identity', alpha=0.7) +
@@ -195,6 +203,7 @@ server<-function(input, output, session) {
                  # title = 'Posterior predicted nutrient concentration'
                  ) +
             scale_fill_manual(values = pcols) +
+            scale_y_continuous(expand=c(0,0)) +
             # scale_colour_manual(values = pcols) +
             theme(axis.ticks.x = element_blank(),
                   axis.text.x = element_blank(),
@@ -209,24 +218,19 @@ server<-function(input, output, session) {
     output$spider<- renderPlot({spiderPlot()})
     output$posteriors<- renderPlot({postPlot()})
     # 
-    # tabber<-reactive({  nutl[nutl$species %in% nutSelect(),] %>%
-    #         filter(fbname %in% nameSelect()) %>% 
-    #         filter(form == frmSelect()) %>% 
-    #         select(species, fbname, form, nutrient, mu:u95, unit, rni_women, rni_men, rni_pregnant, rni_kids) %>%  
-    #         rename('Concentration_per_100g'  = mu,
-    #                'Lower 95%'  = l95,
-    #                'Upper 95%'  = u95,
-    #                'Lower 50%'  = l50,
-    #                'Upper 50%'  = u50,
-    #                'Nutrient' = nutrient,
-    #                'Unit' = unit,
-    #                'Species' = species,
-    #                'FishbaseName' = fbname,
-    #                'RNI_adult_women_18-65' = rni_women,
-    #                'RNI_adult_men_18-65' = rni_men,
-    #                'RNI_pregnant_women' = rni_pregnant,
-    #                'RNI_children_6mo-5yr' = rni_kids) %>% 
-    #         arrange(Nutrient) })
+    rda_tab<-reactive({  dat<-rda %>% 
+        filter(nutrient != 'Omega_3') %>% 
+        mutate(nutrient = str_to_title(nutrient)) %>% 
+        left_join(units) %>% 
+        mutate(rni = case_when(str_detect(rnSelect(), 'Children') ~ rni_kids, 
+                               str_detect(rnSelect(), 'Adult women')~rni_women,
+                               str_detect(rnSelect(), 'Adult men')~rni_men,
+                               str_detect(rnSelect(), 'Pregnant')~rni_pregnant)) %>% 
+        select(nutrient, rni, unit) %>% 
+        mutate(rni = round(rni, 0)) %>% 
+        rename('Recommended daily intake' = rni)
+    })
+
     # 
     # output$download <- downloadHandler(
     #     filename = "Species_Nutrient_Predictions.csv",
@@ -234,7 +238,7 @@ server<-function(input, output, session) {
     #         write.csv(tabber(), file)
     #     })
     # 
-    # output$table <- renderTable({tabber()})
+    output$rda_table <- renderTable({rda_tab()}, digits=0)
 
 }
 
