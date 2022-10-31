@@ -25,7 +25,7 @@ units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc',
                   unit = c('percent', 'mg', 'mg', 'mcg', 'mg','mcg', 'g', 'mcg', 'mcg', 'mcg', 'mcg'))
 
 ## load data
-nut_dry_whole<-read.csv('../data/clean/dried_nutrient_estimates_long.csv') 
+nut_dry_whole<-read.csv('dried_nutrient_estimates_long.csv') 
 nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine', 'vitamin_a1', 'vitamin_d3','folate', 'vitamin_b12')
 ## tidy names
 nutl<-nut_dry_whole %>% 
@@ -37,6 +37,7 @@ nutl<-nut_dry_whole %>%
                                               'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Folate'))) %>%
     mutate(nutrient = recode(nutrient, #Omega3 = 'Omega-3\nfatty acids', 
                              Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
+    mutate(form = recode(form, Wet = 'Fresh')) %>% 
     mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
            fbname = ifelse(species == 'Rastrineobola argenteus', 'Omena (freshwater)', fbname))
 
@@ -50,7 +51,9 @@ levels(nutl$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g
                     expression('Vitamin D, '*mu*'g'),expression('Folate, '*mu*'g'))
 
 nutl_agg<-nutl %>% 
-    group_by(form, species, fbname, nutrient, lab) %>% 
+    group_by(species, fbname, nutrient, lab) %>% 
+    mutate(n = length(mu)) %>% 
+    group_by(form, species, fbname, n, nutrient, lab) %>% 
     summarise(mu = median(mu)) %>% 
     ungroup() %>% droplevels() %>% 
     ## add RDA and units
@@ -74,7 +77,7 @@ ui <- fluidPage(
             selectizeInput("sp", label = "Scientific name", choices = NULL, multiple=FALSE),
             selectizeInput("diet", label = "Dietary population", choices = NULL),
             sliderInput("portion", "Portion size, g", value = 50, min = 10, max = 250, step=10),
-            tabPanel("Recommend intakes",
+            tabPanel("Table of intakes",
                      tableOutput('rda_table')),
             h4('Background'),
         HTML(r"(
@@ -87,7 +90,7 @@ ui <- fluidPage(
         # Main panel for displaying outputs
         mainPanel(
             tabsetPanel(
-                tabPanel("Recommend intakes", downloadButton('downloadP1', 'Save as PDF'), plotOutput('spider')),
+                tabPanel("Recommended intakes", downloadButton('downloadP1', 'Save as PDF'), plotOutput('spider')),
                 tabPanel("Nutrient concentrations", downloadButton('downloadP2', 'Save as PDF'), plotOutput('posteriors'))
                 )
         )
@@ -150,7 +153,7 @@ server<-function(input, output, session) {
     
         dat<-dat[,colSelect()]
         # dat<-dat[,c('form', 'nutrient', 'rni')]
-        dat<-dat %>% pivot_wider(names_from = nutrient, values_from = rni)
+        dat<-dat %>% pivot_wider(names_from = nutrient, values_from = rni) %>% select_if(~ !any(is.na(.)))
         
         tit<-if(str_detect(rnSelect(), 'Children')){
                     paste0('children (6 mo - 5 yrs) from a ', ptnSelect(), ' g portion')} else 
@@ -189,21 +192,18 @@ server<-function(input, output, session) {
     
     postPlot <- reactive({
         
-        dat<-nutl_agg[nutl_agg$species %in% nutSelect(),]
-        dat2<-nutl[nutl$species %in% nutSelect(),] 
+        dat<-nutl_agg[nutl_agg$species %in% nutSelect(),] %>% filter(!is.na(mu))
+        dat2<-nutl[nutl$species %in% nutSelect(),] %>% filter(!is.na(mu))
         fbname_long<-paste0(unique(dat2$species), ' = ', unique(dat2$fbname), collapse='\n')
-        cap<-paste('\n\n\n', fbname_long)
+        cap<-paste('\n\n\n', fbname_long, '\n\n', 'Number of composite samples =',  dat$n)
             
         ggplot(dat, aes(form, mu, fill=form)) + 
             geom_bar(stat='identity', alpha=0.7) +
             geom_jitter(data=dat2, alpha=0.8, pch=21, col='black') +
             facet_wrap(~lab, scales='free', nrow=1, labeller=label_parsed) +
-            labs(x = '', y = 'concentration per 100 g',
-                 cap = paste('\n\n\n', fbname_long)
-                 # title = 'Posterior predicted nutrient concentration'
-                 ) +
+            labs(x = '', y = 'concentration per 100 g',caption = cap) +
             scale_fill_manual(values = pcols) +
-            scale_y_continuous(expand=c(0,0)) +
+            scale_y_continuous(expand=c(0.01,0.01)) +
             # scale_colour_manual(values = pcols) +
             theme(axis.ticks.x = element_blank(),
                   axis.text.x = element_blank(),
@@ -217,7 +217,20 @@ server<-function(input, output, session) {
     
     output$spider<- renderPlot({spiderPlot()})
     output$posteriors<- renderPlot({postPlot()})
-    # 
+    
+    output$downloadP1 <- downloadHandler(
+        filename = 'Species_RNI.pdf', 
+        content = function(file){
+            ggsave(file, spiderPlot(), height = 5, width = 12)
+        })
+    
+    output$posteriors<- renderPlot({postPlot()})
+    output$downloadP2 <- downloadHandler(
+        filename = 'Species_nutrient_concentrations.pdf', 
+        content = function(file){
+            ggsave(file, postPlot(), height = 7, width = 15)
+        })
+    
     rda_tab<-reactive({  dat<-rda %>% 
         filter(nutrient != 'Omega_3') %>% 
         mutate(nutrient = str_to_title(nutrient)) %>% 
