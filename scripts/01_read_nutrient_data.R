@@ -52,7 +52,10 @@ datl<-dried %>% mutate_if(is.numeric, as.character) %>%
 				as = 'arsenic', se = 'selenium', mo = 'molybdenum', ag = 'silver', cd = 'cadmium',
 				hg = 'mercury', pb = 'lead', jod = 'iodine', ca = 'calcium', na = 'sodium', k = 'potassium', mg = 'magnesium',
 				p = 'phosphorus', folat = 'folate', cobalamin = 'vitamin_b12')) %>% 
-		mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value))
+		mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value)) %>% 
+        mutate(value = ifelse(unit =='mg_kg', value/10, value)) %>% 
+        mutate(unit = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), 'mug_100g', 'mg_100g')) %>% 
+        mutate(unit = ifelse(str_detect(nutrient, 'protein'), 'g_100g', unit)) 
 
 write.csv(datl, file = 'data/clean/dried_nutrient_estimates_long.csv')
 

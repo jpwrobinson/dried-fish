@@ -11,6 +11,7 @@ library(ggradar)
 source('theme_sleek.R')
 theme_set(theme_sleek())
 pcols<-c(RColorBrewer::brewer.pal(9, 'Set1'), 'black') ## 10 colors
+pcols_order<-c('Fresh', 'Sun-dried', 'Smoked','Fried', 'Powder')
 
 ## get RDA reference vals
 source('rda_reader.R')
@@ -37,7 +38,7 @@ nutl<-nut_dry_whole %>%
                                               'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Folate'))) %>%
     mutate(nutrient = recode(nutrient, #Omega3 = 'Omega-3\nfatty acids', 
                              Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
-    mutate(form = recode(form, Wet = 'Fresh')) %>% 
+    mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
     mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
            fbname = ifelse(species == 'Rastrineobola argenteus', 'Omena (freshwater)', fbname))
 
@@ -76,7 +77,8 @@ ui <- fluidPage(
         sidebarPanel(
             selectizeInput("sp", label = "Scientific name", choices = NULL, multiple=FALSE),
             selectizeInput("diet", label = "Dietary population", choices = NULL),
-            sliderInput("portion", "Portion size, g", value = 50, min = 10, max = 250, step=10),
+            sliderInput("portionWet", "Wet portion, g", value = 50, min = 10, max = 250, step=10),
+            sliderInput("portionDry", "Processed portion, g", value = 50, min = 10, max = 250, step=10),
             tabPanel("Table of intakes",
                      tableOutput('rda_table')),
             h4('Background'),
@@ -129,8 +131,10 @@ server<-function(input, output, session) {
     #           input$form})
     rnSelect<-reactive({req(input$diet) 
               input$diet})
-    ptnSelect<-reactive({req(input$portion) 
-              input$portion})
+    ptnSelectWet<-reactive({req(input$portionWet) 
+              input$portionWet})
+    ptnSelectDry<-reactive({req(input$portionDry) 
+        input$portionDry})
 
     ## outputs
     
@@ -144,7 +148,7 @@ server<-function(input, output, session) {
                                    str_detect(rnSelect(), 'Adult women')~rni_women,
                                    str_detect(rnSelect(), 'Adult men')~rni_men,
                                    str_detect(rnSelect(), 'Pregnant')~rni_pregnant)) %>% 
-            mutate(rni = rni / (100/ptnSelect())) %>%
+            mutate(rni = ifelse(form == 'Fresh', rni / (100/ptnSelectWet()), rni / (100/ptnSelectDry()))) %>%
             mutate(rni = rni/100) %>%
             ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
             mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni))
@@ -156,16 +160,17 @@ server<-function(input, output, session) {
         dat<-dat %>% pivot_wider(names_from = nutrient, values_from = rni) %>% select_if(~ !any(is.na(.)))
         
         tit<-if(str_detect(rnSelect(), 'Children')){
-                    paste0('children (6 mo - 5 yrs) from a ', ptnSelect(), ' g portion')} else 
+                    paste0('children (6 mo - 5 yrs)')} else 
                       if(str_detect(rnSelect(), 'Adult women')){
-                    paste0('adult women (18-65) from a ', ptnSelect(), ' g portion')} else
+                    paste0('adult women (18-65)')} else
                       if(str_detect(rnSelect(), 'Adult men')){
-                        paste0('adult men (18-65) from a ', ptnSelect(), ' g portion')} else
+                        paste0('adult men (18-65)')} else
                           if(str_detect(rnSelect(), 'Pregnant')){
-                            paste0('pregnant women from a ', ptnSelect(), ' g portion')}
+                            paste0('pregnant women')}
         tit<-paste0('\n\nRecommended intakes for ', tit)
         subtit<-'\nRadar plots show the contribution of a single fish portion to recommended daily nutrient intakes (capped at 100%).'
         cap<-paste('\n\n\n', fbname_long)
+        # pcols_select<-pcols[pcols_order[which(pcols_order %in% unique(dat$form))]]
         
         ggradar(dat, 
                         group.colours = pcols,
