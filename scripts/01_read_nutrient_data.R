@@ -36,7 +36,7 @@ write.csv(dried, file = 'data/clean/dried_nutrient_estimates_wide.csv')
 
 ## long version with trace values removed
 datl<-dried %>% mutate_if(is.numeric, as.character) %>% 
-		pivot_longer(-c(sample_id:latin_name), values_to = 'value', names_to = 'nutrient') %>% 
+		pivot_longer(-c(sample_id:latin_name, dry_matter_g_100g_ww), values_to = 'value', names_to = 'nutrient') %>% 
 		mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst'),'g_100g',
 			ifelse(str_detect(nutrient, 'folat'), 'mg_100g', 'mg_kg')),
 				nutrient = str_replace_all(nutrient, '_mg_kg_mg_kg_ww', '_mg_kg_ww'),
@@ -66,19 +66,19 @@ tilap<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_TILAPIA.
 		select(sample_id, date, sample_location, type, total_length_mm, mass_g) 
 
 ## Norway nutrient estimates
-path<-'data/norway_sep22/2022-528 tilapia LIMS downloaded 01.09.22, modified by mk 01.09.22.xlsx'
+path<-'data/norway_sep22/2022-528 tilapia downloaded 06.01.23.xlsx'
 
 ## combine mineral + vitamin sheets
-sheets<-c(1,3,4,5,6,10)
-for(i in sheets){
+sheets<-c(1,2,3,4,5,6,7, 9, 12)
+for(i in 1:length(sheets)){
 	print(paste('Reading sheet', sheets[i]))
-	df<-read_excel(path, sheet = i) %>% clean_names()  %>% select(-jnr_analysis_replicate)
+	df<-read_excel(path, sheet = sheets[i]) %>% clean_names()  %>% 
+	    select(-any_of(drop_vars))
 	if(i == 1){dat <- df} 
 	if(i != 1){dat<-dat %>% left_join(df)}
 }
 
-dat<-dat %>% select(-c(project, customer, batch, product)) %>% 
-		rename(sample_id = customer_marking)
+dat<-dat %>% rename(sample_id = customer_marking)
 
 tilap<-tilap %>% left_join(dat)
 
@@ -86,7 +86,7 @@ write.csv(tilap, file = 'data/clean/tilapia_nutrient_estimates_wide.csv')
 
 # ## long version with trace values removed
 datl<-tilap %>% mutate_if(is.numeric, as.character) %>% 
-		pivot_longer(-c(sample_id:mass_g), values_to = 'value', names_to = 'nutrient') %>% 
+		pivot_longer(-c(sample_id:mass_g, dry_matter_g_100g_ww), values_to = 'value', names_to = 'nutrient') %>% 
 		mutate(unit = ifelse(str_detect(nutrient, 'protein'),'g_100g', 'mg_kg'),
 				nutrient = str_replace_all(nutrient, '_mg_kg_ww', ''),
 				nutrient = str_replace_all(nutrient, '_g_100g_ww', ''),
