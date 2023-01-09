@@ -14,7 +14,7 @@ dried<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.cs
 path<-'data/norway_sep22/2022-734 LIMS downloaded 01.09.22 modified by mk 01.09.22.xlsx'
 
 ## combine mineral + vitamin sheets
-sheets<-c(1,3,4,5,6,7,9,12)
+sheets<-c(1,2,3,4,5,6,7,9,12)
 
 drop_vars<-c('project', 'customer', 'jnr_analysis_replicate', 'batch', 
 	'product', 'subproduct', 'project_comments', 'sample_comments', 'variation', 'test_comments', 'test_status', 'reviewed_by')
