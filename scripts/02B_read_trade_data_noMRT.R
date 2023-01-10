@@ -2,7 +2,7 @@ library(tidyverse)
 library(ggrepel)
 theme_set(theme_bw())
 
-trade<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv')
+trade<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv') %>% filter(source_country_iso3c != 'MRT')
 wac<-unique(trade$source_country_iso3c)
 
 trade<-trade %>% filter(nceas_group=='small pelagics') %>% 
@@ -20,14 +20,14 @@ source_agg<-trade %>%
               live_weight_t = sum(live_weight_t)) %>% 
     group_by(source_country_iso3c) %>% 
     mutate(maxer = max(product_weight_t)) #%>% 
-    # mutate(importer_iso3c = fct_lump_n(importer_iso3c, 10, w = product_weight_t))
+# mutate(importer_iso3c = fct_lump_n(importer_iso3c, 10, w = product_weight_t))
 
 imp_agg<-trade %>% 
-        group_by(year, importer_iso3c) %>% 
-        summarise(product_weight_t = sum(product_weight_t),
-                    live_weight_t = sum(live_weight_t)) %>% 
-        group_by(importer_iso3c) %>% 
-        mutate(maxer = max(product_weight_t))
+    group_by(year, importer_iso3c) %>% 
+    summarise(product_weight_t = sum(product_weight_t),
+              live_weight_t = sum(live_weight_t)) %>% 
+    group_by(importer_iso3c) %>% 
+    mutate(maxer = max(product_weight_t))
 
 exp_agg<-trade %>% 
     group_by(year, exporter_iso3c) %>% 
@@ -63,9 +63,9 @@ alls<-rbind(
     exp_agg %>% group_by(year) %>% summarise(product_weight_t = sum(product_weight_t)) %>% mutate(type = 'Exported')
 )
 
-label_lim<-10000
+label_lim<-1000
 
-pdf(file = 'figures/small_pelagic_trade_summary.pdf', height=6, width=10)
+pdf(file = 'figures/small_pelagic_trade_summary_withoutMauritania.pdf', height=6, width=10)
 
 ## circular trade so total production = total imports = total exports
 ggplot(alls %>% filter(type=='Source/production'), aes(year, product_weight_t, col=type)) + 
