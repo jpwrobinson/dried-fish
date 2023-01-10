@@ -11,7 +11,7 @@ dried<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.cs
 		filter(sample_id != 'K_005')
 
 ## Norway nutrient estimates
-path<-'data/norway_sep22/2022-734 LIMS downloaded 01.09.22 modified by mk 01.09.22.xlsx'
+path<-'data/norway_sep22/2022-734 downloaded 06.01.23.xlsx'
 
 ## combine mineral + vitamin sheets
 sheets<-c(1,2,3,4,5,6,7,9,12)
@@ -19,8 +19,10 @@ sheets<-c(1,2,3,4,5,6,7,9,12)
 drop_vars<-c('project', 'customer', 'jnr_analysis_replicate', 'batch', 
 	'product', 'subproduct', 'project_comments', 'sample_comments', 'variation', 'test_comments', 'test_status', 'reviewed_by')
 
-for(i in sheets){
-	df<-read_excel(path, sheet = i) %>% clean_names() 
+# fresh
+for(i in 1:length(sheets)){
+	df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>% 
+	    filter(str_detect(customer_marking, '_W'))
 	if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
 	if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
 }
@@ -28,9 +30,30 @@ for(i in sheets){
 dat<-dat %>% 
 		mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
 		rename(sample_id = customer_marking) %>% 
-		select(-folat_mg_100_g_ww)
+		select(-folat_mg_100_g_ww, -ends_with('dw')) %>% 
+        rename_all(~sub('_ww', '', .x))
 
-dried<-dried %>% left_join(dat)
+fresh<-dat %>% left_join(dried)
+
+# dried
+for(i in 1:length(sheets)){
+    df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>% 
+        filter(!str_detect(customer_marking, '_W'))
+    if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
+    if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
+}
+
+dat<-dat %>% 
+    mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
+    rename(sample_id = customer_marking) %>% 
+    filter(! sample_id %in% c('A_013', 'A_014', 'A_015')) %>% 
+    select(-folat_mg_100_g_ww, -ends_with('ww')) %>% 
+    rename_all(~sub('_dw', '', .x)) 
+    
+
+dried<-dat %>% left_join(dried)
+
+
 
 write.csv(dried, file = 'data/clean/dried_nutrient_estimates_wide.csv')
 
