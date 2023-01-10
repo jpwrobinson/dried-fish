@@ -2,7 +2,6 @@ library(tidyverse)
 library(ggrepel)
 theme_set(theme_bw())
 
-trade<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv') %>% filter(source_country_iso3c != 'MRT')
 wac<-unique(trade$source_country_iso3c)
 
 trade<-trade %>% filter(nceas_group=='small pelagics') %>% 
@@ -71,25 +70,29 @@ alls<-rbind(
     exp_agg %>% group_by(year) %>% summarise(product_weight_t = sum(product_weight_t)) %>% mutate(type = 'Exported')
 )
 
-label_lim<-1000
-
-pdf(file = 'figures/small_pelagic_trade_summary_withoutMauritania.pdf', height=6, width=10)
 
 ## circular trade so total production = total imports = total exports
-ggplot(alls %>% filter(type=='Source/production'), aes(year, product_weight_t, col=type)) + 
+print(
+    ggplot(alls %>% filter(type=='Source/production'), aes(year, product_weight_t, col=type)) + 
     geom_line() + 
     labs(subtitle = 'West Africa: small pelagic fish trade') +
     theme(legend.position = c(0.2, 0.6), legend.title = element_blank())
+)
+    
 
 
-ggplot(source_agg, aes(year, product_weight_t, group=source_country_iso3c, col=source_country_iso3c)) + 
+print(
+    ggplot(source_agg, aes(year, product_weight_t, group=source_country_iso3c, col=source_country_iso3c)) + 
     geom_line() +
     geom_label(data = source_agg %>% filter(year ==2019 & maxer>label_lim), 
                aes(label=source_country_iso3c), size=3) +
     labs(subtitle = 'Small pelagics: source countries') +
-    guides(col='none')
+guides(col='none')
+)
+    
 
-ggplot(exp_agg, 
+print(
+    ggplot(exp_agg, 
        aes(year, product_weight_t, group=exporter_iso3c, col=exporter_iso3c)) + 
     geom_line(data=exp_agg %>% filter(maxer<label_lim), col='grey') +
     geom_line(data=exp_agg %>% filter(maxer>label_lim)) +
@@ -97,31 +100,39 @@ ggplot(exp_agg,
                aes(label=exporter_iso3c), size=3) +
     guides(col='none') + 
     labs(subtitle = 'Small pelagics: exporter countries')
+)
 
-ggplot(exp_region, 
+print(
+    ggplot(exp_region, 
        aes(year, product_weight_t, group=exporter_region)) + 
     geom_line(data=exp_region, col='black') +
     geom_label(data = exp_region %>% filter(year ==2019 & maxer>label_lim),
                aes(label=exporter_region), size=3) +
     labs(subtitle = 'Small pelagics: exporter regions')
+)
 
-ggplot(trade_dir, 
+print(
+    ggplot(trade_dir, 
        aes(year, product_weight_t, group=trade_direction, col=trade_direction)) + 
     geom_line(data=trade_dir) +
     geom_label(data = trade_dir %>% filter(year ==2019 & maxer>label_lim) %>% mutate(year=2021),
                aes(label=trade_direction), size=2) +
     labs(subtitle = 'Small pelagics: trade direction') +
     guides(col='none')
+)
 
-ggplot(reimp, 
+print(
+    ggplot(reimp, 
        aes(year, product_weight_t, group=reimport, col=reimport)) + 
     geom_line(data=reimp) +
     geom_label(data = reimp %>% filter(year ==2019 & maxer>label_lim) %>% mutate(year=2021),
                aes(label=reimport), size=2) +
     labs(subtitle = 'Small pelagics: catch is imported once (single) or twice (double)') +
     guides(col='none')
+)
 
-ggplot(imp_agg, 
+print(
+    ggplot(imp_agg, 
        aes(year, product_weight_t, group=importer_iso3c, col=importer_iso3c)) + 
     geom_line(data=imp_agg %>% filter(maxer<label_lim), col='grey90') +
     geom_line(data=imp_agg %>% filter(maxer>label_lim)) +
@@ -129,16 +140,20 @@ ggplot(imp_agg,
                aes(label=importer_iso3c), size=2) +
     guides(colour='none') +
     labs(subtitle = 'Small pelagics: importer countries')
+)
 
-ggplot(sp_agg, aes(year, product_weight_t, group=sciname)) + 
+print(
+    ggplot(sp_agg, aes(year, product_weight_t, group=sciname)) + 
     geom_line() +
     lims(x = c(1995, 2024)) +
     geom_label(data = sp_agg %>% filter(year ==2019 & maxer>label_lim) %>% mutate(year=2022), 
                aes(label=sciname), size=3) +
     labs(subtitle = 'Small pelagic species')
+)
 
-ggplot(imp_agg %>% group_by(year) %>% summarise(n = n_distinct(importer_iso3c)),
+print(
+    ggplot(imp_agg %>% group_by(year) %>% summarise(n = n_distinct(importer_iso3c)),
        aes(year, n)) + geom_line() +
     labs(subtitle = 'Number of small pelagic importer countries', y = 'n countries')
+)
 
-dev.off()
