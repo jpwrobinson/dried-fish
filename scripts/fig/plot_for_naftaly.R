@@ -78,7 +78,7 @@ g1<-ggplot(nutl_agg, aes(fbname_long, mu, fill=form)) +
           legend.text = element_text(size = 11)) +
     coord_flip()
 
-pdf(file = 'figures/mean_nutrient_concentration_kenya.pdf', height = 4, width=16)
+pdf(file = 'figures/GLOW10-naftaly/mean_nutrient_concentration_kenya.pdf', height = 4, width=16)
 print(g1)
 dev.off()
 
@@ -101,7 +101,7 @@ g2<-ggplot(nutl_agg, aes(fbname_long, rni*100, fill=form)) +
         legend.text = element_text(size = 11)) +
     coord_flip()
 
-pdf(file = 'figures/mean_nutrient_intake__children_under5_40g_kenya.pdf', height = 4, width=22)
+pdf(file = 'figures/GLOW10-naftaly/mean_nutrient_intake__children_under5_40g_kenya.pdf', height = 4, width=22)
 print(g2)
 dev.off()
 
@@ -124,7 +124,55 @@ g3<-ggplot(nutl_agg, aes(fbname_long, rni2*100, fill=form)) +
         legend.text = element_text(size = 11)) +
     coord_flip()
 
-pdf(file = 'figures/mean_nutrient_intake_pregnant_women_100g_kenya.pdf', height = 4, width=22)
+pdf(file = 'figures/GLOW10-naftaly/mean_nutrient_intake_pregnant_women_100g_kenya.pdf', height = 4, width=22)
+print(g3)
+dev.off()
+
+
+
+nutSelect<-c('Iron', 'Zinc', 'Vitamin A', 'Folate')
+g2<-ggplot(nutl_agg %>% filter(nutrient %in% nutSelect), aes(fbname_long, rni*100, fill=form)) + 
+    geom_bar(stat='identity', alpha=0.7, position = position_dodge(width=0.9, preserve = "single")) +
+    # geom_jitter(data=dat2, alpha=0.8, pch=21, col='black') +
+    facet_grid(~lab, scales='fixed', labeller=label_parsed) +
+    labs(x = '', y = 'contribution of 40g portion to daily nutrient requirement, %') +
+    scale_fill_manual(values = pcols) +
+    scale_y_continuous(labels=scales::label_percent(scale=1), expand=c(0.01,0.01), breaks=seq(25, 100, by =25)) +
+    # scale_colour_manual(values = pcols) +
+    theme(#axis.ticks.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #axis.line.x = element_blank(),
+        strip.text.x = element_text(size = 12),
+        legend.title=element_blank(),
+        plot.caption = element_text(size=12, colour='#636363', face=3),
+        plot.title = element_text(size=14, colour='black', face=2),
+        legend.text = element_text(size = 11)) +
+    coord_flip()
+
+pdf(file = 'figures/GLOW10-naftaly/mean_nutrient_intake__children_under5_40g_kenya_4nutrients.pdf', height = 4, width=14)
+print(g2)
+dev.off()
+
+
+g3<-ggplot(nutl_agg %>% filter(nutrient %in% nutSelect), aes(fbname_long, rni2*100, fill=form)) + 
+    geom_bar(stat='identity', alpha=0.7, position = position_dodge(width=0.9, preserve = "single")) +
+    # geom_jitter(data=dat2, alpha=0.8, pch=21, col='black') +
+    facet_grid(~lab, scales='fixed', labeller=label_parsed) +
+    labs(x = '', y = 'contribution of 100g portion to daily nutrient requirement, %') +
+    scale_fill_manual(values = pcols) +
+    scale_y_continuous(labels=scales::label_percent(scale=1), expand=c(0.01,0.01), breaks=seq(25, 100, by =25)) +
+    # scale_colour_manual(values = pcols) +
+    theme(#axis.ticks.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #axis.line.x = element_blank(),
+        strip.text.x = element_text(size = 12),
+        legend.title=element_blank(),
+        plot.caption = element_text(size=12, colour='#636363', face=3),
+        plot.title = element_text(size=14, colour='black', face=2),
+        legend.text = element_text(size = 11)) +
+    coord_flip()
+
+pdf(file = 'figures/GLOW10-naftaly/mean_nutrient_intake_pregnant_women_100g_kenya_4nutrients.pdf', height = 4, width=10)
 print(g3)
 dev.off()
 
