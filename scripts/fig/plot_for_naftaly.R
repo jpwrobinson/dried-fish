@@ -20,6 +20,7 @@ nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine', 'vitamin_a1', 'vitamin_
 nutl<-read.csv('data/clean/dried_nutrient_estimates_long.csv') %>% 
     filter(location %in% c('Mombasa', 'Kisumu')) %>% 
     filter(nutrient %in% nuts) %>%
+    filter(! latin_name %in% c('Encrasicholina punctifer')) %>% 
     mutate(nutrient = str_to_title(nutrient)) %>% 
     rename(species = latin_name, fbname = local_name, form = type, mu = value) %>% 
     mutate(nutrient = fct_relevel(nutrient, c('Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 
@@ -52,8 +53,10 @@ nutl_agg<-nutl %>%
            rni_men = mu/rni_men*100,
            rni_pregnant = mu/rni_pregnant*100) %>% 
     mutate(rni = rni_kids/100/(100/40)) %>% ## 40 g portion for kids intake
+    mutate(rni2 = rni_pregnant/100) %>% ## 100 g portion for pregnant women intake
     ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
-    mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni)) %>% 
+    mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni),
+           rni2 = case_when(rni2 > 1 ~ 1, TRUE ~ rni2)) %>% 
     rowwise() %>% mutate(fbname_long= paste0(unique(species), '\n', unique(fbname), ''))
 
 
@@ -98,7 +101,30 @@ g2<-ggplot(nutl_agg, aes(fbname_long, rni*100, fill=form)) +
         legend.text = element_text(size = 11)) +
     coord_flip()
 
-pdf(file = 'figures/mean_nutrient_intake_kenya.pdf', height = 4, width=22)
+pdf(file = 'figures/mean_nutrient_intake__children_under5_40g_kenya.pdf', height = 4, width=22)
 print(g2)
+dev.off()
+
+
+g3<-ggplot(nutl_agg, aes(fbname_long, rni2*100, fill=form)) + 
+    geom_bar(stat='identity', alpha=0.7, position = position_dodge(width=0.9, preserve = "single")) +
+    # geom_jitter(data=dat2, alpha=0.8, pch=21, col='black') +
+    facet_grid(~lab, scales='fixed', labeller=label_parsed) +
+    labs(x = '', y = 'contribution of 100g portion to daily nutrient requirement, %') +
+    scale_fill_manual(values = pcols) +
+    scale_y_continuous(labels=scales::label_percent(scale=1), expand=c(0.01,0.01), breaks=seq(25, 100, by =25)) +
+    # scale_colour_manual(values = pcols) +
+    theme(#axis.ticks.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #axis.line.x = element_blank(),
+        strip.text.x = element_text(size = 12),
+        legend.title=element_blank(),
+        plot.caption = element_text(size=12, colour='#636363', face=3),
+        plot.title = element_text(size=14, colour='black', face=2),
+        legend.text = element_text(size = 11)) +
+    coord_flip()
+
+pdf(file = 'figures/mean_nutrient_intake_pregnant_women_100g_kenya.pdf', height = 4, width=22)
+print(g3)
 dev.off()
 
