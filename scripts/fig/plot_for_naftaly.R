@@ -172,7 +172,7 @@ g3<-ggplot(nutl_agg %>% filter(nutrient %in% nutSelect), aes(fbname_long, rni2*1
         legend.text = element_text(size = 11)) +
     coord_flip()
 
-pdf(file = 'figures/GLOW10-naftaly/mean_nutrient_intake_pregnant_women_100g_kenya_4nutrients.pdf', height = 4, width=10)
+pdf(file = 'figures/GLOW10-naftaly/mean_nutrient_intake_pregnant_women_100g_kenya_4nutrients.pdf', height = 4, width=14)
 print(g3)
 dev.off()
 
