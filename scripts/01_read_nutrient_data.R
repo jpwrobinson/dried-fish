@@ -4,124 +4,27 @@ library(readxl)
 
 ## Read dried Ghana + Kenya samples Jan/Feb 2022
 
-## Dried fish size, species, source
-dried<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.csv') %>% 
+## 1. Dried fish size, species, source
+metat<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.csv') %>% 
 		mutate(sample_id = str_replace_all(sample_id, '_A|_B|_C|_D|_E', '')
 		       #sample_id = recode(sample_id, 'A_005' = 'A_001')
 		       ) %>%
 		distinct(sample_id, date, location, type, days_processed, catch_source, local_name, latin_name) %>% 
 		filter(sample_id != 'K_005')
 
-## Norway nutrient estimates
+## clean norway nutrient estimates
 path<-'data/norway_sep22/2022-734 downloaded 06.01.23.xlsx'
-
-## combine mineral + vitamin sheets
-sheets<-c(1,2,3,4,5,6,7,9,12)
-
-drop_vars<-c('project', 'customer', 'jnr_analysis_replicate', 'batch', 
-	'product', 'subproduct', 'project_comments', 'sample_comments', 'variation', 'test_comments', 'test_status', 'reviewed_by')
-
-# read most sheets, as these have just one sample type (_ww)
-minerals<-c(5,7) # skip these sheets
-for(i in 1:length(sheets)){
-    if(i %in% minerals) next
-	df<-read_excel(path, sheet = sheets[i]) %>% clean_names() 
-	if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
-	if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
-}
-
-dat<-dat %>% 
-		mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
-		rename(sample_id = customer_marking) %>% 
-		select(-folat_mg_100_g_ww, -ends_with('dw')) %>% 
-        rename_all(~sub('_ww', '', .x))
-
-dried<-dat %>% left_join(dried)
-rm(dat)
-
-# dried / wet weight fuck ups
-for(i in minerals){
-    df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>%
-        select(-any_of(drop_vars)) %>% 
-        pivot_longer(-customer_marking, names_to = 'nut', values_to = 'value') %>% 
-        separate(nut, into=c("nut", "type"), sep="kg_") %>% 
-        filter(value != "'") %>% 
-        select(-type) %>% 
-        pivot_wider(names_from = 'nut', values_from = 'value', names_glue = paste0("{nut}","ww"))
-    if(i == 5){dat<-df}
-    if(i == 7){dat<-dat %>% left_join(df, by = 'customer_marking')}
-}
-
-dat<-dat %>% mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
-    rename(sample_id = customer_marking) %>% 
-    rename_all(~sub('_ww', '', .x))
-
-dried<-dat %>% left_join(dried, by ='sample_id')
-
-write.csv(dried, file = 'data/clean/dried_nutrient_estimates_wide.csv')
-
-## long version with trace values removed
-datl<-dried %>% mutate_if(is.numeric, as.character) %>% 
-		pivot_longer(-c(sample_id,date:latin_name, dry_matter_g_100g), values_to = 'value', names_to = 'nutrient') %>% 
-		mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst'),'g_100g','mg_kg'),
-				nutrient = str_replace_all(nutrient, '_mg_kg_mg_kg', '_mg_kg'),
-				# nutrient = str_replace_all(nutrient, '_mg_kg', ''),
-				nutrient = str_replace_all(nutrient, '_mg_kg', ''),
-				nutrient = str_replace_all(nutrient, '_g_100g', ''),
-				nutrient = str_replace_all(nutrient, '_mg_100_g', ''),
-				nutrient = str_replace_all(nutrient, '_mg_kg', ''),
-				nutrient = str_replace_all(nutrient, '_percent_g_100g', '')) %>% 
-		mutate(value = ifelse(str_detect(value, '<'), NA, as.numeric(value)),
-			nutrient = recode(nutrient, v = 'vanadium', cr = 'chromium', mn = 'manganese',
-				fe = 'iron', co = 'cobalt', ni = 'nickel', cu = 'copper', zn = 'zinc',
-				as = 'arsenic', se = 'selenium', mo = 'molybdenum', ag = 'silver', cd = 'cadmium',
-				hg = 'mercury', pb = 'lead', jod = 'iodine', ca = 'calcium', na = 'sodium', k = 'potassium', mg = 'magnesium',
-				p = 'phosphorus', folat = 'folate', cobalamin = 'vitamin_b12')) %>% 
-		mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value)) %>% 
-        mutate(value = ifelse(unit =='mg_kg', value/10, value)) %>% 
-        mutate(unit = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), 'mug_100g', 'mg_100g')) %>% 
-        mutate(unit = ifelse(str_detect(nutrient, 'protein'), 'g_100g', unit)) 
-
-write.csv(datl, file = 'data/clean/dried_nutrient_estimates_long.csv')
+filesave<-'dried_nutrient_estimates'
+source('scripts/norway_clean.R')
 
 
-## read tilapia
-tilap<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_TILAPIA.csv') %>% 
-		mutate(local_name = 'tilapia', scientific_name = 'Oreochromis niloticus') %>% 
-		select(sample_id, date, sample_location, type, total_length_mm, mass_g) 
+## 2. read tilapia metadata
+metat<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_TILAPIA.csv') %>% 
+		mutate(local_name = 'tilapia', latin_name = 'Oreochromis niloticus') %>% 
+        rename(location = 'sample_location') %>% 
+		select(sample_id, date, location, type, total_length_mm, mass_g, local_name, latin_name) 
 
-## Norway nutrient estimates
+## clean tilapia estimates
 path<-'data/norway_sep22/2022-528 tilapia downloaded 06.01.23.xlsx'
-
-## combine mineral + vitamin sheets
-sheets<-c(1,2,3,4,5,6,7, 9, 12)
-for(i in 1:length(sheets)){
-	print(paste('Reading sheet', sheets[i]))
-	df<-read_excel(path, sheet = sheets[i]) %>% clean_names()  %>% 
-	    select(-any_of(drop_vars))
-	if(i == 1){dat <- df} 
-	if(i != 1){dat<-dat %>% left_join(df)}
-}
-
-dat<-dat %>% rename(sample_id = customer_marking)
-
-tilap<-tilap %>% left_join(dat)
-
-write.csv(tilap, file = 'data/clean/tilapia_nutrient_estimates_wide.csv')
-
-# ## long version with trace values removed
-datl<-tilap %>% mutate_if(is.numeric, as.character) %>% 
-		pivot_longer(-c(sample_id:mass_g, dry_matter_g_100g_ww), values_to = 'value', names_to = 'nutrient') %>% 
-		mutate(unit = ifelse(str_detect(nutrient, 'protein'),'g_100g', 'mg_kg'),
-				nutrient = str_replace_all(nutrient, '_mg_kg_ww', ''),
-				nutrient = str_replace_all(nutrient, '_g_100g_ww', ''),
-				nutrient = str_replace_all(nutrient, '_mg_kg', '')) %>% 
-		mutate(value = ifelse(str_detect(value, '<'), NA, as.numeric(value)),
-			nutrient = recode(nutrient, v = 'vanadium', cr = 'chromium', mn = 'manganese',
-				fe = 'iron', co = 'cobalt', ni = 'nickel', cu = 'copper', zn = 'zinc',
-				as = 'arsenic', se = 'selenium', mo = 'molybdenum', ag = 'silver', cd = 'cadmium',
-				hg = 'mercury', pb = 'lead', jod = 'iodine', ca = 'calcium', na = 'sodium', k = 'potassium', mg = 'magnesium',
-				p = 'phosphorus', folat = 'folate',cobalamin = 'vitamin_b12')) %>% 
-		mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value))
-
-write.csv(datl, file = 'data/clean/tilapia_nutrient_estimates_long.csv')
+filesave<-'tilapia_nutrient_estimates'
+source('scripts/norway_clean.R')
