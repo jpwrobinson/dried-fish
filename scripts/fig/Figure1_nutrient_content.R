@@ -9,133 +9,24 @@ pcols<-c(RColorBrewer::brewer.pal(9, 'Set1'), 'black') ## 10 colors
 pcols_order<-c('Fresh', 'Sun-dried', 'Smoked','Fried', 'Powder')
 pcols_named<-c('Fresh' = pcols[1], 'Sun-dried' = pcols[2], 'Smoked' = pcols[3],'Fried' = pcols[4], 'Powder' = pcols[5])
 
-## food settings
-portion = 40
-pop = 'Children'
-
-## get RDA reference vals
-source('scripts/rda_reader.R')
-rda$nutrient<-str_to_title(rda$nutrient)
-rda$nutrient[rda$nutrient=='Vitamin_a']<-'Vitamin A'
-rda$nutrient[rda$nutrient=='Vitamin_d']<-'Vitamin D'
-rda$nutrient[rda$nutrient=='Vitamin_b12']<-'Vitamin B12'
-# rda$nutrient[rda$nutrient=='Omega_3']<-'Omega3'
-
-## get nutrient units
-units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega3', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
-                  unit = c('percent', 'mg', 'mg', 'mcg', 'mg','mcg', 'g', 'mcg', 'mcg', 'mcg', 'mcg'))
-
-## load data
-nut<-read.csv('data/clean/dried_nutrient_estimates_long.csv') 
-nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine', 'vitamin_a1', 'vitamin_d3','folate', 'vitamin_b12')
-## tidy names
-nutl<-nut %>% 
-    filter(nutrient %in% nuts) %>%
-    mutate(nutrient = str_to_title(nutrient)) %>% 
-    rename(species = latin_name, fbname = local_name, form = type, mu = value) %>% 
-    mutate(nutrient = fct_relevel(nutrient, c('Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 
-                                              #'Omega3', 
-                                              'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Folate'))) %>%
-    mutate(nutrient = recode(nutrient, #Omega3 = 'Omega-3\nfatty acids', 
-                             Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
-    mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
-    mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
-           fbname = ifelse(species == 'Rastrineobola argenteus', 'Omena (freshwater)', fbname))
-
-## units in labels
-nutl$lab<-nutl$nutrient
-levels(nutl$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'),
-                    "'Zinc, mg'",expression('Iodine, '*mu*'g'),# "'Omega-3, g'", 
-                    expression('Vitamin A, '*mu*'g'),expression('Vitamin B12, '*mu*'g'),
-                    expression('Vitamin D, '*mu*'g'),expression('Folate, '*mu*'g'))
-
-nutl_agg<-nutl %>% 
-    group_by(species, fbname, nutrient, lab) %>% 
-    mutate(n = length(mu)) %>% 
-    group_by(form, species, fbname, n, nutrient, lab) %>% 
-    summarise(mu = median(mu)) %>% 
-    ungroup() %>% droplevels() %>% 
-    ## add RDA and units
-    left_join(rda) %>% 
-    left_join(units) %>% 
-    mutate(rni_women = mu/rni_women*100,
-           rni_kids = mu/rni_kids*100,
-           rni_men = mu/rni_men*100,
-           rni_pregnant = mu/rni_pregnant*100)
 
 
-## arrange data
-dat<-nutl_agg %>% 
-    mutate(rni = case_when(str_detect(pop, 'Children') ~ rni_kids, 
-                           str_detect(pop, 'Adult women')~rni_women,
-                           str_detect(pop, 'Adult men')~rni_men,
-                           str_detect(pop, 'Pregnant')~rni_pregnant)) %>% 
-    mutate(rni = rni/portion*100/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
-    ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
-    mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni))
+# panel a = change in nutrient content relative to fresh samples
+source('scripts/fig/Figure1a_fresh_contrast.R')
+# panel b = processed forms RNI radars
+source('scripts/fig/Figure1b_dried_rni.R')
+# sup fig = species radar plots for RNI
+source('scripts/fig/FigureSX_rni_species.R')
 
-sp<-unique(dat$species)
-sp<-sp[!sp == '']
-
-th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
-        legend.position = 'none') 
-
-for(i in 1:length(sp)){
-    
-    plotter<-dat[,c('form', 'nutrient', 'rni', 'species')] %>% 
-        filter(species == sp[i]) %>% select(-species) %>% 
-        filter(form != 'Fresh') %>% # drop fresh
-        mutate(rni = ifelse(is.na(rni), 0, rni)) %>% 
-        pivot_wider(names_from = nutrient, values_from = rni) 
-        # select_if(~ !any(is.na(.)))
-        
-    
-    if(i != 1){
-        ## All panels without top-left guide
-        names(plotter)<-c('form','Ca', 'Fe', 'Se', 'Zn', 'I', 'v-A', 'v-B12','v-D', 'v-B9')
-        gg<-ggradar(plotter, 
-            group.colours = pcols,
-            base.size = 1,
-            # values.radar = '',
-            grid.label.size = 3,
-            group.point.size = 2,
-            group.line.width = 1,
-            background.circle.colour = "white",
-            axis.label.size = 3,
-            fill=TRUE,
-            gridline.mid.colour = "grey") +
-            th + labs(subtitle = sp[i]) +coord_equal(clip='off') +
-            scale_color_manual(values=pcols_named) + scale_fill_manual(values=pcols_named) 
-            
-    } else {
-        ## Top-left guide
-        names(plotter)[10]<-'Vitamin B9'
-        gg<-ggradar(plotter, 
-                    group.colours = pcols,
-                    base.size = 1,
-                    group.point.size = 2,
-                    grid.label.size  = 3,
-                    group.line.width = 1,
-                    background.circle.colour = "white",
-                    axis.label.size = 3,
-                    fill=TRUE,
-                    gridline.mid.colour = "grey") +
-            th + labs(subtitle = sp[i]) +coord_equal(clip='off') +
-            scale_color_manual(values=pcols_named) + scale_fill_manual(values=pcols_named) 
-    }
-        
-    assign(paste('gg', i, sep = '_'), gg)
-}
-
-gg_leg<-ggradar(dat %>% filter(form %in% unique(dat$form)) %>% distinct(form, nutrient) %>% 
-                        mutate(rni = 0) %>% 
-                        pivot_wider(names_from = nutrient, values_from = rni), 
-                    fill=TRUE) + guides(color='none') + scale_fill_manual(values=pcols_named[-1]) 
-
-pl<-list(gg_1, gg_2, gg_3, gg_4, gg_5, gg_6, gg_7, gg_8, gg_9, gg_10, gg_11, get_legend(gg_leg))
-
-pdf(file = 'figures/Figure1_dried_content.pdf', height =7, width=12)
+pdf(file = 'figures/Figure1_dried_content.pdf', height =5, width=9)
 print(
-    plot_grid(plotlist=pl)
+    plot_grid(g1A + theme(plot.margin=unit(c(2,2,2,0), 'cm')), 
+              g1B, ncol=2, labels=c('a', 'b'), rel_widths=c(1, 1))
+)
+dev.off()
+
+pdf(file = 'figures/FigureSX_dried_species.pdf', height =7, width=12)
+print(
+    gSX
 )
 dev.off()
