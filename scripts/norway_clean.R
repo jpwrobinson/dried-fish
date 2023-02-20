@@ -34,7 +34,7 @@ for(i in minerals){
         separate(nut, into=c("nut", "type"), sep="kg_") %>% 
         filter(value != "'") %>% 
         select(-type) %>% 
-        pivot_wider(names_from = 'nut', values_from = 'value', names_glue = paste0("{nut}","ww"))
+        pivot_wider(names_from = 'nut', values_from = 'value', names_glue = paste0("{nut}","kg_ww"))
     if(i == 5){dat<-df}
     if(i == 7){dat<-dat %>% left_join(df, by = 'customer_marking')}
 }
@@ -50,7 +50,6 @@ datl<-metat %>% mutate_if(is.numeric, as.character) %>%
     pivot_longer(-c(sample_id,date:latin_name, dry_matter_g_100g), values_to = 'value', names_to = 'nutrient') %>% 
     mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst'),'g_100g','mg_kg'),
            nutrient = str_replace_all(nutrient, '_mg_kg_mg_kg', '_mg_kg'),
-           # nutrient = str_replace_all(nutrient, '_mg_kg', ''),
            nutrient = str_replace_all(nutrient, '_mg_kg', ''),
            nutrient = str_replace_all(nutrient, '_g_100g', ''),
            nutrient = str_replace_all(nutrient, '_mg_100_g', ''),
