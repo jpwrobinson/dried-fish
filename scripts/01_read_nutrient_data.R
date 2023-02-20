@@ -19,7 +19,7 @@ sheets<-c(1,2,3,4,5,6,7,9,12)
 drop_vars<-c('project', 'customer', 'jnr_analysis_replicate', 'batch', 
 	'product', 'subproduct', 'project_comments', 'sample_comments', 'variation', 'test_comments', 'test_status', 'reviewed_by')
 
-# fresh
+# wet weight analysis (ww)
 for(i in 1:length(sheets)){
 	df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>% 
 	    filter(str_detect(customer_marking, '_W'))
@@ -55,19 +55,17 @@ dat<-dat %>%
 
 dried<-dat %>% left_join(dried)
 
-
 write.csv(dried, file = 'data/clean/dried_nutrient_estimates_wide.csv')
 
 ## long version with trace values removed
 datl<-dried %>% mutate_if(is.numeric, as.character) %>% 
-		pivot_longer(-c(sample_id:latin_name, dry_matter_g_100g_ww), values_to = 'value', names_to = 'nutrient') %>% 
-		mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst'),'g_100g',
-			ifelse(str_detect(nutrient, 'folat'), 'mg_100g', 'mg_kg')),
-				nutrient = str_replace_all(nutrient, '_mg_kg_mg_kg_ww', '_mg_kg_ww'),
-				nutrient = str_replace_all(nutrient, '_mg_kg_dw', ''),
-				nutrient = str_replace_all(nutrient, '_mg_kg_ww', ''),
-				nutrient = str_replace_all(nutrient, '_g_100g_ww', ''),
-				nutrient = str_replace_all(nutrient, '_mg_100_g_ww', ''),
+		pivot_longer(-c(sample_id,date:latin_name, dry_matter_g_100g), values_to = 'value', names_to = 'nutrient') %>% 
+		mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst'),'g_100g','mg_kg'),
+				nutrient = str_replace_all(nutrient, '_mg_kg_mg_kg', '_mg_kg'),
+				# nutrient = str_replace_all(nutrient, '_mg_kg', ''),
+				nutrient = str_replace_all(nutrient, '_mg_kg', ''),
+				nutrient = str_replace_all(nutrient, '_g_100g', ''),
+				nutrient = str_replace_all(nutrient, '_mg_100_g', ''),
 				nutrient = str_replace_all(nutrient, '_mg_kg', ''),
 				nutrient = str_replace_all(nutrient, '_percent_g_100g', '')) %>% 
 		mutate(value = ifelse(str_detect(value, '<'), NA, as.numeric(value)),
