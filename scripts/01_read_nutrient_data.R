@@ -36,23 +36,24 @@ dat<-dat %>%
 fresh<-dat %>% left_join(dried)
 
 # dried
+minerals<-c(5,7)
 for(i in 1:length(sheets)){
     df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>% 
         filter(!str_detect(customer_marking, '_W'))
     if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
     if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
+    if(i %in% minerals){dat <- dat %>% rename_all(~sub('_dw', '', .x)) %>% select(-ends_with('ww'))}
 }
 
 dat<-dat %>% 
     mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
     rename(sample_id = customer_marking) %>% 
     filter(! sample_id %in% c('A_013', 'A_014', 'A_015')) %>% 
-    select(-folat_mg_100_g_ww, -ends_with('ww')) %>% 
-    rename_all(~sub('_dw', '', .x)) 
+    select(-folat_mg_100_g_ww) %>% 
+    rename_all(~sub('_ww', '', .x))
     
 
 dried<-dat %>% left_join(dried)
-
 
 
 write.csv(dried, file = 'data/clean/dried_nutrient_estimates_wide.csv')
