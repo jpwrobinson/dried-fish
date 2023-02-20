@@ -6,7 +6,9 @@ library(readxl)
 
 ## Dried fish size, species, source
 dried<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.csv') %>% 
-		mutate(sample_id = str_replace_all(sample_id, '_A|_B|_C|_D|_E', '')) %>% 
+		mutate(sample_id = str_replace_all(sample_id, '_A|_B|_C|_D|_E', '')
+		       #sample_id = recode(sample_id, 'A_005' = 'A_001')
+		       ) %>%
 		distinct(sample_id, date, location, type, days_processed, catch_source, local_name, latin_name) %>% 
 		filter(sample_id != 'K_005')
 
@@ -19,10 +21,11 @@ sheets<-c(1,2,3,4,5,6,7,9,12)
 drop_vars<-c('project', 'customer', 'jnr_analysis_replicate', 'batch', 
 	'product', 'subproduct', 'project_comments', 'sample_comments', 'variation', 'test_comments', 'test_status', 'reviewed_by')
 
-# wet weight analysis (ww)
+# read most sheets, as these have just one sample type (_ww)
+minerals<-c(5,7) # skip these sheets
 for(i in 1:length(sheets)){
-	df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>% 
-	    filter(str_detect(customer_marking, '_W'))
+    if(i %in% minerals) next
+	df<-read_excel(path, sheet = sheets[i]) %>% clean_names() 
 	if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
 	if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
 }
@@ -33,27 +36,27 @@ dat<-dat %>%
 		select(-folat_mg_100_g_ww, -ends_with('dw')) %>% 
         rename_all(~sub('_ww', '', .x))
 
-fresh<-dat %>% left_join(dried)
+dried<-dat %>% left_join(dried)
+rm(dat)
 
-# dried
-minerals<-c(5,7)
-for(i in 1:length(sheets)){
-    df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>% 
-        filter(!str_detect(customer_marking, '_W'))
-    if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
-    if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
-    if(i %in% minerals){dat <- dat %>% rename_all(~sub('_dw', '', .x)) %>% select(-ends_with('ww'))}
+# dried / wet weight fuck ups
+for(i in minerals){
+    df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>%
+        select(-any_of(drop_vars)) %>% 
+        pivot_longer(-customer_marking, names_to = 'nut', values_to = 'value') %>% 
+        separate(nut, into=c("nut", "type"), sep="kg_") %>% 
+        filter(value != "'") %>% 
+        select(-type) %>% 
+        pivot_wider(names_from = 'nut', values_from = 'value', names_glue = paste0("{nut}","ww"))
+    if(i == 5){dat<-df}
+    if(i == 7){dat<-dat %>% left_join(df, by = 'customer_marking')}
 }
 
-dat<-dat %>% 
-    mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
+dat<-dat %>% mutate(customer_marking = recode(customer_marking, A_001 = 'A_005')) %>% 
     rename(sample_id = customer_marking) %>% 
-    filter(! sample_id %in% c('A_013', 'A_014', 'A_015')) %>% 
-    select(-folat_mg_100_g_ww) %>% 
     rename_all(~sub('_ww', '', .x))
-    
 
-dried<-dat %>% left_join(dried)
+dried<-dat %>% left_join(dried, by ='sample_id')
 
 write.csv(dried, file = 'data/clean/dried_nutrient_estimates_wide.csv')
 
