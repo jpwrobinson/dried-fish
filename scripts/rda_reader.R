@@ -75,3 +75,19 @@ folate<-round((80*182.5 + 150 * 1095 + 200*365) / (1095+365+182.5), 2)
 
 
 rda$rni_kids = c(ca, fe, se, zn, i, omega, vita, vitd, vitb12, folate)
+
+
+## contaminants - Hasselberg et al. 2020 (EU limits)
+cont<-data.frame(nutrient = c('lead', 'mercury', 'cadmium'))
+
+## these are wet weight limits. what to use for dried fish? (ie partially wet)
+## mg per kg
+lead <- 0.3
+mercury <- 0.5 ## assuming 100% methylmercury
+cadmium <- 0.05 
+# arsenic has no limit in EU or Ghana, and WHO withdrew limit in 2011
+
+cont$limit<-c(lead, mercury, cadmium)
+
+## convert to mg per 100g
+cont$limit_100g<-cont$limit / 10

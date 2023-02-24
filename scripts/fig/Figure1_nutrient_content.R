@@ -30,3 +30,22 @@ print(
     gSX
 )
 dev.off()
+
+
+## contaminants
+# panel b = processed forms contaminant radars
+source('scripts/fig/Figure1_contaminant_content.R')
+# sup fig = species radar plots for contaminant
+source('scripts/fig/FigureSX_contaminant_species.R')
+
+pdf(file = 'figures/Figure1_contaminant_content.pdf', height =5, width=9)
+print(
+    g1D
+)
+dev.off()
+
+pdf(file = 'figures/FigureSX_dried_contaminant_species.pdf', height =7, width=12)
+print(
+    gSX
+)
+dev.off()
