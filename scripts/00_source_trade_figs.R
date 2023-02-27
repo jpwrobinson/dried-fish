@@ -71,6 +71,40 @@ alls<-rbind(
 )
 
 
+
+## estimate small pelagic trade as proportion of total trade
+trade<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv') %>% 
+    group_by(source_country_iso3c, year) %>% 
+    mutate(total_traded = sum(live_weight_t)) 
+
+# save top 50% of trading countries
+top50_iso <- trade %>% group_by(source_country_iso3c) %>% 
+    summarise(total_traded = sum(live_weight_t)) %>% slice_max(total_traded, prop = .5)
+
+trade_small_prop<- trade %>% 
+    group_by(source_country_iso3c, year, total_traded, nceas_group) %>% 
+    summarise(traded_catch = sum(live_weight_t)) %>% 
+    mutate(prop_catch = traded_catch / total_traded,
+           top50 = ifelse(source_country_iso3c %in% top50_iso$source_country_iso3c, 'Top-50%', 'Bot-50%'))
+
+# sanity check
+# trade_small_prop %>% group_by(source_country_iso3c, year) %>% summarise(p = sum(prop_catch)) %>% ungroup() %>% distinct(p)
+
+
+## values start and end of time-series
+# ts_plot<-trade_small_prop %>% filter(nceas_group=='small pelagics') %>% 
+#     group_by(source_country_iso3c, traded_catch, top50) %>% 
+#     summarise(start = head(prop_catch, 1), end = tail(prop_catch,1)) %>% 
+#     pivot_longer(-c(source_country_iso3c, top50, traded_catch), names_to = 'time', values_to = 'p') %>% 
+#     mutate(p = round(p*100, 0))
+# 
+# library(CGPfunctions)
+# 
+# newggslopegraph(dataframe = ts_plot %>% filter(top50 == 'Top-50%'),
+#                 Times = time,
+#                 Measurement = p,
+#                 Grouping = source_country_iso3c)
+
 ## circular trade so total production = total imports = total exports
 print(
     ggplot(alls %>% filter(type=='Source/production'), aes(year, product_weight_t, col=type)) + 
@@ -79,8 +113,6 @@ print(
     theme(legend.position = c(0.2, 0.6), legend.title = element_blank())
 )
     
-
-
 print(
     ggplot(source_agg, aes(year, product_weight_t, group=source_country_iso3c, col=source_country_iso3c)) + 
     geom_line() +
@@ -157,3 +189,9 @@ print(
     labs(subtitle = 'Number of small pelagic importer countries', y = 'n countries')
 )
 
+print(
+ggplot(trade_small_prop %>% filter(nceas_group=='small pelagics'), 
+       aes(year, prop_catch*100, colour=source_country_iso3c)) + geom_line() +
+    facet_wrap(~top50) +
+    labs(subtitle = 'Proportion of small pelagic catch over time', y = 'proportion trade catch, %', x= '')
+)

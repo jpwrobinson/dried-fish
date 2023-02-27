@@ -1,4 +1,6 @@
+library(tidyverse)
 
+## summary figs of small pelagics trade
 pdf(file = 'figures/small_pelagic_trade_summary.pdf', height=6, width=10)
 label_lim<-10000
 trade<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv')
