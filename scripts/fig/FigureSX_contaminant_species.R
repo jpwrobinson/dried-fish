@@ -53,7 +53,7 @@ th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
 for(i in 1:length(sp)){
     
     plotter<-dat[,c('form', 'nutrient', 'exposure', 'species')] %>% 
-        filter(species == species[i]) %>% select(-species) %>% 
+        filter(species == sp[i]) %>% select(-species) %>% 
         filter(form != 'Fresh') %>% 
         mutate(exposure = ifelse(is.na(exposure), 0, exposure)) %>% 
         pivot_wider(names_from = nutrient, values_from = exposure) 
@@ -62,7 +62,7 @@ for(i in 1:length(sp)){
         ## All panels without top-left guide
         names(plotter)<-c('form','Cd', 'Pb', 'Hg')
         gg<-ggradar(plotter, 
-                    group.colours = pcols,
+                    # group.colours = pcols,
                     base.size = 1,
                     # values.radar = '',
                     grid.label.size = 3,
@@ -78,7 +78,7 @@ for(i in 1:length(sp)){
     } else {
         ## Top-left guide
         gg<-ggradar(plotter, 
-                    group.colours = pcols,
+                    # group.colours = pcols,
                     base.size = 1,
                     group.point.size = 2,
                     grid.label.size  = 3,

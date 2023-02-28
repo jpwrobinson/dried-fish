@@ -44,7 +44,7 @@ dat<-nutl_agg %>%
     mutate(exposure = exposure/portion*100/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
     mutate(exposure = case_when(exposure > 1 ~ 1, TRUE ~ exposure)) %>% ## cap limits for plot - but note some forms are more than 100% limit
     group_by(form, nutrient) %>% 
-    summarise(exposure = mean(exposure))
+    summarise(exposure = mean(exposure, na.rm = TRUE))
 
 forms<-unique(dat$form)
 
