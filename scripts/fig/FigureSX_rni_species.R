@@ -1,7 +1,7 @@
 
 ## food settings
-portion = 40
-pop = 'Children'
+# portion = 12.75
+# pop = 'Children'
 
 ## get RDA reference vals
 source('scripts/rda_reader.R')
@@ -60,7 +60,7 @@ dat<-nutl_agg %>%
                            str_detect(pop, 'Adult women')~rni_women,
                            str_detect(pop, 'Adult men')~rni_men,
                            str_detect(pop, 'Pregnant')~rni_pregnant)) %>% 
-    mutate(rni = rni/portion*100/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
+    mutate(rni=rni/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
     ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
     mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni))
 

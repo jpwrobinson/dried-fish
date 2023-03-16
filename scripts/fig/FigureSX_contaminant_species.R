@@ -1,7 +1,7 @@
 
 ## food settings
-portion = 40
-pop = 'Children'
+# portion = 12.75
+# pop = 'Children'
 
 ## get RDA reference vals
 source('scripts/rda_reader.R')
@@ -41,7 +41,7 @@ nutl_agg<-nutl %>%
 
 ## arrange data
 dat<-nutl_agg %>% 
-    mutate(exposure = exposure/portion*100/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
+    mutate(exposure = exposure/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
     mutate(exposure = case_when(exposure > 1 ~ 1, TRUE ~ exposure)) ## cap limits for plot - but note some forms are more than 100% limit
 
 sp<-unique(dat$species)

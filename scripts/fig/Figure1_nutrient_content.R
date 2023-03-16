@@ -10,6 +10,8 @@ pcols_order<-c('Fresh', 'Sun-dried', 'Smoked','Fried', 'Powder')
 pcols_named<-c('Fresh' = pcols[1], 'Sun-dried' = pcols[2], 'Smoked' = pcols[3],'Fried' = pcols[4], 'Powder' = pcols[5])
 
 
+portion = 12.75
+pop = 'Children'
 
 # panel a = change in nutrient content relative to fresh samples
 source('scripts/fig/Figure1a_fresh_contrast.R')

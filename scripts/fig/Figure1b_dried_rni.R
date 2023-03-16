@@ -1,7 +1,7 @@
 
 ## food settings
-portion = 40
-pop = 'Children'
+# portion = 12.75
+# pop = 'Children'
 
 ## get RDA reference vals
 source('scripts/rda_reader.R')
@@ -60,10 +60,10 @@ dat<-nutl_agg %>%
                            str_detect(pop, 'Adult women')~rni_women,
                            str_detect(pop, 'Adult men')~rni_men,
                            str_detect(pop, 'Pregnant')~rni_pregnant)) %>% 
-    mutate(rni = rni/portion*100/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
+    mutate(rni = rni/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
     ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
     mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni)) %>% 
-    group_by(form, nutrient) %>% 
+    group_by(lab, nutrient, form) %>% 
     summarise(rni = mean(rni))
 
 forms<-unique(dat$form)
@@ -74,13 +74,16 @@ th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
 for(i in 1:length(forms)){
     
     plotter<-dat[,c('form', 'nutrient', 'rni')] %>% 
-        filter(form == forms[i]) %>% select(-form) %>% 
+        filter(form == forms[i]) %>% #select(-form) %>% 
         mutate(rni = ifelse(is.na(rni), 0, rni)) %>% 
+        group_by(form) %>% 
         pivot_wider(names_from = nutrient, values_from = rni) 
+    
+    coll<-as.character(pcols_named[forms[i]])
 
     if(i != 1){
         ## All panels without top-left guide
-        names(plotter)<-c('form','Ca', 'Fe', 'Se', 'Zn', 'I', 'v-A', 'v-B12','v-D', 'v-B9')
+        names(plotter)<-c('form', 'Ca', 'Fe', 'Se', 'Zn', 'I', 'v-A', 'v-B12','v-D', 'v-B9')
         gg<-ggradar(plotter, 
                     group.colours = pcols,
                     base.size = 1,
@@ -93,13 +96,13 @@ for(i in 1:length(forms)){
                     fill=TRUE,
                     gridline.mid.colour = "grey") +
             th + labs(subtitle = forms[i]) +coord_equal(clip='off') +
-            scale_color_manual(values=pcols_named) + scale_fill_manual(values=pcols_named) 
+            scale_color_manual(values=coll) + scale_fill_manual(values=coll) 
         
     } else {
         ## Top-left guide
         names(plotter)[10]<-'Vitamin B9'
         gg<-ggradar(plotter, 
-                    group.colours = pcols,
+                    # group.colours = pcols,
                     base.size = 1,
                     group.point.size = 2,
                     grid.label.size  = 3,
@@ -109,7 +112,7 @@ for(i in 1:length(forms)){
                     fill=TRUE,
                     gridline.mid.colour = "grey") +
             th + labs(subtitle = forms[i]) +coord_equal(clip='off') +
-            scale_color_manual(values=pcols_named) + scale_fill_manual(values=pcols_named) 
+            scale_color_manual(values=coll) + scale_fill_manual(values=coll) 
     }
     
     assign(paste('gg', i, sep = '_'), gg)
