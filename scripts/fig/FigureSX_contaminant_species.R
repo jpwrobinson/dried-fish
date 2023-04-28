@@ -20,7 +20,7 @@ units<-data.frame(nutrient = nuts,
 nutl<-nut %>% 
     filter(nutrient %in% nuts) %>%
     mutate(nutrient = str_to_title(nutrient)) %>% 
-    rename(species = latin_name, fbname = local_name, form = type, mu = value) %>% 
+    rename(species = latin_name, fbname = local_name, mu = value) %>% 
     mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
     mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
            fbname = ifelse(species == 'Rastrineobola argenteus', 'Omena (freshwater)', fbname))

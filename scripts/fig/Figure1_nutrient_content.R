@@ -13,14 +13,14 @@ source('scripts/fig/Figure1b_dried_rni.R')
 # sup fig = species radar plots for RNI
 source('scripts/fig/FigureSX_rni_species.R')
 
-pdf(file = 'figures/Figure1_dried_content.pdf', height =5, width=9)
+pdf(file = 'fig/Figure1_dried_content.pdf', height =5, width=9)
 print(
     plot_grid(g1A + theme(plot.margin=unit(c(2,2,2,0), 'cm')), 
               g1B, ncol=2, labels=c('a', 'b'), rel_widths=c(1, 1))
 )
 dev.off()
 
-pdf(file = 'figures/FigureSX_dried_species.pdf', height =7, width=12)
+pdf(file = 'fig/FigureSX_dried_species.pdf', height =7, width=12)
 print(
     gSX
 )
@@ -33,13 +33,13 @@ source('scripts/fig/Figure1_contaminant_content.R')
 # sup fig = species radar plots for contaminant
 source('scripts/fig/FigureSX_contaminant_species.R')
 
-pdf(file = 'figures/Figure1_contaminant_content.pdf', height =5, width=9)
+pdf(file = 'fig/Figure1_contaminant_content.pdf', height =5, width=9)
 print(
     g1D
 )
 dev.off()
 
-pdf(file = 'figures/FigureSX_dried_contaminant_species.pdf', height =7, width=12)
+pdf(file = 'fig/FigureSX_dried_contaminant_species.pdf', height =7, width=12)
 print(
     gSX
 )
