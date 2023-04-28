@@ -2,8 +2,8 @@
 source('scripts/00_plot.R')
 
 ## food settings
-portion = 12.75
-pop = 'Children'
+# portion = 12.75
+# pop = 'Children'
 
 
 ## load data
@@ -43,7 +43,6 @@ nutl_agg<-nutl %>%
            rni_men = mu/rni_men*100,
            rni_pregnant = mu/rni_pregnant*100)
 
-
 ## arrange data
 dat<-nutl_agg %>% 
     mutate(rni = case_when(str_detect(pop, 'Children') ~ rni_kids, 
@@ -56,11 +55,49 @@ dat<-nutl_agg %>%
     group_by(lab, nutrient, form) %>% 
     summarise(rni = mean(rni))
 
-forms<-unique(dat$form)
 
 th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
           legend.position = 'none') 
 
+## main fig with smoked + sun-dried
+forms<-c('Smoked', 'Sun-dried')
+    
+plotter<-dat[,c('form', 'nutrient', 'rni')] %>% 
+        filter(form %in% forms) %>% #select(-form) %>% 
+        mutate(rni = ifelse(is.na(rni), 0, rni)) %>% 
+        group_by(form) %>% 
+        pivot_wider(names_from = nutrient, values_from = rni) 
+    
+coll<-as.character(pcols_named[forms])
+    
+# names(plotter)<-c('form', 'Ca', 'Fe', 'Se', 'Zn', 'I', 'v-A', 'v-B12','v-D', 'v-B9', 'O-3')
+names(plotter)[10]<-'Vitamin B9'
+
+g1C<-ggradar(plotter, 
+                group.colours = pcols,
+                base.size = 1,
+                # values.radar = c('15%', "50%", "100%"),
+                # grid.min = .0, grid.mid = .15, grid.max = 1,
+                grid.label.size = 3,
+                group.point.size = 2,
+                group.line.width = 1,
+                background.circle.colour = "white",
+                axis.label.size = 3,
+                fill=TRUE,
+                gridline.mid.colour = "grey") +
+        th + coord_equal(clip='off') +
+        theme( legend.position = 'bottom', legend.text = element_text(size=9))+# legend.key.width = unit(1, 'cm')) +
+        guides(fill='none') +
+        scale_color_manual(values=coll) + 
+        scale_fill_manual(values=coll) +
+        annotate("path", col='darkred', linetype=5,
+             x=c(0,0)+.26*cos(seq(0,2*pi,length.out=100)),
+             y=c(0,0)+.26*sin(seq(0,2*pi,length.out=100))) +
+        annotate('text', x = -.85, y = 0.1, label = 'Source of nutrient --------', col='darkred', size=3)
+
+
+## sup fig with all forms
+forms<-unique(dat$form)
 for(i in 1:length(forms)){
     
     plotter<-dat[,c('form', 'nutrient', 'rni')] %>% 
@@ -71,13 +108,14 @@ for(i in 1:length(forms)){
     
     coll<-as.character(pcols_named[forms[i]])
 
-    if(i != 1){
+    # if(i != 1){
         ## All panels without top-left guide
         names(plotter)<-c('form', 'Ca', 'Fe', 'Se', 'Zn', 'I', 'v-A', 'v-B12','v-D', 'v-B9', 'O-3')
         gg<-ggradar(plotter, 
                     group.colours = pcols,
                     base.size = 1,
-                    # values.radar = '',
+                    values.radar = c('', "50%", "100%"),
+                    # grid.min = 0, grid.mid = .15, grid.max = 1,
                     grid.label.size = 3,
                     group.point.size = 2,
                     group.line.width = 1,
@@ -86,32 +124,39 @@ for(i in 1:length(forms)){
                     fill=TRUE,
                     gridline.mid.colour = "grey") +
             th + labs(subtitle = forms[i]) +coord_equal(clip='off') +
-            scale_color_manual(values=coll) + scale_fill_manual(values=coll) 
+            scale_color_manual(values=coll) + scale_fill_manual(values=coll) +
+            # add source food = 15% line
+            annotate("path", col='darkred', linetype=5,
+                     x=c(0,0)+.26*cos(seq(0,2*pi,length.out=100)),
+                     y=c(0,0)+.26*sin(seq(0,2*pi,length.out=100))) +
+            annotate('text', x = -.9, y = 0.1, label = 'Source of nutrient --------', col='darkred', size=3)
         
-    } else {
-        ## Top-left guide
-        names(plotter)[10]<-'Vitamin B9'
-        gg<-ggradar(plotter, 
-                    # group.colours = pcols,
-                    base.size = 1,
-                    group.point.size = 2,
-                    grid.label.size  = 3,
-                    group.line.width = 1,
-                    background.circle.colour = "white",
-                    axis.label.size = 3,
-                    fill=TRUE,
-                    gridline.mid.colour = "grey") +
-            th + labs(subtitle = forms[i]) +coord_equal(clip='off') +
-            scale_color_manual(values=coll) + scale_fill_manual(values=coll) 
-    }
+    # } else {
+    #     ## Top-left guide
+    #     names(plotter)[10]<-'Vitamin B9'
+    #     gg<-ggradar(plotter, 
+    #                 # group.colours = pcols,
+    #                 base.size = 1,
+    #                 group.point.size = 2,
+    #                 grid.label.size  = 3,
+    #                 group.line.width = 1,
+    #                 background.circle.colour = "white",
+    #                 axis.label.size = 3,
+    #                 fill=TRUE,
+    #                 gridline.mid.colour = "grey") +
+    #         th + labs(subtitle = forms[i]) +coord_equal(clip='off') +
+    #         scale_color_manual(values=coll) + scale_fill_manual(values=coll) 
+    # }
     
     assign(paste('gg', i, sep = '_'), gg)
 }
 
-bot<-plot_grid(gg_4, 
-               gg_2 + theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=1)), 
-               nrow=1)
-mid<-plot_grid(gg_5, 
-               gg_3 + theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=1)), 
-               nrow=1)
-g1B<-plot_grid(gg_1, mid, bot, nrow=3)
+# bot<-plot_grid(gg_4, 
+#                gg_2 + theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=1)), 
+#                nrow=1)
+# mid<-plot_grid(gg_5, 
+#                gg_3 + theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=1)), 
+#                nrow=1)
+# gS1B<-plot_grid(gg_1, mid, bot, nrow=3)
+
+gS1B<-plot_grid(gg_1, gg_2, gg_3, gg_4, gg_5, nrow=1)

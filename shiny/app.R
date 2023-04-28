@@ -176,6 +176,8 @@ server<-function(input, output, session) {
         ggradar(dat, 
                         group.colours = pcols_select,
                         base.size = 1,
+                        # values.radar = c('15%', "50%", "100%"),
+                        # grid.min = .15, grid.mid = .5, grid.max = 1,
                         group.point.size = 2,
                         group.line.width = 1,
                         background.circle.colour = "white",
