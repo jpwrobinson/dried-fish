@@ -1,13 +1,5 @@
-library(tidyverse)
-library(cowplot)
-library(ggradar)
-
 ## plotting args
-source('scripts/theme_sleek.R')
-theme_set(theme_sleek())
-pcols<-c(RColorBrewer::brewer.pal(9, 'Set1'), 'black') ## 10 colors
-pcols_order<-c('Fresh', 'Sun-dried', 'Smoked','Fried', 'Powder')
-pcols_named<-c('Fresh' = pcols[1], 'Sun-dried' = pcols[2], 'Smoked' = pcols[3],'Fried' = pcols[4], 'Powder' = pcols[5])
+source('scripts/00_plot.R')
 
 ## get nutrient units
 units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega3', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),

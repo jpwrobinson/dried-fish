@@ -1,5 +1,5 @@
 ### Shiny app to viz DRIED nutrient predictions (JPWR)
-# November 2022
+# April 2022 (omega update)
 
 ## packages
 library(shiny)
@@ -19,27 +19,27 @@ rda$nutrient<-str_to_title(rda$nutrient)
 rda$nutrient[rda$nutrient=='Vitamin_a']<-'Vitamin A'
 rda$nutrient[rda$nutrient=='Vitamin_d']<-'Vitamin D'
 rda$nutrient[rda$nutrient=='Vitamin_b12']<-'Vitamin B12'
-# rda$nutrient[rda$nutrient=='Omega_3']<-'Omega3'
+rda$nutrient[rda$nutrient=='Omega_3']<-'Omega-3 (DHA + EPA)'
 
 ## get nutrient units
-units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega3', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
+units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Epa_dha', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
                   unit = c('percent', 'mg', 'mg', 'mcg', 'mg','mcg', 'g', 'mcg', 'mcg', 'mcg', 'mcg'))
 
 ## load data
 nut_dry_whole<-read.csv('dried_nutrient_estimates_long.csv') 
-nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine', 'vitamin_a1', 'vitamin_d3','folate', 'vitamin_b12')
+nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3','folate', 'vitamin_b12')
 ## tidy names
 nutl<-nut_dry_whole %>% 
     filter(nutrient %in% nuts) %>%
     mutate(nutrient = str_to_title(nutrient)) %>% 
-    rename(species = latin_name, fbname = local_name, form = type, mu = value) %>% 
+    rename(species = latin_name, fbname = local_name, mu = value) %>% 
     mutate(nutrient = fct_relevel(nutrient, c('Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 
-                                              #'Omega3', 
-                                              'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Folate'))) %>%
-    mutate(nutrient = recode(nutrient, #Omega3 = 'Omega-3\nfatty acids', 
+                                              'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Folate', 'Epa_dha'))) %>%
+    mutate(nutrient = recode(nutrient, Epa_dha = 'Omega-3 (DHA + EPA)', 
                              Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
     mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
-    mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
+    mutate(fbname = ifelse(species
+                           == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
            fbname = ifelse(species == 'Rastrineobola argenteus', 'Omena (freshwater)', fbname))
 
     
@@ -47,9 +47,9 @@ nutl<-nut_dry_whole %>%
 ## units in labels
 nutl$lab<-nutl$nutrient
 levels(nutl$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'),
-                    "'Zinc, mg'",expression('Iodine, '*mu*'g'),# "'Omega-3, g'", 
+                    "'Zinc, mg'",expression('Iodine, '*mu*'g'), 
                     expression('Vitamin A, '*mu*'g'),expression('Vitamin B12, '*mu*'g'),
-                    expression('Vitamin D, '*mu*'g'),expression('Folate, '*mu*'g'))
+                    expression('Vitamin D, '*mu*'g'),expression('Folate, '*mu*'g'), "'Omega-3 (DHA+EPA), g'")
 
 nutl_agg<-nutl %>% 
     group_by(species, fbname, nutrient, lab) %>% 
@@ -237,7 +237,6 @@ server<-function(input, output, session) {
         })
     
     rda_tab<-reactive({  dat<-rda %>% 
-        filter(nutrient != 'Omega_3') %>% 
         mutate(nutrient = str_to_title(nutrient)) %>% 
         left_join(units) %>% 
         mutate(rni = case_when(str_detect(rnSelect(), 'Children') ~ rni_kids, 

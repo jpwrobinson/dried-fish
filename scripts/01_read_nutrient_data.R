@@ -10,6 +10,8 @@ metat<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.cs
 		       #sample_id = recode(sample_id, 'A_005' = 'A_001')
 		       ) %>%
 		distinct(sample_id, date, location, type, days_processed, catch_source, local_name, latin_name) %>% 
+        rename(form = type) %>% 
+        mutate(form = recode(form, Wet = 'Fresh')) %>% 
 		filter(sample_id != 'K_005')
 
 ## clean norway nutrient estimates

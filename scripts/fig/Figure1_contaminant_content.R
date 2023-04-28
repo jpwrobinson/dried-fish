@@ -1,3 +1,5 @@
+## plotting args
+source('scripts/00_plot.R')
 
 ## food settings
 # portion = 12.75
