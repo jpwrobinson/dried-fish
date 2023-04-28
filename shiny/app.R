@@ -22,7 +22,7 @@ rda$nutrient[rda$nutrient=='Vitamin_b12']<-'Vitamin B12'
 rda$nutrient[rda$nutrient=='Omega_3']<-'Omega-3 (DHA + EPA)'
 
 ## get nutrient units
-units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Epa_dha', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
+units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega-3 (DHA + EPA)', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
                   unit = c('percent', 'mg', 'mg', 'mcg', 'mg','mcg', 'g', 'mcg', 'mcg', 'mcg', 'mcg'))
 
 ## load data
@@ -238,7 +238,7 @@ server<-function(input, output, session) {
         })
     
     rda_tab<-reactive({  dat<-rda %>% 
-        mutate(nutrient = str_to_title(nutrient)) %>% 
+        # mutate(nutrient = str_to_title(nutrient)) %>% 
         left_join(units) %>% 
         mutate(rni = case_when(str_detect(rnSelect(), 'Children') ~ rni_kids, 
                                str_detect(rnSelect(), 'Adult women')~rni_women,

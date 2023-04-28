@@ -5,9 +5,9 @@ account: james-robinson
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7469607
-bundleId: 6865948
+bundleId: 7148108
 url: https://james-robinson.shinyapps.io/dried-fish-nutrients/
-when: 1676891523.73503
-lastSyncTime: 1676891523.73505
+when: 1682673016.00342
+lastSyncTime: 1682673016.00343
 asMultiple: FALSE
 asStatic: FALSE

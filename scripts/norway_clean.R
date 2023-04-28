@@ -86,6 +86,7 @@ write.csv(metat, file = paste0('data/clean/', filesave, '_wide.csv'))
 write.csv(datl, file = paste0('data/clean/', filesave, '_long.csv'))
 
 ## summary plots
+if(filesave=='tilapia_nutrient_estimates'){datl$form<-'Fresh'}
 agg<-datl %>%
     group_by(nutrient, form) %>%
     mutate(n = length(value)) %>% ungroup() %>%  

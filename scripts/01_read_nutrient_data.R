@@ -5,6 +5,7 @@ library(readxl)
 ## Read dried Ghana + Kenya samples Jan/Feb 2022
 
 ## 1. Dried fish size, species, source
+rm(metat)
 metat<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.csv') %>% 
 		mutate(sample_id = str_replace_all(sample_id, '_A|_B|_C|_D|_E', '')
 		       #sample_id = recode(sample_id, 'A_005' = 'A_001')
@@ -21,8 +22,9 @@ source('scripts/norway_clean.R')
 
 
 ## 2. read tilapia metadata
+rm(metat)
 metat<-read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_TILAPIA.csv') %>% 
-		mutate(local_name = 'tilapia', latin_name = 'Oreochromis niloticus') %>% 
+		mutate(local_name = 'tilapia', latin_name = 'Oreochromis niloticus', form='Fresh') %>% 
         rename(location = 'sample_location') %>% 
 		select(sample_id, date, location, type, total_length_mm, mass_g, local_name, latin_name) 
 
