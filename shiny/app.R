@@ -11,7 +11,7 @@ library(ggradar)
 source('theme_sleek.R')
 theme_set(theme_sleek())
 pcols<-c(RColorBrewer::brewer.pal(9, 'Set1'), 'black') ## 10 colors
-pcols_order<-c('Fresh', 'Sun-dried', 'Smoked','Fried', 'Powder')
+pcols_order<-c('Fresh','Fried', 'Powder','Smoked', 'Sun-dried')
 
 ## get RDA reference vals
 source('rda_reader.R')
@@ -157,7 +157,8 @@ server<-function(input, output, session) {
     
         dat<-dat[,colSelect()]
         # dat<-dat[,c('form', 'nutrient', 'rni')]
-        dat<-dat %>% pivot_wider(names_from = nutrient, values_from = rni) %>% select_if(~ !any(is.na(.)))
+        dat<-dat %>% pivot_wider(names_from = nutrient, values_from = rni) %>% select_if(~ !any(is.na(.))) %>% 
+            arrange(form)
         
         tit<-if(str_detect(rnSelect(), 'Children')){
                     paste0('children (6 mo - 5 yrs)')} else 
@@ -170,10 +171,10 @@ server<-function(input, output, session) {
         tit<-paste0('\n\nRecommended intakes for ', tit)
         subtit<-'\nRadar plots show the contribution of a single fish portion to recommended daily nutrient intakes (capped at 100%).'
         cap<-paste('\n\n\n', fbname_long)
-        # pcols_select<-pcols[pcols_order[which(pcols_order %in% unique(dat$form))]]
+        pcols_select<-pcols[which(pcols_order %in% unique(dat$form))]
         
         ggradar(dat, 
-                        group.colours = pcols,
+                        group.colours = pcols_select,
                         base.size = 1,
                         group.point.size = 2,
                         group.line.width = 1,
