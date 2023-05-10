@@ -1,0 +1,51 @@
+---
+title: '**Supplementary Figures**'
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+output:
+  pdf_document: null
+  latex_engine: pdflatex
+  html_document:
+    df_print: paged
+---
+
+# <manuscript title>
+
+\newpage
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(tinytex.verbose = TRUE)
+```
+
+```{r, echo=F} 
+## set up figcounter
+i = 0
+```
+
+```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
+knitr::include_graphics("fig/FigureSX_dried_species.pdf"); i = i + 1
+```
+
+**Fig. S`r i`. Nutrient content of processed fish species**. Radars show contribution of 12.75g portion to recommend intakes of each nutrient, for each sampled species. Plots coloured by processing type.
+
+\blandscape
+
+
+```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
+knitr::include_graphics("fig/FigureSX_dried_portions.pdf"); i = i + 1
+```
+
+**Fig. S`r i`. Portion size of processed fish species required to reach recommended nutrient intakes**. Lines show the contribution to RNI (children 0.5 - 5 years old) across range in portion sizes, for each nutrient and by processing type. 15% is the RNI for a food to qualify as a source of nutrients.
+
+\elandscape
+
+```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
+knitr::include_graphics("fig/FigureSX_dried_contaminant_species.pdf"); i = i + 1
+```
+
+**Fig. S`r i`. Contaminant content of processed fish species**. 
+
+\newpage
+

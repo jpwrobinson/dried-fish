@@ -80,7 +80,8 @@ datl<-metat %>% mutate_if(is.numeric, as.character) %>%
     mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value)) %>% 
     mutate(value = ifelse(unit =='mg_kg', value/10, value)) %>% 
     mutate(unit = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), 'mug_100g', 'mg_100g')) %>% 
-    mutate(unit = ifelse(str_detect(nutrient, 'protein|epa|dha'), 'g_100g', unit)) 
+    mutate(unit = ifelse(str_detect(nutrient, 'protein|epa|dha'), 'g_100g', unit)) %>% 
+    filter(!is.na(value))
 
 write.csv(metat, file = paste0('data/clean/', filesave, '_wide.csv'))
 write.csv(datl, file = paste0('data/clean/', filesave, '_long.csv'))

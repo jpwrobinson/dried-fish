@@ -45,6 +45,12 @@ print(
 )
 dev.off()
 
+pdf(file = 'fig/FigureSX_dried_portion_source.pdf', height =4, width=8)
+print(
+    gg_source
+)
+dev.off()
+
 
 ## contaminants
 # panel b = processed forms contaminant radars
