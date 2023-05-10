@@ -14,6 +14,8 @@ source('scripts/fig/Figure1b_nutrient_density.R')
 source('scripts/fig/Figure1c_dried_rni.R')
 # sup fig = species radar plots for RNI
 source('scripts/fig/FigureSX_rni_species.R')
+# sup fig = portion size plots for RNI
+source('scripts/fig/FigureSX_portion_size.R')
 
 pdf(file = 'fig/Figure1_dried_content.pdf', height =5, width=16)
 print(
@@ -33,6 +35,13 @@ dev.off()
 pdf(file = 'fig/FigureSX_dried_forms.pdf', height =2, width=10)
 print(
     gS1B
+)
+dev.off()
+
+
+pdf(file = 'fig/FigureSX_dried_portions.pdf', height =3, width=17)
+print(
+    gg_port
 )
 dev.off()
 
