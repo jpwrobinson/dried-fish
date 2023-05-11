@@ -81,10 +81,11 @@ source<-porter %>%
     filter(form %in% c('Sun-dried', 'Smoked'))
 
 gg_source<-ggplot(source, aes(portion, fct_reorder(nutrient,portion), portion, col=form)) + 
-    geom_point(size=2) +
+    geom_point(size=2.5) +
     labs(x = 'portion size for 15% RNI, g', y = '', col='') +
-    geom_vline(xintercept = 12.75, linetype=5, col='grey') +
-    annotate('text', x = 22, y = 9, size=3, label = 'Mean portion size (Zambia)', col='grey30') +
+    # geom_vline(xintercept = 12.75, linetype=5, col='grey') +
+    geom_vline(xintercept = 6, linetype=5, col='grey') +
+    annotate('text', x = 24, y = 9, size=3, label = 'Daily intake for 6-23 months (Kimere et al.)', col='grey30') +
     scale_colour_manual(values = pcols_named) +
     theme(legend.position = c(0.8, 0.2)) + 
     scale_x_continuous(expand=c(0.01,0.01), breaks=c(1,5,10,seq(20,80,by=20)))

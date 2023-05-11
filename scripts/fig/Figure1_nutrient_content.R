@@ -3,8 +3,11 @@
 source('scripts/00_plot.R')
 
 
-portion = 12.75
+portion = 6
 pop = 'Children'
+
+# portion = 12.75
+# pop = 'Adult women'
 
 # panel a = change in nutrient content relative to fresh samples
 source('scripts/fig/Figure1a_fresh_contrast.R')
@@ -45,7 +48,7 @@ print(
 )
 dev.off()
 
-pdf(file = 'fig/FigureSX_dried_portion_source.pdf', height =4, width=8)
+pdf(file = 'fig/FigureSX_dried_portion_source.pdf', height =3.5, width=8)
 print(
     gg_source
 )
@@ -69,3 +72,6 @@ print(
     gSX
 )
 dev.off()
+
+## contaminant levels
+dat %>% group_by(nutrient) %>% reframe(range(exposure)*100) %>% data.frame

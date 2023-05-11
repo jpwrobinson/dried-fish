@@ -58,7 +58,8 @@ for(i in 1:length(sp)){
         filter(species == sp[i]) %>% select(-species) %>% 
         filter(form != 'Fresh') %>% 
         mutate(exposure = ifelse(is.na(exposure), 0, exposure)) %>% 
-        pivot_wider(names_from = nutrient, values_from = exposure) 
+        pivot_wider(names_from = nutrient, values_from = exposure, values_fill = 0) 
+
     
     if(i != 1){
         ## All panels without top-left guide
