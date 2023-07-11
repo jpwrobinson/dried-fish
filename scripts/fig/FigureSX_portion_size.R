@@ -67,9 +67,10 @@ gg_port<-ggplot(porter, aes(portion, rni, col=form)) + geom_line() +
     facet_grid(~nutrient) +
     labs(x = 'Portion size, g', y = 'Recommended Nutrient Intake', col='') +
     geom_hline(yintercept = 0.15, col='grey', linetype=5) +
-    geom_text(data = data.frame(nutrient = 'Calcium', rni = 0.18, portion = 75, lab='Source'), 
-              aes(label = lab), col='grey', size=3) +
+    geom_text(data = data.frame(nutrient = 'Calcium', rni = 0.2, portion = 20, lab='Source'), 
+              aes(label = lab), col='grey40', size=3) +
     scale_y_continuous(labels=scales::percent) +
+    scale_x_continuous(limits =c(0, 25)) +
     scale_colour_manual(values = pcols_named)
 
 ## now portion size at which sun-dried and smoked are sources of nutrients
@@ -85,7 +86,17 @@ gg_source<-ggplot(source, aes(portion, fct_reorder(nutrient,portion), portion, c
     labs(x = 'portion size for 15% RNI, g', y = '', col='') +
     # geom_vline(xintercept = 12.75, linetype=5, col='grey') +
     geom_vline(xintercept = 6, linetype=5, col='grey') +
-    annotate('text', x = 24, y = 9, size=3, label = 'Daily intake for 6-23 months (Kimere et al.)', col='grey30') +
+    # annotate('text', x = 24, y = 10, size=3, label = 'Daily intake for 6-23 months (Kimere et al.)', col='grey30') +
     scale_colour_manual(values = pcols_named) +
     theme(legend.position = c(0.8, 0.2)) + 
     scale_x_continuous(expand=c(0.01,0.01), breaks=c(1,5,10,seq(20,80,by=20)))
+    
+
+
+gg_source_hist<-ggplot(source, aes(portion)) + 
+    geom_histogram() + 
+    labs(x = 'portion size for 15% RNI, g', y = 'Number of source foods') +
+    # geom_vline(xintercept = 12.75, linetype=5, col='grey') +
+    geom_vline(xintercept = 6, linetype=5, col='grey') +
+    scale_x_continuous(expand=c(0.01,0.01), breaks=c(1,5,10,seq(20,80,by=20))) +
+    scale_y_continuous(expand=c(0,0))

@@ -2,6 +2,8 @@
 ## plotting args
 source('scripts/00_plot.R')
 
+# for bash, replace drive files
+# sh copy_drive.sh
 
 portion = 6
 pop = 'Children'
@@ -24,7 +26,7 @@ pdf(file = 'fig/Figure1_dried_content.pdf', height =5, width=16)
 print(
     plot_grid(g1A + theme(plot.margin=unit(c(1,1,1,0), 'cm')), 
               g1B + theme(plot.margin=unit(c(1,3,1,0), 'cm')), 
-              g1C,
+                g1C,
               ncol=3, labels=c('a', 'b', 'c'), rel_widths=c(1, 1, 1))
 )
 dev.off()
@@ -50,7 +52,7 @@ dev.off()
 
 pdf(file = 'fig/FigureSX_dried_portion_source.pdf', height =3.5, width=8)
 print(
-    gg_source
+    plot_grid(gg_source, gg_source_hist, nrow =1, labels = c('a', 'b'))
 )
 dev.off()
 
