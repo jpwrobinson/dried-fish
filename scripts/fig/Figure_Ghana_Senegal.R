@@ -40,24 +40,68 @@ gcat<-ggplot(catch, aes(year, tonnes, colour=fishing_sector)) +
 
 # trade
 cts<-c('GHA', 'SEN')
-trade<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv') %>% 
+export<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv') %>% 
     filter(source_country_iso3c %in% cts) %>% 
     filter(nceas_group=='small pelagics') %>% 
-    mutate(country = ifelse(source_country_iso3c == 'GHA', 'Ghana', 'Senegal'))
-
-export<-trade %>% filter(dom_source == 'foreign export') %>% 
+    mutate(country = ifelse(source_country_iso3c == 'GHA', 'Ghana', 'Senegal')) %>% 
+    filter(dom_source == 'domestic export') %>% 
     group_by(source_country_iso3c, country, year) %>% 
-    summarise(live_weight_t = sum(live_weight_t))
+    summarise(live_weight_t = sum(live_weight_t)) %>% mutate(type = 'Export')
 
-gex<-ggplot(export, aes(year, live_weight_t, col=source_country_iso3c)) + geom_line() +
-    geom_label(data = export %>% filter(year ==2019) %>% mutate(year=2022), 
+import<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv') %>% 
+    filter(importer_iso3c %in% cts) %>% 
+    filter(nceas_group=='small pelagics') %>% 
+    mutate(country = ifelse(importer_iso3c == 'GHA', 'Ghana', 'Senegal')) %>% 
+    filter(dom_source == 'domestic export') %>% 
+    group_by(importer_iso3c, country, year) %>% 
+    summarise(live_weight_t = sum(live_weight_t)) %>% mutate(type = 'Import')
+
+trade<-rbind(export, import)
+
+gex<-ggplot(trade, aes(year, live_weight_t, col=country, linetype=type)) + geom_line() +
+    geom_label(data = export %>% filter(year ==2019) %>% mutate(year=2023), 
                aes(label=country), size=3) +
     scale_y_continuous(labels=scales::comma) +
-    scale_x_continuous(limits=c(1995, 2023)) +
-    labs(x = '', title = 'Exports of small pelagic fishes', y = 'tonnes') +
-    theme(legend.position ='none',  legend.title=element_blank())
+    scale_x_continuous(limits=c(1995, 2024)) +
+    guides(colour='none') +
+    coord_cartesian(clip='off') +
+    labs(x = '', title = 'Trade of small pelagic fishes', y = 'tonnes') +
+    theme(legend.position =c(0.9, 0.5),  legend.title=element_blank())
+
+
+## supply exported to what countries?
+importers<-read.csv('data/trade/20221011_james_robinson_ARTIS_snet.csv') %>% 
+    filter(source_country_iso3c %in% cts) %>% 
+    filter(nceas_group=='small pelagics') %>% 
+    mutate(country = ifelse(source_country_iso3c == 'GHA', 'Ghana', 'Senegal')) %>% 
+    filter(dom_source == 'domestic export') %>% 
+    group_by(country, importer_iso3c, year) %>% 
+    summarise(live_weight_t = sum(live_weight_t)) %>% mutate(type = 'Exporters') %>% 
+    mutate(country2 = countrycode::countrycode(importer_iso3c, origin = 'iso3c', destination = 'country.name'))
+
+top5 <- importers %>% group_by(importer_iso3c, country) %>% 
+    summarise(total_traded = max(live_weight_t)) %>% 
+    group_by(country) %>% 
+    slice_max(total_traded, n = 5)
+    
+importers$top<-ifelse(importers$importer_iso3c %in% top5$importer_iso3c, 'Top', 'Not')
+
+gimp<-ggplot(importers %>% filter(top =='Not'), aes(year, live_weight_t, group=importer_iso3c)) + 
+    geom_line(col='grey', alpha=0.8) + 
+    geom_line(data=importers %>% filter(top == 'Top'), aes(col=importer_iso3c)) +
+    ggrepel::geom_label_repel(data = importers %>% filter(year ==2019 & importer_iso3c %in% top5$importer_iso3c) %>% mutate(year=2024),
+          aes(label=country2, col=importer_iso3c), size=3, force=0.2, force_pull=4) +
+    scale_x_continuous(limits=c(1995, 2025)) +
+    facet_wrap(~country) +
+    scale_y_continuous(labels=scales::comma) +
+    theme(legend.position = 'none') +
+    labs(x = '', y = 'tonnes', title = 'Exports of small pelagic fish from Ghana and Senegal')
 
 
 pdf(file = 'fig/FigX_small_pelagics_ghana_senegal.pdf', height=3, width=12)
 plot_grid(gcat, gex, nrow = 1, labels=c('a', 'b'), rel_widths=c(1, 0.5))
+print(gimp)
 dev.off()
+
+
+
