@@ -10,7 +10,8 @@ pcols_order<-c('Fresh','Fried', 'Powder','Smoked', 'Sun-dried')
 pcols_named<-c('Fresh' = pcols[1], 'Sun-dried' = pcols[2], 'Smoked' = pcols[3],'Fried' = pcols[4], 'Powder' = pcols[5])
 
 ## get RDA reference vals
-source('scripts/rda_reader.R')
+source('scripts/rda_reader_integrated.R')
+# source('scripts/rda_reader_FAO.R')
 rda$nutrient<-str_to_title(rda$nutrient)
 rda$nutrient[rda$nutrient=='Vitamin_a']<-'Vitamin A'
 rda$nutrient[rda$nutrient=='Vitamin_d']<-'Vitamin D'

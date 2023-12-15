@@ -41,7 +41,8 @@ nutl_agg<-nutl %>%
     mutate(rni_women = mu/rni_women*100,
            rni_kids = mu/rni_kids*100,
            rni_men = mu/rni_men*100,
-           rni_pregnant = mu/rni_pregnant*100)
+           rni_pregnant = mu/rni_pregnant*100
+           )
 
 ## arrange data
 dat<-nutl_agg %>% 

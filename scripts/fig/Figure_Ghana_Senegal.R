@@ -5,15 +5,16 @@ source('scripts/00_plot.R')
 sp<-c('Small pelagics (<30 cm)')
 
 ## Ghana + Senegal catches
+## Note that Deme et al. 2023 include Horse mackerel (Trachurus) as small pelagic, but this is medium pelagic in SAU
 catch<-rbind(
     read.csv('data/SAU EEZ 288 v50-1/SAU EEZ 288 v50-1.csv'),
     read.csv('data/SAU EEZ 686 v50-1/SAU EEZ 686 v50-1.csv')) %>% 
     filter(catch_type == 'Landings' & functional_group %in% sp & fishing_sector != 'Subsistence') %>% 
-    filter(end_use_type=='Direct human consumption') %>% 
-    group_by(area_name, area_type, year, fishing_sector, end_use_type) %>% 
+    # filter(end_use_type=='Direct human consumption') %>% 
+    group_by(area_name, area_type, year, fishing_sector) %>% 
     summarise(tonnes = sum(tonnes), landed_value = sum(landed_value))
 
-catch_all<-catch %>% group_by(area_name, area_type, year, end_use_type) %>% 
+catch_all<-catch %>% group_by(area_name, area_type, year) %>% 
             summarise(tonnes = sum(tonnes), landed_value = sum(landed_value))
 
 
@@ -105,3 +106,14 @@ dev.off()
 
 
 
+
+
+
+## Ghana + Senegal catches
+catch<-rbind(
+    read.csv('data/SAU EEZ 288 v50-1/SAU EEZ 288 v50-1.csv'),
+    read.csv('data/SAU EEZ 686 v50-1/SAU EEZ 686 v50-1.csv')) %>% 
+    filter(catch_type == 'Landings' & functional_group %in% sp & fishing_sector != 'Subsistence') %>% 
+    filter(end_use_type=='Fishmeal and fish oil') %>% 
+    group_by(year, area_name) %>% 
+    summarise(tonnes = sum(tonnes))
