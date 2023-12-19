@@ -7,15 +7,14 @@ source('scripts/00_plot.R')
 
 ## load data
 nut<-read.csv('data/clean/dried_nutrient_estimates_long.csv') 
-nuts<-c('lead', 'mercury', 'cadmium')#, 'arsenic')
 
 ## get nutrient units
-units<-data.frame(nutrient = nuts,
+units<-data.frame(nutrient = cons,
                   unit = 'mg')
 
 ## tidy names
 nutl<-nut %>% 
-    filter(nutrient %in% nuts) %>%
+    filter(nutrient %in% cons) %>%
     mutate(nutrient = str_to_title(nutrient)) %>% 
     rename(species = latin_name, fbname = local_name,  mu = value) %>% 
     mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 

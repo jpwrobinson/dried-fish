@@ -8,14 +8,14 @@ source('scripts/00_plot.R')
 
 ## load data
 nut<-read.csv('data/clean/dried_nutrient_estimates_long.csv') 
-nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3','folate', 'vitamin_b12')
+
 ## tidy names
 nutl<-nut %>% 
     filter(nutrient %in% nuts) %>%
     mutate(nutrient = str_to_title(nutrient)) %>% 
     rename(species = latin_name, fbname = local_name, mu = value) %>% 
     mutate(nutrient = fct_relevel(nutrient, c('Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 
-                                              'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Folate', 'Epa_dha'))) %>%
+                                              'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Epa_dha'))) %>%
     mutate(nutrient = recode(nutrient,  Epa_dha = 'Omega-3 (DHA + EPA)', 
                              Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
     mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
@@ -27,7 +27,7 @@ nutl$lab<-nutl$nutrient
 levels(nutl$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'),
                     "'Zinc, mg'",expression('Iodine, '*mu*'g'),# "'Omega-3, g'", 
                     expression('Vitamin A, '*mu*'g'),expression('Vitamin B12, '*mu*'g'),
-                    expression('Vitamin D, '*mu*'g'),expression('Folate, '*mu*'g'), "'Omega-3 (DHA+EPA), g'")
+                    expression('Vitamin D, '*mu*'g'), "'Omega-3 (DHA+EPA), g'")
 
 nutl_agg<-nutl %>% 
     group_by(species, fbname, nutrient, lab) %>% 

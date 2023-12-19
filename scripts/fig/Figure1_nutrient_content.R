@@ -7,6 +7,8 @@ source('scripts/00_plot.R')
 
 portion = 6
 pop = 'Children'
+nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
+cons<-c('lead', 'mercury', 'cadmium')
 
 # portion = 12.75
 # pop = 'Adult women'
