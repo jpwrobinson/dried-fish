@@ -5,9 +5,6 @@ source('scripts/00_plot.R')
 # portion = 12.75
 # pop = 'Children'
 
-## get RDA reference vals
-source('scripts/rda_reader.R')
-
 ## load data
 nut<-read.csv('data/clean/dried_nutrient_estimates_long.csv') 
 nuts<-c('lead', 'mercury', 'cadmium')#, 'arsenic')
