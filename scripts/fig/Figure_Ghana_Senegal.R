@@ -110,10 +110,24 @@ dev.off()
 
 
 ## Ghana + Senegal catches
-catch<-rbind(
+fmfo_catch<-rbind(
     read.csv('data/SAU EEZ 288 v50-1/SAU EEZ 288 v50-1.csv'),
     read.csv('data/SAU EEZ 686 v50-1/SAU EEZ 686 v50-1.csv')) %>% 
     filter(catch_type == 'Landings' & functional_group %in% sp & fishing_sector != 'Subsistence') %>% 
     filter(end_use_type=='Fishmeal and fish oil') %>% 
     group_by(year, area_name) %>% 
     summarise(tonnes = sum(tonnes))
+
+
+gcat<-ggplot(fmfo_catch, aes(year, tonnes, colour=fishing_sector)) +
+    geom_line() + 
+    geom_label(data = fmfo_catch %>% filter(year ==2019 & area_name =='Senegal') %>% mutate(year=2028), 
+               aes(label=fishing_sector), size=3) +
+    geom_label(data = catch_all %>% filter(year ==2019 & area_name =='Senegal') %>% mutate(year=2028, fishing_sector='Total'), 
+               aes(label=fishing_sector), size=3, colour='black') +
+    facet_wrap(~area_name) +
+    coord_cartesian(clip='off') +
+    scale_y_continuous(labels=scales::comma) +
+    scale_x_continuous(limits=c(1950, 2030)) +
+    labs(x = '', title = 'Reconstructed landings of small pelagic fishes used in FMFO') +
+    theme(legend.position ='none',  legend.title=element_blank())
