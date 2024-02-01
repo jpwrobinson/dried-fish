@@ -68,7 +68,7 @@ nga_fish<-data.frame(
     item_cd = 100:107
 )
 
-## IF WE WANT QUANTITIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER
+## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER
 nga<-nigeria %>% 
     mutate(hh_id = hhid,
            tot_hh = n_distinct(hh_id)) %>% 
@@ -78,6 +78,44 @@ nga<-nigeria %>%
     rename('quantity' = s06bq02a) %>% 
     mutate(country = 'NGA')
 
+# ------------------------ #
+#### 4. MALAWI ####
+# ------------------------ #
+mal_fish<-data.frame(
+    fish = c('Dried fish', 'Fresh fish', 'Smoked fish','Fish Soup/Sauce'),
+    form = c('dried', 'fresh', 'smoked', 'other'),
+    hh_g02 = c(502, 503, 513, 514)
+)
 
+## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER (hh_g_03b)
+mal<-malawi %>% 
+    mutate(hh_id = case_id,
+           tot_hh = n_distinct(hh_id)) %>% 
+    filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 'YES') %>% ## select fish only, and YES consumed (1)
+    select(tot_hh, hh_id, hh_g02, hh_g03a) %>% 
+    left_join(mal_fish) %>% 
+    rename('quantity' = hh_g03a) %>% 
+    mutate(country = 'MAL')
+
+
+
+# ------------------------ #
+#### 5. UGANDA ####
+# ------------------------ #
+uga_fish<-data.frame(
+    fish = c('Dried fish', 'Fresh fish', 'Smoked fish','Fish Soup/Sauce'),
+    form = c('dried', 'fresh', 'smoked', 'other'),
+    hh_g02 = c(502, 503, 513, 514)
+)
+
+## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER (hh_g_03b)
+uga<-uganda %>% 
+    mutate(hh_id = hh,
+           tot_hh = n_distinct(hh_id)) %>% 
+    # filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 'YES') %>% ## select fish only, and YES consumed (1)
+    # select(tot_hh, hh_id, hh_g02, hh_g03a) %>% 
+    left_join(uga_fish) %>%
+    # rename('quantity' = hh_g03a) %>% 
+    mutate(country = 'UGA')
 
 
