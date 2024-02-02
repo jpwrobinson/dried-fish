@@ -19,7 +19,9 @@ for(i in 1:length(files)){
 
 # Fish items are:
 civ_fish<-data.frame(
-    fish = c('Tilapia frais ( carpe grise importée)', 'Appolo frais (Chinchards)', 'Sardinelles fraiches', 'Autres poissons frais', 'Poisson fumé mangni', 'Autres Poissons fumés'),
+    fish = c('Tilapia frais ( carpe grise importée)', 'Appolo frais (Chinchards)', 'Sardinelles fraiches', 'Autres poissons frais', 
+             'Poisson fumé mangni', 'Autres Poissons fumés'),
+    form = c('fresh', 'fresh', 'fresh', 'fresh', 'smoked', 'smoked'),
     s07bq01 = 35:40)
 
 ## hh dataset: s00q04 is the rural (2) / urban (1) Q
@@ -32,7 +34,8 @@ civ<-cotedivoire %>%
     left_join(civ_fish) %>% 
     rename('fish_item' = s07bq01, 'quantity' = s07bq03a, 'code' = s07bq03b) %>% 
     left_join(read_excel('data/lsms_subset/meta/civ_unit_codes.xlsx'), by = 'code') %>% 
-    mutate(country = 'CIV')
+    mutate(country = 'CIV') %>% 
+    select(tot_hh, hh_id, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 2. SENEGAL ####
@@ -56,7 +59,8 @@ sen<-senegal %>%
     left_join(sen_fish) %>% 
     rename('fish_item' = s07bq01, 'quantity' = s07bq03a, 'code' = s07bq03b) %>% 
     left_join(read_excel('data/lsms_subset/meta/civ_unit_codes.xlsx'), by = 'code') %>% 
-    mutate(country = 'SEN')
+    mutate(country = 'SEN') %>% 
+    select(tot_hh, hh_id, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 3. NIGERIA ####
@@ -70,13 +74,14 @@ nga_fish<-data.frame(
 
 ## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER
 nga<-nigeria %>% 
-    mutate(hh_id = hhid,
+    mutate(hh_id = as.character(hhid),
            tot_hh = n_distinct(hh_id)) %>% 
     filter(item_cd %in% c(100:107) & s06bq01 == 1) %>% ## select fish only, and YES consumed (1)
     select(tot_hh, hh_id, item_cd, s06bq02a) %>% 
     left_join(nga_fish) %>% 
     rename('quantity' = s06bq02a) %>% 
-    mutate(country = 'NGA')
+    mutate(unit = NA, country = 'NGA') %>% 
+    select(tot_hh, hh_id, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 4. MALAWI ####
@@ -89,33 +94,85 @@ mal_fish<-data.frame(
 
 ## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER (hh_g_03b)
 mal<-malawi %>% 
-    mutate(hh_id = case_id,
+    mutate(hh_id = as.character(case_id),
            tot_hh = n_distinct(hh_id)) %>% 
-    filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 'YES') %>% ## select fish only, and YES consumed (1)
+    filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 'YES') %>% ## select fish only, and YES consumed
     select(tot_hh, hh_id, hh_g02, hh_g03a) %>% 
     left_join(mal_fish) %>% 
     rename('quantity' = hh_g03a) %>% 
-    mutate(country = 'MAL')
+    mutate(unit = NA, country = 'MAL') %>% 
+    select(tot_hh, hh_id, fish, form, quantity, unit, country)
 
-
+# MALAWI HAD ERRORS 
 
 # ------------------------ #
 #### 5. UGANDA ####
 # ------------------------ #
 uga_fish<-data.frame(
-    fish = c('Dried fish', 'Fresh fish', 'Smoked fish','Fish Soup/Sauce'),
-    form = c('dried', 'fresh', 'smoked', 'other'),
-    hh_g02 = c(502, 503, 513, 514)
+    fish = c('Fresh tilapia', 'Fresh Nile perch ', 'Dry/ Smoked Tilapia', 'Dry/Smoked Nile perch ',
+             'Dried Nkejje ', 'Silver Fish (Mukene) ', 'Other fresh fish ', 'Other dry/smoked fish '),
+    form = c('fresh','fresh', 'dry/smoked','dry/smoked', 'dried', 'dried', 'fresh', 'dry/smoked'),
+    CEB01 = c(1221, 1222, 1231, 1232, 1234, 1237, 1235, 1236) # note I have dropped underscores that are in PDF but not in dataset
 )
 
-## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER (hh_g_03b)
+## There were no unit codes provided
 uga<-uganda %>% 
-    mutate(hh_id = hh,
+    mutate(hh_id = as.character(hhid),
            tot_hh = n_distinct(hh_id)) %>% 
-    # filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 'YES') %>% ## select fish only, and YES consumed (1)
-    # select(tot_hh, hh_id, hh_g02, hh_g03a) %>% 
+    filter(CEB01 %in% uga_fish$CEB01 & CEB03 == 1) %>% ## select fish only, and YES consumed
+    select(tot_hh, hh_id, CEB01, CEB03C) %>%
     left_join(uga_fish) %>%
-    # rename('quantity' = hh_g03a) %>% 
-    mutate(country = 'UGA')
+    rename('quantity' = CEB03C) %>%
+    mutate(unit = NA, country = 'UGA') %>% select(-CEB01) %>% 
+    select(tot_hh, hh_id, fish, form, quantity, unit, country)
 
 
+# ------------------------ #
+#### 6. TANZANIA ####
+# ------------------------ #
+tza_fish<-data.frame(
+    fish = c('Fresh fish and seafood', 'Dried/salted fish and seafood'),
+    form = c('fresh','dried'),
+    itemcode = c(0808, 0809)
+)
+
+tza_unit<-data.frame(
+    hh_j02_1 = 1:5,
+    unit = c('kg', 'g', 'l', 'ml', 'pieces')
+)
+
+tza<-tanzania %>% 
+    mutate(hh_id = as.character(y4_hhid),
+           tot_hh = n_distinct(hh_id)) %>% 
+    filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
+    select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2) %>%
+    left_join(tza_fish) %>%
+    rename('quantity' = hh_j02_2) %>%
+    left_join(tza_unit) %>% 
+    mutate(country = 'TZA') %>% 
+    select(tot_hh, hh_id, fish, form, quantity, unit, country)
+
+
+## combine datasets
+lsms<-rbind(
+    civ, sen, nga, mal, uga, tza
+)
+
+lsms %>% group_by(country, tot_hh) %>% 
+    summarise(n_dried = n_distinct(hh_id[form %in% c('dried', 'smoked', 'dry/smoked')]),
+              n_fish = n_distinct(hh_id)) %>% 
+    mutate(prop_dried_pop = n_dried / tot_hh,
+              prop_fish_pop = n_fish / tot_hh,
+           prop_dried_of_fish = n_dried / n_fish)
+
+## Simmance stats for national total fish (dried within fish) consumption:
+# Malawi = 73% (71%)
+# Tanzania = 71% (46%)
+# Uganda = 33% (64%)
+
+## My stats for national total fish (dried within fish) consumption:
+# Malawi = NA
+# Tanzania = 75% (42%) Note that this dataset seemed like a subsample.
+# Uganda = 55% (88%) 
+
+write.csv(lsms, file = 'data/lsms_subset/lsms_all.csv', row.names=FALSE)
