@@ -87,23 +87,28 @@ nga<-nigeria %>%
 #### 4. MALAWI ####
 # ------------------------ #
 mal_fish<-data.frame(
-    fish = c('Dried fish', 'Fresh fish', 'Smoked fish','Fish Soup/Sauce'),
-    form = c('dried', 'fresh', 'smoked', 'other'),
-    hh_g02 = c(502, 503, 513, 514)
+    fish = c('Dried fish small','Dried fish medium', 'Dried fish large', 
+             'Fresh fish small', 'Fresh fish medium', 'Fresh fish large',
+             'Smoked fish small', 'Smoked fish medium', 'Smoked fish large'
+             ),
+    form = rep(c('dried', 'fresh', 'smoked'), each=3),
+    hh_g02 = c(5021, 5022, 5023, 5031,5032, 5033, 5121, 5122, 5123)
 )
+
+unit<-read.csv('data/lsms_subset/meta/malawi_ihs_foodconversion_factor_2020.csv')
 
 ## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER (hh_g_03b)
 mal<-malawi %>% 
     mutate(hh_id = as.character(case_id),
            tot_hh = n_distinct(hh_id)) %>% 
-    filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 'YES') %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, hh_g02, hh_g03a) %>% 
+    filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 1) %>% ## select fish only, and YES consumed
+    select(tot_hh, hh_id, hh_g02, hh_g03a, hh_g03b) %>% 
     left_join(mal_fish) %>% 
-    rename('quantity' = hh_g03a) %>% 
-    mutate(unit = NA, country = 'MAL') %>% 
+    rename('quantity' = hh_g03a, 'unit_code' = hh_g03b, 'item_code' = hh_g02) %>% 
+    left_join(unit %>% distinct(item_code, unit_code, unit_name, Otherunit)) %>% 
+    mutate(country = 'MAL') %>% 
+    rename('unit' = unit_name) %>% 
     select(tot_hh, hh_id, fish, form, quantity, unit, country)
-
-# MALAWI HAD ERRORS 
 
 # ------------------------ #
 #### 5. UGANDA ####
@@ -171,7 +176,7 @@ lsms %>% group_by(country, tot_hh) %>%
 # Uganda = 33% (64%)
 
 ## My stats for national total fish (dried within fish) consumption:
-# Malawi = NA
+# Malawi = 73% (86%)
 # Tanzania = 75% (42%) Note that this dataset seemed like a subsample.
 # Uganda = 55% (88%) 
 
