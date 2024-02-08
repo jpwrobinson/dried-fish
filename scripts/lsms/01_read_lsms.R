@@ -133,8 +133,10 @@ uga<-uganda %>%
 
 
 # ------------------------ #
-#### 6. TANZANIA ####
+#### 6. TANZANIA EXTENDED (2013-16) ####
 # ------------------------ #
+# https://microdata.worldbank.org/index.php/catalog/3455
+
 tza_fish<-data.frame(
     fish = c('Fresh fish and seafood', 'Dried/salted fish and seafood'),
     form = c('fresh','dried'),
@@ -146,7 +148,7 @@ tza_unit<-data.frame(
     unit = c('kg', 'g', 'l', 'ml', 'pieces')
 )
 
-tza<-tanzania %>% 
+tza<-tanzaniaExt %>% 
     mutate(hh_id = as.character(y4_hhid),
            tot_hh = n_distinct(hh_id)) %>% 
     filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
@@ -157,6 +159,36 @@ tza<-tanzania %>%
     mutate(country = 'TZA') %>% 
     select(tot_hh, hh_id, fish, form, quantity, unit, country)
 
+# ------------------------ #
+#### 6. TANZANIA (2014-15) ####
+# ------------------------ #
+# https://microdata.worldbank.org/index.php/catalog/2862/get-microdata
+
+tza_fish<-data.frame(
+    fish = c('Fresh fish and seafood', 'Dried/salted fish and seafood'),
+    form = c('fresh','dried'),
+    itemcode = c(0808, 0809)
+)
+
+tza_unit<-data.frame(
+    hh_j02_1 = 1:5,
+    unit = c('kg', 'g', 'l', 'ml', 'pieces')
+)
+
+tza2<-tanzania %>% 
+    mutate(hh_id = as.character(y4_hhid),
+           tot_hh = n_distinct(hh_id)) %>% 
+    filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
+    select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2) %>%
+    left_join(tza_fish) %>%
+    rename('quantity' = hh_j02_2) %>%
+    left_join(tza_unit) %>% 
+    mutate(country = 'TZA') %>% 
+    select(tot_hh, hh_id, fish, form, quantity, unit, country)
+
+# combine tza sample size so these are one country sample
+tza<-rbind(tza, tza2) %>% 
+    mutate(tot_hh = sum(unique(tot_hh)), .before=hh_id)
 
 ## combine datasets
 lsms<-rbind(
@@ -177,7 +209,7 @@ lsms %>% group_by(country, tot_hh) %>%
 
 ## My stats for national total fish (dried within fish) consumption:
 # Malawi = 73% (86%)
-# Tanzania = 75% (42%) Note that this dataset seemed like a subsample.
+# Tanzania = 75% (39%)
 # Uganda = 55% (88%) 
 
 write.csv(lsms, file = 'data/lsms_subset/lsms_all.csv', row.names=FALSE)
