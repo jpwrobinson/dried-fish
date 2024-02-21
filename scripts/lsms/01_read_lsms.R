@@ -147,30 +147,38 @@ mal<-malawi %>%
 # ------------------------ #
 #### 5. UGANDA ####
 # ------------------------ #
-uga_fish<-data.frame(
+uga_fish_1819<-data.frame(
     fish = c('Fresh tilapia', 'Fresh Nile perch ', 'Dry/ Smoked Tilapia', 'Dry/Smoked Nile perch ',
              'Dried Nkejje ', 'Silver Fish (Mukene) ', 'Other fresh fish ', 'Other dry/smoked fish '),
     form = c('fresh','fresh', 'dry/smoked','dry/smoked', 'dried', 'dried', 'fresh', 'dry/smoked'),
     CEB01 = c(1221, 1222, 1231, 1232, 1234, 1237, 1235, 1236) # note I have dropped underscores that are in PDF but not in dataset
 )
 
+uga_fish_1011<-data.frame(
+    fish = c('Fresh fish', 'Dry/Smoked fish'),
+    form = c('fresh', 'dry/smoked'),
+    h15bq2 = c(122,123)
+)
+
+
 ## There were no unit codes provided
+## NO FISH IN SURVEY LOOKS TRUNCATED
 uga<-uganda %>% 
-    mutate(hh_id = as.character(hhid),
+    mutate(hh_id = as.character(hh),
            tot_hh = n_distinct(hh_id)) %>% 
-    filter(CEB01 %in% uga_fish$CEB01 & CEB03 == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, CEB01, CEB03C) %>%
-    left_join(uga_fish) %>%
+    filter(h15bq2 %in% uga_fish$h15bq2 & h15bq3a == 1) %>% ## select fish only, and YES consumed
+    select(tot_hh, hh_id, h15bq2, h15bq3c, h15bq4) %>%
+    left_join(uga_fish_1011) %>%
     left_join(read.csv('data/lsms_subset/gps/uganda_UNPS_Geovars_1011.csv') %>%
                   mutate(hh_id = as.character(HHID), lat = lat_mod, lon = lon_mod) %>%
                   select(hh_id, lat, lon),
               by = 'hh_id') %>%
-    # left_join(read.csv('data/lsms_subset/urban-rural/uganda_GSEC1.csv') %>%
-    #               mutate(hh_id = as.character(hhid), urban_rural = ifelse(urban == ??, 'rural', 'urban')) %>%
-    #               select(hh_id, urban_rural), by = 'hh_id') %>%
-    rename('quantity' = CEB03C) %>%
-    mutate(unit = NA, country = 'UGA') %>% select(-CEB01) %>% 
-    select(tot_hh, hh_id, lat, lon, fish, form, quantity, unit, country)
+    left_join(read.csv('data/lsms_subset/urban-rural/uganda_GSEC1.csv') %>%
+                  mutate(hh_id = as.character(HHID), urban_rural = ifelse(urban == 0, 'rural', 'urban')) %>%
+                  select(hh_id, urban_rural), by = 'hh_id') %>%
+    rename('unit' = h15bq3c, 'quantity' = h15bq4) %>%
+    mutate(country = 'UGA') %>% 
+    select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
 
 
 # ------------------------ #

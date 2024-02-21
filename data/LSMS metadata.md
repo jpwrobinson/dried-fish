@@ -7,6 +7,7 @@
   * fish is Fresh or Dry/Smoked (code 122?)
   * Rural / urban in geovars csv below (urban = 1, other urban = 2, rural = 3)
   * GPS is in UNPS_Geovars_112.csv
+  * Note that more recent surveys exist, with better fish coverage, but no GPS data
 * Senegal = Enquête Harmonisée sur le Conditions de Vie des Ménages 2018-2019 [same values for Côte d'Ivoire]
 
   * fish recorded in species and processing within S7b_Conso_Al
