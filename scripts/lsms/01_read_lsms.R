@@ -186,31 +186,27 @@ uga<-uganda %>%
 # ------------------------ #
 # https://microdata.worldbank.org/index.php/catalog/3455
 
-tza_fish<-data.frame(
-    fish = c('Fresh fish and seafood', 'Dried/salted fish and seafood'),
-    form = c('fresh','dried'),
-    itemcode = c(0808, 0809)
-)
-
-tza_unit<-data.frame(
-    hh_j02_1 = 1:5,
-    unit = c('kg', 'g', 'l', 'ml', 'pieces')
-)
-
-tza<-tanzaniaExt %>% 
-    mutate(hh_id = as.character(y4_hhid),
-           tot_hh = n_distinct(hh_id)) %>% 
-    filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2) %>%
-    left_join(tza_fish) %>%
-    left_join(read.csv('data/lsms_subset/gps/tanzania_npsy4.ea.offset.csv') %>% 
-                  mutate(hh_id = as.character(clusterid), lat = lat_modified, lon = lon_modified) %>% 
-                  select(hh_id, lat, lon),
-              by = 'hh_id') %>%
-    rename('quantity' = hh_j02_2) %>%
-    left_join(tza_unit) %>% 
-    mutate(country = 'TZA') %>% 
-    select(tot_hh, hh_id, fish, form, quantity, unit, country)
+# tza_fish<-data.frame(
+#     fish = c('Fresh fish and seafood', 'Dried/salted fish and seafood'),
+#     form = c('fresh','dried'),
+#     itemcode = c(0808, 0809)
+# )
+# 
+# tza_unit<-data.frame(
+#     hh_j02_1 = 1:5,
+#     unit = c('kg', 'g', 'l', 'ml', 'pieces')
+# )
+# 
+# tza<-tanzaniaExt %>% 
+#     mutate(hh_id = as.character(y4_hhid),
+#            tot_hh = n_distinct(hh_id)) %>% 
+#     filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
+#     select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2) %>%
+#     left_join(tza_fish) %>%
+#     rename('quantity' = hh_j02_2) %>%
+#     left_join(tza_unit) %>% 
+#     mutate(country = 'TZA') %>% 
+#     select(tot_hh, hh_id, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 6. TANZANIA (2014-15) ####
@@ -233,11 +229,18 @@ tza2<-tanzania %>%
            tot_hh = n_distinct(hh_id)) %>% 
     filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
     select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2) %>%
+    left_join(read.csv('data/lsms_subset/urban-rural/tanzania_hh_sec_a.csv') %>%
+                  mutate(hh_id = as.character(y4_hhid), urban_rural = ifelse(y4_rural == 1, 'rural', 'urban')) %>%
+                  select(hh_id, clusterid, urban_rural), by = 'hh_id') %>%
     left_join(tza_fish) %>%
+    left_join(read.csv('data/lsms_subset/gps/tanzania_npsy4.ea.offset.csv') %>% 
+                  mutate(lat = lat_modified, lon = lon_modified) %>% 
+                  select(clusterid, lat, lon),
+              by = 'clusterid') %>%
     rename('quantity' = hh_j02_2) %>%
     left_join(tza_unit) %>% 
     mutate(country = 'TZA') %>% 
-    select(tot_hh, hh_id, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon,urban_rural, fish, form, quantity, unit, country)
 
 # combine tza sample size so these are one country sample
 tza<-rbind(tza, tza2) %>% 

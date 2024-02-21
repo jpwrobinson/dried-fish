@@ -15,8 +15,8 @@
   * Rural / ubran is Milieu de residence (s00q04 in s00_me_sen2018.csv)
 * Tanzania = National Panel Survey 2014-2015
   * Fresh or dried/salted fish, including dagaa in both categories (codes 0808 and 0809)
-  * GPS is in npsy4.ea file
-  * Rural / urban in hh_sec_a
+  * GPS is in npsy4.ea file, but not provided for extended dataset
+  * Rural / urban in hh_sec_a (y4_rural: urban = 0, rural = 1)
 * Malawi = Fifth Integrated Household Survey 2019-2020
   * Fresh or dried fish (502 and 503 in G_001????)
   * GPS data in householdgeovariables_ihs5.csv BUT DOESNT SEEM TO MATCH
@@ -36,6 +36,12 @@ Ghana = Socioeconomic Panel Survey: 2009-2010.
 
 * fish recorded, but only FISH or CANNED/TIN FISH
 * other surveys from 20th century
+
+MALAWI - no match but ID looks same format
+
+UGANDA - no fish data looks truncated
+
+TANZANIA - need to find rural/urban
 
 
 
