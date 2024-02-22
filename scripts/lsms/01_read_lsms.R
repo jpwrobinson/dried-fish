@@ -157,17 +157,16 @@ uga_fish_1819<-data.frame(
 uga_fish_1011<-data.frame(
     fish = c('Fresh fish', 'Dry/Smoked fish'),
     form = c('fresh', 'dry/smoked'),
-    h15bq2 = c(122,123)
+    itmcd = c(122,123)
 )
 
 
-## There were no unit codes provided
-## NO FISH IN SURVEY LOOKS TRUNCATED
+## Unit codes are https://microdata.worldbank.org/index.php/catalog/2166/variable/F82/V1230?name=untcd
 uga<-uganda %>% 
     mutate(hh_id = as.character(hh),
            tot_hh = n_distinct(hh_id)) %>% 
-    filter(h15bq2 %in% uga_fish$h15bq2 & h15bq3a == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, h15bq2, h15bq3c, h15bq4) %>%
+    filter(itmcd %in% uga_fish_1011$itmcd & h15bq3a == 1) %>% ## select fish only, and YES consumed
+    select(tot_hh, hh_id, itmcd, untcd, h15bq14) %>%
     left_join(uga_fish_1011) %>%
     left_join(read.csv('data/lsms_subset/gps/uganda_UNPS_Geovars_1011.csv') %>%
                   mutate(hh_id = as.character(HHID), lat = lat_mod, lon = lon_mod) %>%
@@ -176,7 +175,7 @@ uga<-uganda %>%
     left_join(read.csv('data/lsms_subset/urban-rural/uganda_GSEC1.csv') %>%
                   mutate(hh_id = as.character(HHID), urban_rural = ifelse(urban == 0, 'rural', 'urban')) %>%
                   select(hh_id, urban_rural), by = 'hh_id') %>%
-    rename('unit' = h15bq3c, 'quantity' = h15bq4) %>%
+    rename('unit' = untcd, 'quantity' = h15bq14) %>%
     mutate(country = 'UGA') %>% 
     select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
 
@@ -229,10 +228,12 @@ tza2<-tanzania %>%
            tot_hh = n_distinct(hh_id)) %>% 
     filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
     select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2) %>%
-    left_join(read.csv('data/lsms_subset/urban-rural/tanzania_hh_sec_a.csv') %>%
-                  mutate(hh_id = as.character(y4_hhid), urban_rural = ifelse(y4_rural == 1, 'rural', 'urban')) %>%
-                  select(hh_id, clusterid, urban_rural), by = 'hh_id') %>%
+    left_join(read.csv('data/lsms_subset/urban-rural/tanzania_consumptionNPS4.csv') %>%
+                  mutate(hh_id = as.character(y4_hhid), urban_rural = ifelse(urban == 1, 'rural', 'urban')) %>%
+                  select(hh_id, urban_rural), by = 'hh_id') %>%
     left_join(tza_fish) %>%
+    left_join(read.csv('data/lsms_subset/urban-rural/tanzania_hh_sec_a.csv') %>% 
+                  mutate(hh_id = as.character(y4_hhid)) %>% select(hh_id, clusterid), by = 'hh_id') %>% 
     left_join(read.csv('data/lsms_subset/gps/tanzania_npsy4.ea.offset.csv') %>% 
                   mutate(lat = lat_modified, lon = lon_modified) %>% 
                   select(clusterid, lat, lon),
