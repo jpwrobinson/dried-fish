@@ -133,8 +133,8 @@ mal<-malawi %>%
     left_join(mal_fish) %>% 
     rename('quantity' = hh_g03a, 'unit_code' = hh_g03b, 'item_code' = hh_g02) %>% 
     left_join(unit %>% distinct(item_code, unit_code, unit_name, Otherunit)) %>% 
-    left_join(read.csv('data/lsms_subset/gps/malawi_householdgeovariables_ihs5.csv') %>% 
-                  mutate(hh_id = as.character(case_id), lat = ea_lat_mod, lon = ea_lon_mod) %>% 
+    left_join(read.csv('data/lsms_subset/gps/malawi_householdgeovariables_ihs4.csv') %>% 
+                  mutate(hh_id = as.character(case_id), lat = lat_modified, lon = lon_modified) %>% 
                   select(hh_id, lat, lon),
               by = 'hh_id') %>% 
     # left_join(read.csv('data/lsms_subset/urban-rural/nigeria_secta_cover.csv') %>% 

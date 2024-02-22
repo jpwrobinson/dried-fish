@@ -19,7 +19,7 @@
   * Rural / urban in hh_sec_a (y4_rural: urban = 0, rural = 1)
 * Malawi = Fifth Integrated Household Survey 2019-2020
   * Fresh or dried fish (502 and 503 in G_001????)
-  * GPS data in householdgeovariables_ihs5.csv BUT DOESNT SEEM TO MATCH
+  * GPS data in householdgeovariables_ihs5.csv but this didn't match well, so using geo data from ihs4.csv
   * No rural / urban metric
 * Ivory Coast = Enquête Harmonisée sur le Conditions de Vie des Ménages 2018-2019
   * fish recorded in species and processing within S7b_Conso_Al (codes 35-40,  39 and 40 are smoked)
