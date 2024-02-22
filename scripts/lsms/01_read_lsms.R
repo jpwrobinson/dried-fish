@@ -229,8 +229,8 @@ tza2<-tanzania %>%
            tot_hh = n_distinct(hh_id)) %>% 
     filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
     select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2) %>%
-    left_join(read.csv('data/lsms_subset/urban-rural/tanzania_hh_sec_a.csv') %>%
-                  mutate(hh_id = as.character(y4_hhid), urban_rural = ifelse(y4_rural == 1, 'rural', 'urban')) %>%
+    left_join(read.csv('data/lsms_subset/urban-rural/tanzania_consumptionNPS4.csv') %>%
+                  mutate(hh_id = as.character(y4_hhid), clusterid = cluster, urban_rural = ifelse(urban == 1, 'rural', 'urban')) %>%
                   select(hh_id, clusterid, urban_rural), by = 'hh_id') %>%
     left_join(tza_fish) %>%
     left_join(read.csv('data/lsms_subset/gps/tanzania_npsy4.ea.offset.csv') %>% 
