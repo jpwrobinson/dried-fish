@@ -137,12 +137,12 @@ mal<-malawi %>%
                   mutate(hh_id = as.character(case_id), lat = lat_modified, lon = lon_modified) %>% 
                   select(hh_id, lat, lon),
               by = 'hh_id') %>% 
-    # left_join(read.csv('data/lsms_subset/urban-rural/nigeria_secta_cover.csv') %>% 
-    #               mutate(hh_id = as.character(hhid), urban_rural = ifelse(sector == 2, 'rural', 'urban')) %>% 
-    #               select(hh_id, urban_rural), by = 'hh_id') %>% 
+    left_join(read.csv('data/lsms_subset/urban-rural/malawi_hh_mod_a_filt.csv') %>%
+                  mutate(hh_id = as.character(case_id), urban_rural = ifelse(reside == 'RURAL', 'rural', 'urban')) %>%
+                  select(hh_id, urban_rural), by = 'hh_id') %>%
     mutate(country = 'MAL') %>% 
     rename('unit' = unit_name) %>% 
-    select(tot_hh, hh_id, lat, lon, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 5. UGANDA ####
