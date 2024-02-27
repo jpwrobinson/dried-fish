@@ -14,11 +14,11 @@ cons<-c('lead', 'mercury', 'cadmium')
 # pop = 'Adult women'
 
 # panel a = change in nutrient content relative to fresh samples
-source('scripts/fig/Figure1a_fresh_contrast.R')
+# source('scripts/fig/Figure1a_fresh_contrast.R')
 # panel b = nutrient density by species and form
-source('scripts/fig/Figure1b_nutrient_density.R')
+# source('scripts/fig/Figure1b_nutrient_density.R')
 # panel c = processed forms RNI radars
-source('scripts/fig/Figure1c_dried_rni.R')
+# source('scripts/fig/Figure1c_dried_rni.R')
 # sup fig = species radar plots for RNI
 source('scripts/fig/FigureSX_rni_species.R')
 # sup fig = portion size plots for RNI

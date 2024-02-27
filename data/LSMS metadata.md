@@ -36,11 +36,3 @@ Ghana = Socioeconomic Panel Survey: 2009-2010.
 
 * fish recorded, but only FISH or CANNED/TIN FISH
 * other surveys from 20th century
-
-
-
-
-
-MALAWI - no match but ID looks same format
-
-For missing GPS, use previous or later panels for data.
