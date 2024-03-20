@@ -1,0 +1,81 @@
+"Sample","Element","Category","Unit","Type","Transformation","mean","sd","se"
+"E1","As","Heavy Metal","μg/kg","Pelagic","Dried",12790.7766727128,612.547596211512,353.654519564175
+"E1","Ca","Macromineral","mg/kg","Pelagic","Dried",21096.5338241985,1588.9760417095,917.395745416844
+"E1","Cd","Heavy Metal","μg/kg","Pelagic","Dried",667.969649225073,36.9718240513248,21.3456925684639
+"E1","Fe","Micromineral","μg/kg","Pelagic","Dried",2161715.32128527,496078.272106748,286410.923939956
+"E1","Hg","Heavy Metal","μg/kg","Pelagic","Dried",15.7658763204609,2.83666569381537,1.63774970192528
+"E1","Pb","Heavy Metal","μg/kg","Pelagic","Dried",1269.0949929331,80.8917636317591,46.7028815080197
+"E1","Se","Micromineral","μg/kg","Pelagic","Dried",2202.22557217796,173.379126511839,100.100485363472
+"E1","Vitamin A","Vitamin","μg/100g","Pelagic","Dried",0,0,0
+"E2","As","Heavy Metal","μg/kg","Pelagic","Dried",11467.1092555113,193.517284088116,111.727256061119
+"E2","Ca","Macromineral","mg/kg","Pelagic","Dried",35426.6067873813,953.314513059122,550.396390737061
+"E2","Cd","Heavy Metal","μg/kg","Pelagic","Dried",1358.56882389955,46.3480459144196,26.7590567851033
+"E2","Fe","Micromineral","μg/kg","Pelagic","Dried",1062329.27772161,67212.3431597008,38805.0644161188
+"E2","Hg","Heavy Metal","μg/kg","Pelagic","Dried",17.7710896409,1.27776590525538,0.73771848936052
+"E2","Pb","Heavy Metal","μg/kg","Pelagic","Dried",658.423698851587,107.325040454713,61.9641409973161
+"E2","Se","Micromineral","μg/kg","Pelagic","Dried",1866.95628379158,86.507576071084,49.9451723315824
+"E2","Vitamin A","Vitamin","μg/100g","Pelagic","Dried",0,0,0
+"E3","As","Heavy Metal","μg/kg","Pelagic","Dried",2551.12676173497,76.785904221544,44.3323624722773
+"E3","Ca","Macromineral","mg/kg","Pelagic","Dried",25819.8693197691,1146.35329235039,661.84738192491
+"E3","Cd","Heavy Metal","μg/kg","Pelagic","Dried",38.0316538807361,1.2500020276246,0.721689007136641
+"E3","Fe","Micromineral","μg/kg","Pelagic","Dried",208211.592435565,12790.985306066,7384.87880965773
+"E3","Hg","Heavy Metal","μg/kg","Pelagic","Dried",38.8530432463807,1.81321208994577,1.04685848822807
+"E3","Pb","Heavy Metal","μg/kg","Pelagic","Dried",104.265868175433,20.4341545329359,11.797664620253
+"E3","Se","Micromineral","μg/kg","Pelagic","Dried",3054.18519697397,153.343924288362,88.5331559664796
+"E3","Vitamin A","Vitamin","μg/100g","Pelagic","Dried",0,0,0
+"C1","As","Heavy Metal","μg/kg","Pelagic","Dried",8868.19227507994,176.484948167847,101.893632332624
+"C1","Ca","Macromineral","mg/kg","Pelagic","Dried",56869.6721966042,162.672221822951,93.918851059155
+"C1","Cd","Heavy Metal","μg/kg","Pelagic","Dried",1417.47042137921,5.26876625186222,3.04192361380987
+"C1","Fe","Micromineral","μg/kg","Pelagic","Dried",139748.767698158,7627.24837261286,4403.59390110417
+"C1","Hg","Heavy Metal","μg/kg","Pelagic","Dried",17.2446261467281,0.488016818321961,0.281756641427249
+"C1","Pb","Heavy Metal","μg/kg","Pelagic","Dried",290.481584277508,75.9871810556691,43.8712194374514
+"C1","Se","Micromineral","μg/kg","Pelagic","Dried",3629.43395706128,48.4551438588027,27.9755903505018
+"C1","Vitamin A","Vitamin","μg/100g","Pelagic","Dried",0,0,0
+"C2","As","Heavy Metal","μg/kg","Pelagic","Dried",960.392601226214,226.068682988803,130.52081497893
+"C2","Ca","Macromineral","mg/kg","Pelagic","Dried",29691.7255025976,1838.15758105272,1061.26077423374
+"C2","Cd","Heavy Metal","μg/kg","Pelagic","Dried",55.8999027917168,8.38055315628032,4.83851462073641
+"C2","Fe","Micromineral","μg/kg","Pelagic","Dried",1680018.17525508,184503.854048122,106523.349801207
+"C2","Hg","Heavy Metal","μg/kg","Pelagic","Dried",155.438409392574,11.5498871094777,6.66833043176673
+"C2","Pb","Heavy Metal","μg/kg","Pelagic","Dried",935.288724935833,207.100946466552,119.56978719189
+"C2","Se","Micromineral","μg/kg","Pelagic","Dried",1884.4340602798,119.498340725701,68.9923991856968
+"C2","Vitamin A","Vitamin","μg/100g","Pelagic","Dried",0,0,0
+"C3","As","Heavy Metal","μg/kg","Pelagic","Dried",887.308531627523,186.931428399051,107.924910506194
+"C3","Ca","Macromineral","mg/kg","Pelagic","Dried",33970.6261444589,2661.88137006971,1536.8379255606
+"C3","Cd","Heavy Metal","μg/kg","Pelagic","Dried",40.7225014217767,5.02575229367473,2.90161943963348
+"C3","Fe","Micromineral","μg/kg","Pelagic","Dried",394795.016303502,22476.6650325296,12976.908607016
+"C3","Hg","Heavy Metal","μg/kg","Pelagic","Dried",277.422564119338,20.0882850858153,11.5979768018534
+"C3","Pb","Heavy Metal","μg/kg","Pelagic","Dried",251.424332193474,18.174643460064,10.4931352940934
+"C3","Se","Micromineral","μg/kg","Pelagic","Dried",3743.70525783836,390.470159448754,225.438051668255
+"C3","Vitamin A","Vitamin","μg/100g","Pelagic","Dried",0,0,0
+"M1","As","Heavy Metal","μg/kg","Mixed","Dried",7596.78011593942,556.839402330362,321.491378830825
+"M1","Ca","Macromineral","mg/kg","Mixed","Dried",66704.1296342926,9198.37024359692,5310.68153624652
+"M1","Cd","Heavy Metal","μg/kg","Mixed","Dried",384.383612811939,32.1877613110843,18.5836126575659
+"M1","Fe","Micromineral","μg/kg","Mixed","Dried",438183.822096953,32293.223546156,18644.5013073739
+"M1","Hg","Heavy Metal","μg/kg","Mixed","Dried",19.6011338661338,5.68041849497001,3.27959114718066
+"M1","Pb","Heavy Metal","μg/kg","Mixed","Dried",465.634838101161,69.3883872253453,40.0614040431871
+"M1","Se","Micromineral","μg/kg","Mixed","Dried",2562.68149971345,175.279091254648,101.197430519184
+"M1","Vitamin A","Vitamin","μg/100g","Mixed","Dried",0,0,0
+"M2","As","Heavy Metal","μg/kg","Mixed","Dried",2755.0483627899,55.4329306631064,32.0042174403143
+"M2","Ca","Macromineral","mg/kg","Mixed","Dried",45632.1811804708,9830.9462296632,5675.89945208478
+"M2","Cd","Heavy Metal","μg/kg","Mixed","Dried",136.406663724337,15.3884744250804,8.88453985173784
+"M2","Fe","Micromineral","μg/kg","Mixed","Dried",1112955.39688729,227818.639800283,131531.153015108
+"M2","Hg","Heavy Metal","μg/kg","Mixed","Dried",62.4996846931399,20.1876206734695,11.6553282301257
+"M2","Pb","Heavy Metal","μg/kg","Mixed","Dried",721.570813070994,419.840490928691,242.395020454384
+"M2","Se","Micromineral","μg/kg","Mixed","Dried",2446.53925375162,807.702396272616,466.327195913101
+"M2","Vitamin A","Vitamin","μg/100g","Mixed","Dried",0,0,0
+"F1","As","Heavy Metal","μg/kg","Freshwater","Dried",535.929327663659,235.638379659904,136.045881928053
+"F1","Ca","Macromineral","mg/kg","Freshwater","Dried",46788.0509656383,4471.65524978446,2581.71136218626
+"F1","Cd","Heavy Metal","μg/kg","Freshwater","Dried",53.8128031489583,35.5243983608971,20.5100209564635
+"F1","Fe","Micromineral","μg/kg","Freshwater","Dried",592204.797203987,20258.642476757,11696.3326873721
+"F1","Hg","Heavy Metal","μg/kg","Freshwater","Dried",86.8834061431667,37.6515628326509,21.7381399368411
+"F1","Pb","Heavy Metal","μg/kg","Freshwater","Dried",355.56887321497,117.239887980987,67.6884808855846
+"F1","Se","Micromineral","μg/kg","Freshwater","Dried",1258.81077685714,376.815124311376,217.554313455895
+"F1","Vitamin A","Vitamin","μg/100g","Freshwater","Dried",0,0,0
+"F2","As","Heavy Metal","μg/kg","Freshwater","Smoked",89.4747484094471,23.1217758294786,13.3493634992916
+"F2","Ca","Macromineral","mg/kg","Freshwater","Smoked",33751.9245523247,2211.12570202012,1276.59401927342
+"F2","Cd","Heavy Metal","μg/kg","Freshwater","Smoked",76.9011415901752,4.75785303125442,2.74694772835942
+"F2","Fe","Micromineral","μg/kg","Freshwater","Smoked",596850.804077143,7581.17844155326,4376.99541400536
+"F2","Hg","Heavy Metal","μg/kg","Freshwater","Smoked",298.16878979806,2.53722688291871,1.46486862384827
+"F2","Pb","Heavy Metal","μg/kg","Freshwater","Smoked",596.023740542673,38.520406936613,22.2397673141475
+"F2","Se","Micromineral","μg/kg","Freshwater","Smoked",2502.79355600743,130.194497474929,75.1678281641581
+"F2","Vitamin A","Vitamin","μg/100g","Freshwater","Smoked",131.666666666667,3.75011110946507,2.16512765854066

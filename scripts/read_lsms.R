@@ -111,7 +111,7 @@ nga<-nigeria %>%
     select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
 
 # ------------------------ #
-#### 4. MALAWI ####
+#### 4. MALAWI IHS4 16/17 ####
 # ------------------------ #
 mal_fish<-data.frame(
     fish = c('Dried fish small','Dried fish medium', 'Dried fish large', 
@@ -140,7 +140,7 @@ mal<-malawi %>%
     left_join(read.csv('data/lsms_subset/urban-rural/malawi_hh_mod_a_filt.csv') %>%
                   mutate(hh_id = as.character(case_id), urban_rural = ifelse(reside == 'RURAL', 'rural', 'urban')) %>%
                   select(hh_id, urban_rural), by = 'hh_id') %>%
-    mutate(country = 'MAL') %>% 
+    mutate(country = 'MWI') %>% 
     rename('unit' = unit_name) %>% 
     select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
 
@@ -244,13 +244,13 @@ tza2<-tanzania %>%
     select(tot_hh, hh_id, lat, lon,urban_rural, fish, form, quantity, unit, country)
 
 # combine tza sample size so these are one country sample
-tza<-rbind(tza, tza2) %>% 
-    mutate(tot_hh = sum(unique(tot_hh)), .before=hh_id)
+# tza<-rbind(tza, tza2) %>% 
+#     mutate(tot_hh = sum(unique(tot_hh)), .before=hh_id)
 
 ## combine datasets
 lsms<-rbind(
     civ, sen, #nga,
-    mal, uga, tza
+    mal, uga, tza2
 )
 
 lsms %>% group_by(country, tot_hh) %>% 
