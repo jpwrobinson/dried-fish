@@ -3,10 +3,12 @@ library(sf)
 library(rnaturalearth)
 library(tmap)
 
-lsms<-read.csv(file = 'data/lsms_subset/lsms_all.csv') %>% 
+lsms<-read.csv(file = 'data/lsms_subset/lsms_fish.csv') %>% 
     mutate(form2 = ifelse(form %in% c('dried', 'dry/smoked', 'smoked'), 'dried', form)) %>% 
     group_by(hh_id, form2, lat, lon, country) %>% 
     summarise(n = length(unique(form2))) 
+
+hh<-read.csv(file = 'data/lsms_subset/lsms_all_hh.csv')
   
 # check prop dried by country  
 lsms %>% 
@@ -26,6 +28,11 @@ w<-ne_download(scale = 10, type = 'countries', category = 'cultural') %>%
     filter(ADM0_A3 %in% lsms$country)
 
 ls_points<-lsms %>% 
+    filter(!is.na(lat) & form2 == 'dried') %>% 
+    st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% 
+    st_transform(ber_proj4) 
+
+hh_points<-hh %>% 
     filter(!is.na(lat)) %>% 
     st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% 
     st_transform(ber_proj4) 
@@ -38,13 +45,29 @@ inland <- st_read("data/maps/8ark3lcpfw_GLWD_level1/glwd_1.shp",
 inlandB <- st_transform(inland,ber_proj4)
 
 
-tm_shape(w) + 
+g1<-tm_shape(w) + 
     # tm_grid() +
     tm_borders() +
     tm_facets(by = 'SUBREGION') +
     tm_shape(inlandB) +
     tm_polygons(col = 'lightblue') +
+    tm_shape(hh_points %>% filter(!hh_id %in% ls_points$hh_id)) + 
+    tm_dots(alpha=0.5) +
     tm_shape(ls_points %>% filter(form2=='dried')) +
-    tm_dots() 
+    tm_dots( col='red', size=0.01) +
+    tm_layout(main.title = 'Households consuming dried fish (red), over all households surveyed (black)')
 
+g2<-tm_shape(w) + 
+    # tm_grid() +
+    tm_borders() +
+    tm_facets(by = 'SUBREGION') +
+    tm_shape(inlandB) +
+    tm_polygons(col = 'lightblue') +
+    tm_shape(hh_points) + 
+    tm_dots(alpha=0.5) +
+    tm_layout(main.title = 'Households surveyed by LSMS')
 
+pdf(file = 'fig/map/lsms_household_surveys.pdf', height=7, width=12)
+print(g1)
+print(g2)
+dev.off()
