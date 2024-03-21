@@ -13,7 +13,7 @@ fig_fresh_contrast<-function(dat){
                                  Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) 
 
     # save fresh samples, convert fresh values to dry weight equivalents
-    fresh<-nut %>% filter(form == 'Fresh') %>% 
+    fresh<-nut %>% filter(form == 'Fresh') %>%
         group_by(id, latin_name, local_name, nutrient) %>% 
         summarise(value = mean(value), dry_matter_g_100g = mean(dry_matter_g_100g)) %>% 
         ungroup() %>% rowwise() %>% 

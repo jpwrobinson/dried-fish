@@ -70,6 +70,7 @@ norway_read<-function(path, filesave, metat){
                nutrient = str_replace_all(nutrient, '_mg_kg', ''),
                nutrient = str_replace_all(nutrient, '_percent_g_100g', '')) %>% 
         mutate(value = ifelse(str_detect(value, '<'), NA, as.numeric(value)),
+                dry_matter_g_100g = as.numeric(dry_matter_g_100g),
                nutrient = recode(nutrient, v = 'vanadium', cr = 'chromium', mn = 'manganese',
                                  fe = 'iron', co = 'cobalt', ni = 'nickel', cu = 'copper', zn = 'zinc',
                                  as = 'arsenic', se = 'selenium', mo = 'molybdenum', ag = 'silver', cd = 'cadmium',

@@ -25,7 +25,7 @@ source('scripts/fig/fig_contaminant_species.R')
 source('scripts/fig/fig_contaminant_content.R')
 source('scripts/dried_fish_maps.R')
 
-nutl<-read.csv('data/clean/dried_nutrient_estimates_long.csv')
+# tar_load(nut_data)
 
 list(
     # read and clean nutrient dataset
@@ -61,7 +61,7 @@ list(
         fig1a = figND, fig1b = figRNI_avg,
         figS1 = figContrast,
         figS2 = figRNI_species,
-        figS3 = figPortionSize,
+        figS3 = figPortionSize[[2]],
         figS4 = figRNI_forms,
         figS5 = figContam,
         figS6 = figContamS

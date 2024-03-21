@@ -92,8 +92,9 @@ figPortion<-function(dat){
         scale_x_continuous(expand=c(0.01,0.01), breaks=c(1,5,10,seq(20,80,by=20))) +
         scale_y_continuous(expand=c(0,0))
 
-    print(
-        plot_grid(gg_source, gg_source_hist, nrow =1, labels = c('a', 'b'))
+    list(
+        plot_grid(gg_source, gg_source_hist, nrow =1, labels = c('a', 'b')),
+        gg_port
         )
 
 }

@@ -22,7 +22,7 @@ figs<-function(fig1a, fig1b, figS1, figS2, figS3, figS4, figS5, figS6){
     dev.off()
 
 
-    pdf(file = 'fig/FigureS3.pdf', height =5, width=17)
+    pdf(file = 'fig/FigureS3.pdf', height =3, width=17)
     print(
         figS3
     )
