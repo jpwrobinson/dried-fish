@@ -1,7 +1,7 @@
 
-fig1c<-function(dat){
+fig_dried_rni<-function(dat){
     ## tidy names
-    nutl<-nut %>% 
+    nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%
         mutate(nutrient = str_to_title(nutrient)) %>% 
         rename(species = latin_name, fbname = local_name, mu = value) %>% 

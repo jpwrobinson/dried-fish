@@ -1,7 +1,13 @@
 library(targets)
 source('scripts/00_plot.R')
+
+## data cleaning functions
 source('scripts/norway_clean.R')
 source('scripts/read_nutrient_data.R')
+source('scripts/read_lsms_data.R')
+
+## spatial processing functions
+source('scripts/water_prox.R')
 
 portion = 6
 pop = 'Children'
@@ -9,11 +15,14 @@ nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1',
 cons<-c('lead', 'mercury', 'cadmium')
 
 # figure functions
-source('scripts/fig/Figure1a_fresh_contrast.R')
-source('scripts/fig/Figure1b_nutrient_density.R')
-source('scripts/fig/Figure1c_dried_rni.R')
-source('scripts/fig/FigureSX_rni_species.R')
-source('scripts/fig/FigureSX_portion_size.R')
+source('scripts/fig/fig_fresh_contrast.R')
+source('scripts/fig/fig_nutrient_density.R')
+source('scripts/fig/fig_dried_rni.R')
+source('scripts/fig/fig_rni_species.R')
+source('scripts/fig/fig_portion_size.R')
+source('scripts/fig/fig_contaminant_species.R')
+source('scripts/fig/fig_contaminant_content.R')
+source('scripts/dried_fish_maps.R')
 
 list(
     # read and clean nutrient dataset
@@ -23,19 +32,40 @@ list(
                                      metat = meta_dry)),
     
     # figures on nutrient values
-    # panel a = change in nutrient content relative to fresh samples
-    tar_target(fig1a, fig1a(nut_data)),
-    # panel b = nutrient density by species and form
-    tar_target(fig1b, fig1b(nut_data)),
-    # panel c = processed forms RNI radars
-    tar_target(fig1c, fig1c(nut_data)),
+
+    # Figure 1
+    # nutrient density by species and form
+    tar_target(figND, fig_ndensity(nut_data)),
+    # processed forms RNI radars
+    tar_target(figRNI, fig_dried_rni(nut_data)),
+
     
-    # sup fig = species radar plots for RNI
-    tar_target(figRNI, figRNI(nut_data)),
-    # sup fig = portion size plots for RNI
-    tar_target(figPortion, figPortion(nut_data))
+    # Sup Figures
+    # change in nutrient content relative to fresh samples
+    tar_target(figContrast, fig_fresh_contrast(nut_data)),    
+    # species radar plots for RNI
+    tar_target(figRNI_species, figRNI(nut_data)),
+    # portion size plots for RNI
+    tar_target(figPortion, figPortion(nut_data)),
+    # contaminant levels
+    tar_target(figContam, figContaminants(nut_data)),
+    # contaminant levels by species
+    tar_target(figContamS, figContaminants_Species(nut_data)),
     
+    ## compile figures
+    tar_target(figAll, figs(
+        fig1a = figND, fig1b = figRNI,
+        figS1 = figContrast,
+        figS2 = figRNI_species,
+        figS3 = figPortion,
+        figS4 = figContam,
+        figS5 = figContamS
+    )),
     
+    # lsms household maps
+    tar_target(lsms_data, lsms_read(path = 'data/lsms_subset/lsms_fish.csv')),
+    tar_target(lsms_map_hh, lsms_map_hh(lsms_data)),
+    tar_target(lsms_proximity, water_prox(lsms_data))
     
     
 )

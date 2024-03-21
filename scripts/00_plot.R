@@ -1,6 +1,9 @@
 library(tidyverse)
 library(cowplot)
 library(ggradar)
+library(sf)
+library(rnaturalearth)
+library(tmap)
 options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
 
 source('scripts/theme_sleek.R')

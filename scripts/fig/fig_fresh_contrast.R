@@ -1,4 +1,4 @@
-fig1a<-function(dat){
+fig_fresh_contrast<-function(dat){
     nut<-dat
         filter(nutrient %in% c(nuts, cons)) %>% 
         mutate(id = paste(nutrient, latin_name),
