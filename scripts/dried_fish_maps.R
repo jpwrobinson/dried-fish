@@ -31,7 +31,7 @@ ls_points<-lsms %>%
     st_transform(ber_proj4) 
 
 # overlay lakes
-inland <- st_read("data/population/8ark3lcpfw_GLWD_level1/glwd_1.shp",
+inland <- st_read("data/maps/8ark3lcpfw_GLWD_level1/glwd_1.shp",
                   crs = 4326) #4326 = WGS84
 
 #Berhmann projection so units become meters.
@@ -42,6 +42,8 @@ tm_shape(w) +
     # tm_grid() +
     tm_borders() +
     tm_facets(by = 'SUBREGION') +
+    tm_shape(inlandB) +
+    tm_polygons(col = 'lightblue') +
     tm_shape(ls_points %>% filter(form2=='dried')) +
     tm_dots() 
 
