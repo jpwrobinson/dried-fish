@@ -1,7 +1,7 @@
 
 fig_ndensity<-function(dat){
     ## tidy names
-    nutl<-nut %>% 
+    nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%
         mutate(nutrient = str_to_title(nutrient)) %>% 
         rename(species = latin_name, fbname = local_name, mu = value) %>% 
@@ -35,7 +35,7 @@ fig_ndensity<-function(dat){
                rni_pregnant = mu/rni_pregnant*100)
 
     ## arrange data
-    dat<-nutl_agg %>% 
+    datter<-nutl_agg %>% 
         mutate(rni = case_when(str_detect(pop, 'Children') ~ rni_kids, 
                                str_detect(pop, 'Adult women')~rni_women,
                                str_detect(pop, 'Adult men')~rni_men,
@@ -52,7 +52,7 @@ fig_ndensity<-function(dat){
                env = ifelse(location %in% c('Mombasa', "Accra"), 'Marine', 'Freshwater'))
 
 
-    g1B<-ggplot(dat, aes(fct_reorder(id, density), density, fill=form)) + 
+    g1B<-ggplot(datter, aes(fct_reorder(id, density), density, fill=form)) + 
             geom_bar(stat='identity', position = 'dodge') + 
             geom_text(aes(label = env), nudge_y = 4, size = 2, hjust=0) +
             scale_fill_manual(values=pcols_named)  +

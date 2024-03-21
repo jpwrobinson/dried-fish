@@ -1,6 +1,6 @@
 figRNI<-function(dat){
     ## tidy names
-    nutl<-nut %>% 
+    nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%
         mutate(nutrient = str_to_title(nutrient)) %>% 
         rename(species = latin_name, fbname = local_name, mu = value) %>% 
@@ -36,7 +36,7 @@ figRNI<-function(dat){
 
 
     ## arrange data
-    dat<-nutl_agg %>% 
+    datter<-nutl_agg %>% 
         mutate(rni = case_when(str_detect(pop, 'Children') ~ rni_kids, 
                                str_detect(pop, 'Adult women')~rni_women,
                                str_detect(pop, 'Adult men')~rni_men,
@@ -45,7 +45,7 @@ figRNI<-function(dat){
         ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
         mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni))
 
-    sp<-unique(dat$species)
+    sp<-rev(sort(unique(datter$species)))
     sp<-sp[!sp == '']
 
     th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
@@ -53,7 +53,7 @@ figRNI<-function(dat){
 
     for(i in 1:length(sp)){
         
-        plotter<-dat[,c('form', 'nutrient', 'rni', 'species')] %>% 
+        plotter<-datter[,c('form', 'nutrient', 'rni', 'species')] %>% 
             filter(species == sp[i]) %>% select(-species) %>% 
             filter(form != 'Fresh') %>% # drop fresh
             mutate(rni = ifelse(is.na(rni), 0, rni)) %>% 
@@ -80,7 +80,6 @@ figRNI<-function(dat){
             
         } else {
             ## Top-left guide
-            # names(plotter)[10]<-'Vitamin B9'
             gg<-ggradar(plotter, 
                         group.colours = pcols,
                         base.size = 1,
@@ -98,7 +97,7 @@ figRNI<-function(dat){
         assign(paste('gg', i, sep = '_'), gg)
     }
 
-    gg_leg<-ggradar(dat %>% filter(form %in% unique(dat$form)) %>% distinct(form, nutrient) %>% 
+    gg_leg<-ggradar(datter %>% filter(form %in% unique(datter$form)) %>% distinct(form, nutrient) %>% 
                         mutate(rni = 0) %>% 
                         pivot_wider(names_from = nutrient, values_from = rni), 
                     fill=TRUE) + guides(color='none') + scale_fill_manual(values=pcols_named[-1]) 

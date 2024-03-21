@@ -26,11 +26,11 @@ figContaminant_Species<-function(dat){
 
 
     ## arrange data
-    dat<-nutl_agg %>% 
+    datter<-nutl_agg %>% 
         mutate(exposure = exposure/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
         mutate(exposure = case_when(exposure > 1 ~ 1, TRUE ~ exposure)) ## cap limits for plot - but note some forms are more than 100% limit
 
-    sp<-unique(dat$species)
+    sp<-unique(datter$species)
     sp<-sp[!sp == '']
 
     th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
@@ -38,7 +38,7 @@ figContaminant_Species<-function(dat){
 
     for(i in 1:length(sp)){
         
-        plotter<-dat[,c('form', 'nutrient', 'exposure', 'species')] %>% 
+        plotter<-datter[,c('form', 'nutrient', 'exposure', 'species')] %>% 
             filter(species == sp[i]) %>% select(-species) %>% 
             filter(form != 'Fresh') %>% 
             mutate(exposure = ifelse(is.na(exposure), 0, exposure)) %>% 
@@ -81,10 +81,12 @@ figContaminant_Species<-function(dat){
         assign(paste('gg', i, sep = '_'), gg)
     }
 
-    gg_leg<-ggradar(dat %>% filter(form %in% unique(dat$form)) %>% distinct(form, nutrient) %>% 
+    gg_leg<-ggradar(datter %>% filter(form %in% unique(datter$form)) %>% distinct(form, nutrient) %>% 
                         mutate(exposure = 0) %>% 
                         pivot_wider(names_from = nutrient, values_from = exposure), 
-                    fill=TRUE) + guides(color='none') + scale_fill_manual(values=pcols_named[-1]) 
+                    fill=TRUE) + 
+            guides(color='none') + 
+            scale_fill_manual(values=pcols_named[-1]) 
 
     pl<-list(gg_1, gg_2, gg_3, gg_4, gg_5, gg_6, gg_7, gg_8, gg_9, gg_10, gg_11, get_legend(gg_leg))
     gSX<-plot_grid(plotlist=pl)

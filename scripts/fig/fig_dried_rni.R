@@ -36,7 +36,7 @@ fig_dried_rni<-function(dat){
                )
 
     ## arrange data
-    dat<-nutl_agg %>% 
+    datter<-nutl_agg %>% 
         mutate(rni = case_when(str_detect(pop, 'Children') ~ rni_kids, 
                                str_detect(pop, 'Adult women')~rni_women,
                                str_detect(pop, 'Adult men')~rni_men,
@@ -54,7 +54,7 @@ fig_dried_rni<-function(dat){
     ## main fig with smoked + sun-dried
     forms<-c('Smoked', 'Sun-dried')
         
-    plotter<-dat[,c('form', 'nutrient', 'rni')] %>% 
+    plotter<-datter[,c('form', 'nutrient', 'rni')] %>% 
             filter(form %in% forms) %>% #select(-form) %>% 
             mutate(rni = ifelse(is.na(rni), 0, rni)) %>% 
             group_by(form) %>% 
@@ -89,10 +89,10 @@ fig_dried_rni<-function(dat){
 
 
     ## sup fig with all forms
-    forms<-unique(dat$form)
+    forms<-unique(datter$form)
     for(i in 1:length(forms)){
         
-        plotter<-dat[,c('form', 'nutrient', 'rni')] %>% 
+        plotter<-datter[,c('form', 'nutrient', 'rni')] %>% 
             filter(form == forms[i]) %>% #select(-form) %>% 
             mutate(rni = ifelse(is.na(rni), 0, rni)) %>% 
             group_by(form) %>% 
@@ -120,13 +120,14 @@ fig_dried_rni<-function(dat){
                 # add source food = 15% line
                 annotate("path", col='darkred', linetype=5,
                          x=c(0,0)+.26*cos(seq(0,2*pi,length.out=100)),
-                         y=c(0,0)+.26*sin(seq(0,2*pi,length.out=100))) +
-                annotate('text', x = -.9, y = 0.1, label = 'Source of nutrient --------', col='darkred', size=3)
+                         y=c(0,0)+.26*sin(seq(0,2*pi,length.out=100))) 
+                # annotate('text', x = -.9, y = 0.1, label = 'Source of nutrient --------', col='darkred', size=3)
             
         assign(paste('gg', i, sep = '_'), gg)
     }
 
     gS1B<-plot_grid(gg_1, gg_2, gg_3, gg_4, gg_5, nrow=1)
-    print(gS1B)
+    
+    return(list(g1C,gS1B))
 
 }

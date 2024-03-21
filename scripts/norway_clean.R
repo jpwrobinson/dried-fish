@@ -84,20 +84,22 @@ norway_read<-function(path, filesave, metat){
     write.csv(metat, file = paste0('data/clean/', filesave, '_wide.csv'), row.names=FALSE)
     write.csv(datl, file = paste0('data/clean/', filesave, '_long.csv'), row.names=FALSE)
     
-    ## summary plots
-    if(filesave=='tilapia_nutrient_estimates'){datl$form<-'Fresh'}
-    agg<-datl %>%
-        group_by(nutrient, form) %>%
-        mutate(n = length(value)) %>% ungroup() %>%  
-        mutate(id = paste(form, paste('N =', n), sep = '\n'),
-               nut_id = paste(nutrient, unit))
+    # ## summary plots
+    # if(filesave=='tilapia_nutrient_estimates'){datl$form<-'Fresh'}
+    # agg<-datl %>%
+    #     group_by(nutrient, form) %>%
+    #     mutate(n = length(value)) %>% ungroup() %>%  
+    #     mutate(id = paste(form, paste('N =', n), sep = '\n'),
+    #            nut_id = paste(nutrient, unit))
     
-    g1<-ggplot(agg, aes(form, value, fill = form)) +
-        geom_boxplot(outlier.size=1) + 
-        labs(x = '', y = 'concentration') +
-        facet_wrap(~nut_id, scales='free_y')
+    # g1<-ggplot(agg, aes(form, value, fill = form)) +
+    #     geom_boxplot(outlier.size=1) + 
+    #     labs(x = '', y = 'concentration') +
+    #     facet_wrap(~nut_id, scales='free_y')
     
-    pdf(file = paste0('fig/nutrient_summaries/summary_',filesave, '.pdf'), height=7, width=18)
-    print(g1)
-    dev.off()
+    # pdf(file = paste0('fig/nutrient_summaries/summary_',filesave, '.pdf'), height=7, width=18)
+    # print(g1)
+    # dev.off()
+
+    return(datl)
 }

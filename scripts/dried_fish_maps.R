@@ -17,7 +17,7 @@ lsms_map_hh<-function(dat){
         mutate(NAME = recode(NAME, 'Dem. Rep. Congo' = 'Congo DR',
                              'Guinea-Bissau' = 'Guinea Bissau'))  %>% 
         filter(CONTINENT == 'Africa' & SUBREGION!='Northern Africa') %>% 
-        filter(ADM0_A3 %in% lsms$country)
+        filter(ADM0_A3 %in% dat$country)
     
     ls_points<-dat %>% 
         filter(!is.na(lat) & form2 == 'dried') %>% 

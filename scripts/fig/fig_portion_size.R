@@ -1,7 +1,7 @@
 
 figPortion<-function(dat){
     ## tidy names
-    nutl<-nut %>% 
+    nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%
         mutate(nutrient = str_to_title(nutrient)) %>% 
         rename(species = latin_name, fbname = local_name, mu = value) %>% 
@@ -38,7 +38,7 @@ figPortion<-function(dat){
     portions<-seq(1, 100, by = .1)
     porter<-numeric()
     for(i in 1:length(portions)){
-        dat<-nutl_agg %>% ungroup() %>% 
+        datter<-nutl_agg %>% ungroup() %>% 
             mutate(rni = case_when(str_detect(pop, 'Children') ~ rni_kids, 
                                    str_detect(pop, 'Adult women')~rni_women,
                                    str_detect(pop, 'Adult men')~rni_men,
@@ -49,7 +49,7 @@ figPortion<-function(dat){
             group_by(lab, nutrient, form) %>% 
             summarise(rni = mean(rni))
         
-        porter<-rbind(porter, dat %>% mutate(portion = portions[i]) %>% as.data.frame())
+        porter<-rbind(porter, datter %>% mutate(portion = portions[i]) %>% as.data.frame())
     }
 
 
@@ -91,5 +91,9 @@ figPortion<-function(dat){
         geom_vline(xintercept = 6, linetype=5, col='grey') +
         scale_x_continuous(expand=c(0.01,0.01), breaks=c(1,5,10,seq(20,80,by=20))) +
         scale_y_continuous(expand=c(0,0))
+
+    print(
+        plot_grid(gg_source, gg_source_hist, nrow =1, labels = c('a', 'b'))
+        )
 
 }

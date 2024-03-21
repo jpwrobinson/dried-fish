@@ -1,4 +1,4 @@
-figContaminants<-function(dat){
+figContaminant<-function(dat){
 
     nutl<-dat %>% 
         filter(nutrient %in% cons) %>%
@@ -25,20 +25,20 @@ figContaminants<-function(dat){
 
 
     ## arrange data
-    dat<-nutl_agg %>% 
+    datter<-nutl_agg %>% 
         mutate(exposure = exposure/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
         mutate(exposure = case_when(exposure > 1 ~ 1, TRUE ~ exposure)) %>% ## cap limits for plot - but note some forms are more than 100% limit
         group_by(form, nutrient) %>% 
         summarise(exposure = mean(exposure, na.rm = TRUE))
 
-    forms<-unique(dat$form)
+    forms<-unique(datter$form)
 
     th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
               legend.position = 'none') 
 
     for(i in 1:length(forms)){
         
-        plotter<-dat[,c('form', 'nutrient', 'exposure')] %>% 
+        plotter<-datter[,c('form', 'nutrient', 'exposure')] %>% 
             filter(form == forms[i]) %>% select(-form) %>% 
             mutate(exposure = ifelse(is.na(exposure), 0, exposure)) %>% 
             pivot_wider(names_from = nutrient, values_from = exposure) 
