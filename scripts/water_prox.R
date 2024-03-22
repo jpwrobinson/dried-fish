@@ -55,5 +55,5 @@ tm_shape(w) +
     tm_borders() +
     tm_shape(inland) +
     tm_polygons(col = 'lightblue') +
-    tm_shape(ls_points[1,]) +
+    tm_shape(ls_points %>% filter(hh_id == '99096')) +
     tm_dots(alpha=0.5)
