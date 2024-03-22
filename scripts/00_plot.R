@@ -5,6 +5,8 @@ library(sf)
 library(rnaturalearth)
 library(tmap)
 library(raster)
+library(brms)
+library(rethinking)
 options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
 
 source('scripts/theme_sleek.R')

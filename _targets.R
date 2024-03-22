@@ -4,11 +4,13 @@ source('scripts/00_plot.R')
 ## data cleaning functions
 source('scripts/norway_clean.R')
 source('scripts/read_nutrient_data.R')
-source('scripts/read_lsms_data.R')
+source('scripts/read_lsms_data.R') # note that LSMS files are loaded outside of targets in read_lsms.R
 
 ## spatial processing functions
 source('scripts/water_prox.R')
+source('scripts/city_prox.R')
 
+# nutrient arguments
 portion = 6
 pop = 'Children'
 nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
@@ -26,6 +28,7 @@ source('scripts/fig/fig_contaminant_content.R')
 source('scripts/dried_fish_maps.R')
 
 # tar_load(nut_data)
+# tar_load(lsms_data)
 
 list(
     # read and clean nutrient dataset
@@ -38,7 +41,8 @@ list(
     # lsms household maps
     tar_target(lsms_data, lsms_read(path = 'data/lsms_subset/lsms_fish.csv')),
     tar_target(lsms_map, lsms_map_hh(lsms_data)),
-    tar_target(lsms_proximity, water_prox(lsms_data)),
+    tar_target(lsms_water, water_prox(lsms_data)),
+    tar_target(lsms_proximity, city_prox(lsms_water)),
     
     
     # figures on nutrient values

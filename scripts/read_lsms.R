@@ -39,6 +39,11 @@ civ<-cotedivoire %>%
     left_join(read.csv('data/lsms_subset/urban-rural/cotedivoire_s00_me_civ2018.csv') %>% 
                   mutate(hh_id = paste(vague, grappe, menage, sep = '_'), urban_rural = ifelse(s00q04 == 2, 'rural', 'urban')) %>% 
                   select(hh_id, urban_rural), by = 'hh_id') %>% 
+    left_join(read.csv('data/lsms_subset/household/cotedivoire_s01_me_civ2018.csv') %>% 
+        mutate(hh_id = paste(vague, grappe, menage, sep = '_')) %>% 
+        group_by(hh_id) %>% 
+        summarise(n_hh = length(s01q00a), n_adult = length(s01q00a[s01q04a>15]), n_children = length(s01q00a[s01q04a<16])) %>%
+        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'CIV') 
 
 civ_hh<-civ %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
@@ -54,6 +59,8 @@ civ_fish<-civ %>%
 # ------------------------ #
 #### 2. SENEGAL ####
 # ------------------------ #
+# Enquête Harmonisée sur le Conditions de Vie des Ménages 2018-2019 
+# https://microdata.worldbank.org/index.php/catalog/4297
 
 ## This is same format as CIV, but different fish groups
 ## Fish items are:
@@ -77,6 +84,11 @@ sen<-senegal %>%
     left_join(read.csv('data/lsms_subset/urban-rural/senegal_s00_me_sen2018.csv') %>% 
                   mutate(hh_id = paste(vague, grappe, menage, sep = '_'), urban_rural = ifelse(s00q04 == 2, 'rural', 'urban')) %>% 
                   select(hh_id, urban_rural), by = 'hh_id') %>% 
+    left_join(read.csv('data/lsms_subset/household/senegal_s01_me_sen2018.csv') %>% 
+        mutate(hh_id = paste(vague, grappe, menage, sep = '_')) %>% 
+        group_by(hh_id) %>% 
+        summarise(n_hh = length(s01q00a), n_adult = length(s01q00a[s01q04a>15]), n_children = length(s01q00a[s01q04a<16])) %>%
+        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'SEN')
 
 sen_hh<-sen %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
@@ -93,6 +105,7 @@ sen_fish<-sen %>%
 #### 3. NIGERIA ####
 # General Household Survey Wave 4 2018-2019 
 # ------------------------ #
+# https://microdata.worldbank.org/index.php/catalog/3557
 nga_fish<-data.frame(
     fish = c('Fish - fresh', 'Fish - frozen', 'Fish - smoked', 'Fish - dried', 'Snails', 
       'Seafood (lobster, crab, prawns, etc)', 'Canned fish/seafood', 'Other fish or seafood (specify)'),
@@ -112,6 +125,12 @@ nga<-nigeria %>%
     left_join(read.csv('data/lsms_subset/urban-rural/nigeria_secta_cover.csv') %>% 
                   mutate(hh_id = as.character(hhid), urban_rural = ifelse(sector == 2, 'rural', 'urban')) %>% 
                   select(hh_id, urban_rural), by = 'hh_id') %>% 
+    left_join(read.csv('data/lsms_subset/household/nigeria_sect1_harvestw4.csv') %>% 
+        mutate(hh_id = as.character(hhid)) %>% 
+        filter(s1q4a == 1) %>% # only current HH members
+        group_by(hh_id) %>% 
+        summarise(n_hh = length(indiv), n_adult = length(indiv[s1q4>15]), n_children = length(indiv[s1q4<16])) %>%
+        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'NGA')
     
 nga_hh<-nga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
@@ -128,6 +147,8 @@ nga_fish<-nga %>%
 # ------------------------ #
 #### 4. MALAWI IHS4 16/17 ####
 # ------------------------ #
+# Fourth Integrated Household Survey 2016-2017
+# https://microdata.worldbank.org/index.php/catalog/2936/data-dictionary
 mal_fish<-data.frame(
     fish = c('Dried fish small','Dried fish medium', 'Dried fish large', 
              'Fresh fish small', 'Fresh fish medium', 'Fresh fish large',
@@ -150,6 +171,11 @@ mal<-malawi %>%
     left_join(read.csv('data/lsms_subset/urban-rural/malawi_hh_mod_a_filt.csv') %>%
                   mutate(hh_id = as.character(case_id), urban_rural = ifelse(reside == 'RURAL', 'rural', 'urban')) %>%
                   select(hh_id, urban_rural), by = 'hh_id') %>%
+    left_join(read.csv('data/lsms_subset/household/malawi_hh_mod_b.csv') %>% 
+        mutate(hh_id = as.character(case_id)) %>% 
+        group_by(hh_id) %>% 
+        summarise(n_hh = length(PID), n_adult = length(PID[hh_b05a>15]), n_children = length(PID[hh_b05a<16])) %>%
+        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'MWI') 
 
 mal_hh<-mal %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
@@ -166,6 +192,7 @@ mal_fish<-mal %>%
 # ------------------------ #
 #### 5. UGANDA ####
 # ------------------------ #
+# National Panel Survey 2010-2011 
 uga_fish_1819<-data.frame(
     fish = c('Fresh tilapia', 'Fresh Nile perch ', 'Dry/ Smoked Tilapia', 'Dry/Smoked Nile perch ',
              'Dried Nkejje ', 'Silver Fish (Mukene) ', 'Other fresh fish ', 'Other dry/smoked fish '),
@@ -191,6 +218,11 @@ uga<-uganda %>%
     left_join(read.csv('data/lsms_subset/urban-rural/uganda_GSEC1.csv') %>%
                   mutate(hh_id = as.character(HHID), urban_rural = ifelse(urban == 0, 'rural', 'urban')) %>%
                   select(hh_id, urban_rural), by = 'hh_id') %>%
+    left_join(read.csv('data/lsms_subset/household/uganda_GSEC2.csv') %>% 
+        mutate(hh_id = as.character(HHID)) %>% 
+        group_by(hh_id) %>% 
+        summarise(n_hh = length(h2q1), n_adult = length(h2q1[h2q8>15]), n_children = length(h2q1[h2q8<16])) %>%
+        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'UGA')
     
 uga_hh<-uga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
@@ -234,6 +266,7 @@ uga_fish<-uga %>%
 # ------------------------ #
 #### 6. TANZANIA (2014-15) ####
 # ------------------------ #
+# National Panel Survey 2014-2015, Wave 4 
 # https://microdata.worldbank.org/index.php/catalog/2862/get-microdata
 
 tza_fish<-data.frame(
@@ -259,6 +292,11 @@ tza<-tanzania %>%
                   mutate(lat = lat_modified, lon = lon_modified) %>% 
                   select(clusterid, lat, lon),
               by = 'clusterid') %>%
+    left_join(read.csv('data/lsms_subset/household/tanzania_ag_sec_01.csv') %>% 
+        mutate(hh_id = as.character(y4_hhid)) %>% 
+        group_by(hh_id) %>% 
+        summarise(n_hh = length(indidy4), n_adult = length(indidy4[ag01_02>15]), n_children = length(indidy4[ag01_02<16])) %>% 
+        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'TZA')
 
 tza_hh<-tza %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)

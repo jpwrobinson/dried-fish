@@ -1,4 +1,4 @@
-water_prox<-function(data){
+water_prox<-function(dat){
     
     
     ## function to calculate distance to water body
@@ -44,16 +44,16 @@ water_prox<-function(data){
         
     
     dat<-dat %>% 
-        mutate(distance_to_marine = dist_marine, distance_to_inland = dist_inland) %>% 
+        mutate(distance_to_marine = dists$distance_to_marine, distance_to_inland = dists$distance_to_inland) %>% 
         rowwise() %>% 
         mutate(proximity_to_water_km = min(distance_to_marine, distance_to_inland)/1000)
     
     return(dat)
 }
 
-tm_shape(w) +
-    tm_borders() +
-    tm_shape(inland) +
-    tm_polygons(col = 'lightblue') +
-    tm_shape(ls_points %>% filter(hh_id == '99096')) +
-    tm_dots(alpha=0.5)
+# tm_shape(w) +
+#     tm_borders() +
+#     tm_shape(inland) +
+#     tm_polygons(col = 'lightblue') +
+#     tm_shape(ls_points %>% filter(hh_id == '99096')) +
+#     tm_dots(alpha=0.5)
