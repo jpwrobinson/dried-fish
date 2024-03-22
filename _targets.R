@@ -34,6 +34,13 @@ list(
                                      filesave='dried_nutrient_estimates',
                                      metat = meta_dry)),
     
+    
+    # lsms household maps
+    tar_target(lsms_data, lsms_read(path = 'data/lsms_subset/lsms_fish.csv')),
+    tar_target(lsms_map, lsms_map_hh(lsms_data)),
+    tar_target(lsms_proximity, water_prox(lsms_data)),
+    
+    
     # figures on nutrient values
 
     # Figure 1
@@ -65,13 +72,7 @@ list(
         figS4 = figRNI_forms,
         figS5 = figContam,
         figS6 = figContamS
-    )),
-    
-    # lsms household maps
-    tar_target(lsms_data, lsms_read(path = 'data/lsms_subset/lsms_fish.csv')),
-    tar_target(lsms_map, lsms_map_hh(lsms_data)),
-    tar_target(lsms_proximity, water_prox(lsms_data))
-    
+    ))
     
 )
 
