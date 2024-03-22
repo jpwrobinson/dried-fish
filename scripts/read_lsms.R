@@ -2,8 +2,10 @@
 library(tidyverse)
 library(readxl)
 
+source('scripts/lsms_fish_codes.R')
+
 ## load in food consumption tables and name
-files<-list.files('data/lsms_subset') %>% str_subset('meta|gps|urban-rural|lsms_all.csv', negate=TRUE)
+files<-list.files('data/lsms_subset') %>% str_subset('meta|gps|household|urban-rural|lsms_all.csv', negate=TRUE)
 for(i in 1:length(files)){
     df<-read.csv(paste0('data/lsms_subset/', files[i]))
     assign(str_split_fixed(files[i], '_', n = 2)[1], df)
@@ -17,13 +19,6 @@ for(i in 1:length(files)){
 # Column s07bq03a is "What is the total quantity of [PRODUCT] consumed by the household in the last 7 days?
 # Column s07bq03b is the unit for "What is the total quantity of [PRODUCT] consumed by the household in the last 7 days? 
 # Column s07bq03c is ???? (takes integers 0 - 6 suggesting it is a code)
-
-# Fish items are:
-civ_fish<-data.frame(
-    fish = c('Tilapia frais ( carpe grise importée)', 'Appolo frais (Chinchards)', 'Sardinelles fraiches', 'Autres poissons frais', 
-             'Poisson fumé mangni', 'Autres Poissons fumés'),
-    form = c('fresh', 'fresh', 'fresh', 'fresh', 'smoked', 'smoked'),
-    s07bq01 = 35:40)
 
 ## hh dataset: s00q04 is the rural (2) / urban (1) Q
 
@@ -43,34 +38,24 @@ civ<-cotedivoire %>%
         mutate(hh_id = paste(vague, grappe, menage, sep = '_')) %>% 
         group_by(hh_id) %>% 
         summarise(n_hh = length(s01q00a), n_adult = length(s01q00a[s01q04a>15]), n_children = length(s01q00a[s01q04a<16])) %>%
-        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
+        select(hh_id, n_hh), by ='hh_id') %>% 
     mutate(country = 'CIV') 
 
-civ_hh<-civ %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
+civ_hh<-civ %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
 
 civ_fish<-civ %>%
     filter(s07bq01 %in% c(35:40)) %>% 
-    select(country, tot_hh, hh_id, hh_id2, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural) %>% 
-    left_join(civ_fish) %>% 
+    select(country, tot_hh, hh_id, hh_id2, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, n_hh) %>% 
+    left_join(civ_fish_code) %>% 
     rename('fish_item' = s07bq01, 'quantity' = s07bq03a, 'code' = s07bq03b) %>% 
     left_join(read_excel('data/lsms_subset/meta/civ_unit_codes.xlsx'), by = 'code') %>% 
-    select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 2. SENEGAL ####
 # ------------------------ #
 # Enquête Harmonisée sur le Conditions de Vie des Ménages 2018-2019 
 # https://microdata.worldbank.org/index.php/catalog/4297
-
-## This is same format as CIV, but different fish groups
-## Fish items are:
-sen_fish<-data.frame(
-    fish = c('Poisson frais yaboye ou obo (sardinelle)','Poisson frais thiof/ seudeu (baracouda)','Poisson frais wass ',
-             'Autre Poisson frais (dorade, youfouf, rouget, siket [capitaine], thiarumbekh [mollette], …..)',
-             'Poisson fumé Kethiakh (sardinelle)','Autre Poisson fumé (Con fumé, yaboye ou obo fumé, …)',
-             'Poisson séché','Crabes, crevettes et autres fruits de mer','Conserves de poisson '),
-    form = c('fresh', 'fresh', 'fresh', 'fresh', 'smoked', 'smoked', 'dried', 'invertebrates', 'canned'),
-    s07bq01 = 35:43)
 
 sen<-senegal %>% 
     mutate(hh_id = paste(vague, grappe, menage, sep = '_'),
@@ -91,27 +76,21 @@ sen<-senegal %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'SEN')
 
-sen_hh<-sen %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
+sen_hh<-sen %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
 
 sen_fish<-sen %>%
     filter(s07bq01 %in% c(35:43)) %>%
     select(tot_hh, hh_id, hh_id2, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, country) %>% 
-    left_join(sen_fish) %>% 
+    left_join(sen_fish_code) %>% 
     rename('fish_item' = s07bq01, 'quantity' = s07bq03a, 'code' = s07bq03b) %>% 
     left_join(read_excel('data/lsms_subset/meta/civ_unit_codes.xlsx'), by = 'code') %>% 
-    select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 3. NIGERIA ####
 # General Household Survey Wave 4 2018-2019 
 # ------------------------ #
 # https://microdata.worldbank.org/index.php/catalog/3557
-nga_fish<-data.frame(
-    fish = c('Fish - fresh', 'Fish - frozen', 'Fish - smoked', 'Fish - dried', 'Snails', 
-      'Seafood (lobster, crab, prawns, etc)', 'Canned fish/seafood', 'Other fish or seafood (specify)'),
-    form = c('fresh', 'frozen', 'smoked', 'dried', 'invertebrates', 'invertebrates', 'canned', 'other'),
-    item_cd = 100:107
-)
 
 ## IF WE WANT QUANTIFIED, NEED TO PULL UNIT CODES WHICH ARE IN PDF IN /meta FOLDER
 ## Note there is a Living Standards Survey in same year but this did not have GPS data (with 22000 households, compared to 5000 in the GHS)
@@ -133,15 +112,15 @@ nga<-nigeria %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'NGA')
     
-nga_hh<-nga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
+nga_hh<-nga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
 
 nga_fish<-nga %>% 
     filter(item_cd %in% c(100:107) & s10bq1 == 1) %>% ## select fish only, and YES consumed (1)
-    select(tot_hh, hh_id, item_cd, s10bq2a, lat, lon, urban_rural, country) %>% 
-    left_join(nga_fish) %>% 
+    select(tot_hh, hh_id, item_cd, s10bq2a, lat, lon, urban_rural, n_hh, country) %>% 
+    left_join(nga_fish_code) %>% 
     rename('quantity' = s10bq2a) %>% 
     mutate(unit = NA) %>% 
-    select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 
 # ------------------------ #
@@ -149,14 +128,6 @@ nga_fish<-nga %>%
 # ------------------------ #
 # Fourth Integrated Household Survey 2016-2017
 # https://microdata.worldbank.org/index.php/catalog/2936/data-dictionary
-mal_fish<-data.frame(
-    fish = c('Dried fish small','Dried fish medium', 'Dried fish large', 
-             'Fresh fish small', 'Fresh fish medium', 'Fresh fish large',
-             'Smoked fish small', 'Smoked fish medium', 'Smoked fish large'
-             ),
-    form = rep(c('dried', 'fresh', 'smoked'), each=3),
-    hh_g02 = c(5021, 5022, 5023, 5031,5032, 5033, 5121, 5122, 5123)
-)
 
 unit<-read.csv('data/lsms_subset/meta/malawi_ihs_foodconversion_factor_2020.csv')
 
@@ -178,34 +149,21 @@ mal<-malawi %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'MWI') 
 
-mal_hh<-mal %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
+mal_hh<-mal %>% distinct(hh_id, tot_hh, lat, lon, urban_rural,n_hh, country)
 
 mal_fish<-mal %>% 
     filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, hh_g02, hh_g03a, hh_g03b, lat, lon, urban_rural, country) %>% 
-    left_join(mal_fish) %>% 
+    select(tot_hh, hh_id, hh_g02, hh_g03a, hh_g03b, lat, lon, urban_rural,n_hh, country) %>% 
+    left_join(mal_fish_code) %>% 
     rename('quantity' = hh_g03a, 'unit_code' = hh_g03b, 'item_code' = hh_g02) %>% 
     left_join(unit %>% distinct(item_code, unit_code, unit_name, Otherunit)) %>%
     rename('unit' = unit_name) %>% 
-    select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon, urban_rural,n_hh, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 5. UGANDA ####
 # ------------------------ #
 # National Panel Survey 2010-2011 
-uga_fish_1819<-data.frame(
-    fish = c('Fresh tilapia', 'Fresh Nile perch ', 'Dry/ Smoked Tilapia', 'Dry/Smoked Nile perch ',
-             'Dried Nkejje ', 'Silver Fish (Mukene) ', 'Other fresh fish ', 'Other dry/smoked fish '),
-    form = c('fresh','fresh', 'dry/smoked','dry/smoked', 'dried', 'dried', 'fresh', 'dry/smoked'),
-    CEB01 = c(1221, 1222, 1231, 1232, 1234, 1237, 1235, 1236) # note I have dropped underscores that are in PDF but not in dataset
-)
-
-uga_fish_1011<-data.frame(
-    fish = c('Fresh fish', 'Dry/Smoked fish'),
-    form = c('fresh', 'dry/smoked'),
-    itmcd = c(122,123)
-)
-
 
 ## Unit codes are https://microdata.worldbank.org/index.php/catalog/2166/variable/F82/V1230?name=untcd
 uga<-uganda %>% 
@@ -225,33 +183,22 @@ uga<-uganda %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'UGA')
     
-uga_hh<-uga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
+uga_hh<-uga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
 
 
 uga_fish<-uga %>% 
     filter(itmcd %in% uga_fish_1011$itmcd & h15bq3a == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, itmcd, untcd, h15bq14, lat, lon, urban_rural, country) %>%
+    select(tot_hh, hh_id, itmcd, untcd, h15bq14, lat, lon, urban_rural, n_hh, country) %>%
     left_join(uga_fish_1011) %>%
     rename('unit' = untcd, 'quantity' = h15bq14) %>%
-    select(tot_hh, hh_id, lat, lon, urban_rural, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 
 # ------------------------ #
 #### 6. TANZANIA EXTENDED (2013-16) ####
 # ------------------------ #
 # https://microdata.worldbank.org/index.php/catalog/3455
-
-# tza_fish<-data.frame(
-#     fish = c('Fresh fish and seafood', 'Dried/salted fish and seafood'),
-#     form = c('fresh','dried'),
-#     itemcode = c(0808, 0809)
-# )
-# 
-# tza_unit<-data.frame(
-#     hh_j02_1 = 1:5,
-#     unit = c('kg', 'g', 'l', 'ml', 'pieces')
-# )
-# 
+ 
 # tza<-tanzaniaExt %>% 
 #     mutate(hh_id = as.character(y4_hhid),
 #            tot_hh = n_distinct(hh_id)) %>% 
@@ -268,17 +215,6 @@ uga_fish<-uga %>%
 # ------------------------ #
 # National Panel Survey 2014-2015, Wave 4 
 # https://microdata.worldbank.org/index.php/catalog/2862/get-microdata
-
-tza_fish<-data.frame(
-    fish = c('Fresh fish and seafood', 'Dried/salted fish and seafood'),
-    form = c('fresh','dried'),
-    itemcode = c(0808, 0809)
-)
-
-tza_unit<-data.frame(
-    hh_j02_1 = 1:5,
-    unit = c('kg', 'g', 'l', 'ml', 'pieces')
-)
 
 tza<-tanzania %>% 
     mutate(hh_id = as.character(y4_hhid),
@@ -299,15 +235,15 @@ tza<-tanzania %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'TZA')
 
-tza_hh<-tza %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, country)
+tza_hh<-tza %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
 
 tza_fish<-tza %>% 
     filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2, lat, lon, urban_rural, country) %>%
-    left_join(tza_fish) %>%
+    select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2, lat, lon, urban_rural, n_hh, country) %>%
+    left_join(tza_fish_code) %>%
     rename('quantity' = hh_j02_2) %>%
     left_join(tza_unit) %>% 
-    select(tot_hh, hh_id, lat, lon,urban_rural, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, lat, lon,urban_rural, n_hh, fish, form, quantity, unit, country)
 
 ## combine datasets
 lsms_hh<-rbind(
