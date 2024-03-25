@@ -43,6 +43,7 @@ list(
     tar_target(lsms_map, lsms_map_hh(lsms_data)),
     tar_target(lsms_water, water_prox(lsms_data)),
     tar_target(lsms_proximity, city_prox(lsms_water)),
+    tar_target(lsms_save, lsms_to_csv(dat=lsms_proximity)),
     
     
     # figures on nutrient values
