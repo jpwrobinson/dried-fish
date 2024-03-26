@@ -232,6 +232,7 @@ tza<-tanzania %>%
               by = 'clusterid') %>%
     left_join(read.csv('data/lsms_subset/household/tanzania_ag_sec_01.csv') %>% 
         mutate(hh_id = as.character(y4_hhid)) %>% 
+        filter(!is.na(indidy4)) %>% 
         group_by(hh_id) %>% 
         summarise(n_hh = length(indidy4), n_adult = length(indidy4[ag01_02>15]), n_children = length(indidy4[ag01_02<16])) %>% 
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
@@ -257,6 +258,10 @@ lsms_fish<-rbind(
     civ_fish, sen_fish, nga_fish,
     mal_fish, uga_fish, tza_fish
 )
+
+lsms_hh %>% group_by(country, tot_hh) %>% 
+    filter(!is.na(n_hh)) %>% 
+    summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))
 
 lsms_fish %>% group_by(country, tot_hh) %>% 
     summarise(n_dried = n_distinct(hh_id[form %in% c('dried', 'smoked', 'dry/smoked')]),
