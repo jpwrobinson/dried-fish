@@ -8,6 +8,7 @@
   * Rural / urban in geovars csv below (urban = 1, other urban = 2, rural = 3)
   * GPS is in UNPS_Geovars_112.csv
   * Note that more recent surveys exist, with better fish coverage, but no GPS data (2018-19, )
+  * household expenditure is sum of hh_k02 in hh_sec_k.csv (https://microdata.worldbank.org/index.php/catalog/2862/data-dictionary/F44?file_name=hh_sec_k)
 * Senegal = Enquête Harmonisée sur le Conditions de Vie des Ménages 2018-2019 [same values for Côte d'Ivoire]
 
   * fish recorded in species and processing within S7b_Conso_Al
