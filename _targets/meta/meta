@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|e0e515576b523c07|||||||||||||||
+.Random.seed|object|b3d57e3cda2b3910|||||||||||||||
 ca|object|c7a1c2fc6add07f3|||||||||||||||
 cadmium|object|c0ad24454042019f|||||||||||||||
 city_prox|function|64890e8cf637c8e3|||||||||||||||
@@ -16,7 +16,7 @@ figContaminant_Species|function|b86c8d9afa7c0410|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
 figContamS|stem|ffaadb1a7acc5d61|1c809b8cd275d7cf|5f47893d0b2926ed|-1359281853||t19803.7401564926s|1828217437389a79|2817348|rds|local|vector|||8.298|Multiple components found returning the first one. To return all, use return_all  TRUE.|
 figContrast|stem|abb00b86185ac125|3b2b83b7bb7e4e00|6c897ad9552fd08f|-1646584657||t19803.7402085618s|12d84303904e83f4|212288|rds|local|vector|||0.375|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
-figMap|stem||ea3036115afc5dec|7cfcff0e3c513f9a|450328000||t19815.6107244075s||0|rds|local|vector|||0.008||could not find function lsms_map_fig
+figMap|stem||ea3036115afc5dec|22261dfb208cc83b|450328000||t19815.6107244075s||0|rds|local|vector|||6.414|polygon from first part only. polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|error in evaluating the argument x in selecting a method for function print object gmap not found
 figND|stem|c21eb8fe1176ef21|899320275ab4ef21|50ecece11b7f36eb|1162846536||t19803.7402125999s|6b55658ef7828cb9|190373|rds|local|vector|||0.263|Specifying the id_cols argument by position was deprecated in tidyr 1.3.0.ℹ Please explicitly name id_cols, like id_cols  lab.|
 figPortion|function|f3c4ad6f0449f7ec|||||||||||||||
 figPortionSize|stem|5b862f69f279ddb4|0293d3fce1c5aa72|a43f7421e525dfd5|985414519||t19803.7417990757s|15ed0be24af9e5af|1614017|rds|local|vector|||13.654|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.|
@@ -31,6 +31,7 @@ i|object|83786c110b338a54|||||||||||||||
 lead|object|01be7583daced974|||||||||||||||
 lsms_data|stem|739a02a07e971491|a0d00542cff0ad43|04baa3414fc7084d|-1909502147||t19807.5072115667s|50ae22afc42fb782|312203|rds|local|vector|||0.756||
 lsms_map|stem|460000d6dd5d780f|0446dfd232d178cf|8b5e8a7b533d3adb|200212645||t19804.5292336722s|40b3a10246f0095b|83|rds|local|vector|||21.138||
+lsms_map_fig|function|5fd1f9b03383ab29|||||||||||||||
 lsms_map_hh|function|484c60c5918bf994|||||||||||||||
 lsms_proximity|stem|efcc9efb01cb65f1|74a83983dae9b10c|06d55e9a6587973d|-2005814670||t19805.4472969247s|bc457100d59121a4|290061|rds|local|vector|||1.04||
 lsms_read|function|d6bf77f3232e68c4|||||||||||||||

@@ -35,13 +35,14 @@ civ<-cotedivoire %>%
                   mutate(hh_id = paste(vague, grappe, menage, sep = '_'), urban_rural = ifelse(s00q04 == 2, 'rural', 'urban')) %>% 
                   select(hh_id, urban_rural), by = 'hh_id') %>% 
     left_join(read.csv('data/lsms_subset/household/cotedivoire_s01_me_civ2018.csv') %>% 
-        mutate(hh_id = paste(vague, grappe, menage, sep = '_')) %>% 
+        mutate(hh_id = paste(vague, grappe, menage, sep = '_'),
+               age = ifelse(is.na(s01q04a), 2019-s01q03c, s01q04a)) %>% 
         group_by(hh_id) %>% 
-        summarise(n_hh = length(s01q00a), n_adult = length(s01q00a[s01q04a>15]), n_children = length(s01q00a[s01q04a<16])) %>%
-        select(hh_id, n_hh), by ='hh_id') %>% 
+        summarise(n_hh = length(s01q00a), n_adult = length(s01q00a[age>15]), n_children = length(s01q00a[age<16])) %>%
+        select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'CIV') 
 
-civ_hh<-civ %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
+civ_hh<-civ %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, country)
 
 civ_fish<-civ %>%
     filter(s07bq01 %in% c(35:40)) %>% 
@@ -70,17 +71,18 @@ sen<-senegal %>%
                   mutate(hh_id = paste(vague, grappe, menage, sep = '_'), urban_rural = ifelse(s00q04 == 2, 'rural', 'urban')) %>% 
                   select(hh_id, urban_rural), by = 'hh_id') %>% 
     left_join(read.csv('data/lsms_subset/household/senegal_s01_me_sen2018.csv') %>% 
-        mutate(hh_id = paste(vague, grappe, menage, sep = '_')) %>% 
+        mutate(hh_id = paste(vague, grappe, menage, sep = '_'),
+               age = ifelse(is.na(s01q04a), 2019-s01q03c, s01q04a)) %>% 
         group_by(hh_id) %>% 
-        summarise(n_hh = length(s01q00a), n_adult = length(s01q00a[s01q04a>15]), n_children = length(s01q00a[s01q04a<16])) %>%
+        summarise(n_hh = length(s01q00a), n_adult = length(s01q00a[age>15]), n_children = length(s01q00a[age<16])) %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'SEN')
 
-sen_hh<-sen %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
+sen_hh<-sen %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, country)
 
 sen_fish<-sen %>%
     filter(s07bq01 %in% c(35:43)) %>%
-    select(tot_hh, hh_id, hh_id2, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, country) %>% 
+    select(tot_hh, hh_id, hh_id2, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, n_hh, country) %>% 
     left_join(sen_fish_code) %>% 
     rename('fish_item' = s07bq01, 'quantity' = s07bq03a, 'code' = s07bq03b) %>% 
     left_join(read_excel('data/lsms_subset/meta/civ_unit_codes.xlsx'), by = 'code') %>% 
@@ -112,7 +114,7 @@ nga<-nigeria %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'NGA')
     
-nga_hh<-nga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
+nga_hh<-nga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, country)
 
 nga_fish<-nga %>% 
     filter(item_cd %in% c(100:107) & s10bq1 == 1) %>% ## select fish only, and YES consumed (1)
@@ -149,10 +151,10 @@ mal<-malawi %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'MWI') 
 
-mal_hh<-mal %>% distinct(hh_id, tot_hh, lat, lon, urban_rural,n_hh, country)
+mal_hh<-mal %>% distinct(hh_id, tot_hh, lat, lon, urban_rural,n_hh, n_adult, n_children, country)
 
 mal_fish<-mal %>% 
-    filter(hh_g02 %in% mal_fish$hh_g02 & hh_g01 == 1) %>% ## select fish only, and YES consumed
+    filter(hh_g02 %in% mal_fish_code$hh_g02 & hh_g01 == 1) %>% ## select fish only, and YES consumed
     select(tot_hh, hh_id, hh_g02, hh_g03a, hh_g03b, lat, lon, urban_rural,n_hh, country) %>% 
     left_join(mal_fish_code) %>% 
     rename('quantity' = hh_g03a, 'unit_code' = hh_g03b, 'item_code' = hh_g02) %>% 
@@ -183,13 +185,13 @@ uga<-uganda %>%
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'UGA')
     
-uga_hh<-uga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
+uga_hh<-uga %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, country)
 
 
 uga_fish<-uga %>% 
-    filter(itmcd %in% uga_fish_1011$itmcd & h15bq3a == 1) %>% ## select fish only, and YES consumed
+    filter(itmcd %in% uga_fish_1011_code$itmcd & h15bq3a == 1) %>% ## select fish only, and YES consumed
     select(tot_hh, hh_id, itmcd, untcd, h15bq14, lat, lon, urban_rural, n_hh, country) %>%
-    left_join(uga_fish_1011) %>%
+    left_join(uga_fish_1011_code) %>%
     rename('unit' = untcd, 'quantity' = h15bq14) %>%
     select(tot_hh, hh_id, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
@@ -230,19 +232,20 @@ tza<-tanzania %>%
               by = 'clusterid') %>%
     left_join(read.csv('data/lsms_subset/household/tanzania_ag_sec_01.csv') %>% 
         mutate(hh_id = as.character(y4_hhid)) %>% 
+        filter(!is.na(indidy4)) %>% 
         group_by(hh_id) %>% 
         summarise(n_hh = length(indidy4), n_adult = length(indidy4[ag01_02>15]), n_children = length(indidy4[ag01_02<16])) %>% 
         select(hh_id, n_hh, n_adult, n_children), by ='hh_id') %>% 
     mutate(country = 'TZA')
 
-tza_hh<-tza %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, country)
+tza_hh<-tza %>% distinct(hh_id, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, country)
 
 tza_fish<-tza %>% 
-    filter(itemcode %in% tza_fish$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
+    filter(itemcode %in% tza_fish_code$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
     select(tot_hh, hh_id, itemcode, hh_j02_1, hh_j02_2, lat, lon, urban_rural, n_hh, country) %>%
     left_join(tza_fish_code) %>%
     rename('quantity' = hh_j02_2) %>%
-    left_join(tza_unit) %>% 
+    left_join(tza_unit_code) %>% 
     select(tot_hh, hh_id, lat, lon,urban_rural, n_hh, fish, form, quantity, unit, country)
 
 ## combine datasets
@@ -256,7 +259,13 @@ lsms_fish<-rbind(
     mal_fish, uga_fish, tza_fish
 )
 
+
 # lsms_fish<-read.csv('data/lsms_subset/lsms_fish.csv')
+
+lsms_hh %>% group_by(country, tot_hh) %>% 
+    filter(!is.na(n_hh)) %>% 
+    summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))
+
 lsms_fish %>% group_by(country, tot_hh) %>% 
     summarise(n_processed = n_distinct(hh_id[form %in% c('dried', 'smoked', 'dry/smoked')]),
               n_dried = n_distinct(hh_id[form %in% c('dried')]),
