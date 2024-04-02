@@ -14,7 +14,7 @@ lsms_map_fig<-function(dat){
         st_transform(ber_proj4) %>% 
         mutate(NAME = recode(NAME, 'Dem. Rep. Congo' = 'Congo DR',
                              'Guinea-Bissau' = 'Guinea Bissau'))  %>% 
-        filter(CONTINENT == 'Africa' & SUBREGION!='Northern Africa')
+        filter(CONTINENT == 'Africa')# & SUBREGION!='Northern Africa')
     
     # subset LSMS countries
     w_foc<-w %>% filter(ADM0_A3 %in% dat$country)
@@ -34,7 +34,7 @@ lsms_map_fig<-function(dat){
     w_eez<-w %>% 
         # st_union() %>% 
         # st_cast('MULTILINESTRING') %>% 
-        st_buffer(dist = units::set_units(200, 'km')) %>% 
+        st_buffer(dist = units::set_units(370.4, 'km')) %>% ## 200 nautical miles
         st_union(by_feature=TRUE) %>% 
         st_cast('POLYGON')
     
@@ -44,10 +44,11 @@ lsms_map_fig<-function(dat){
     marine_20k_diss<- st_difference(w_eez, w %>% st_union()) 
     
     # st_bbox(w)
-    bboxer = tmaptools::bb(matrix(c(-1800000, -2500000, 4061039, 2253951),2,2))
+    bboxer = tmaptools::bb(matrix(c(-1800000, -2500000, 4561039, 2353951),2,2))
 
-    tm_shape(marine_20k_diss, bbox=bboxer) + tm_fill(col='#a6bddb') +
-    tm_shape(w, bbox=bboxer) + 
+    gmap<-tm_shape(marine_20k_diss, bbox=bboxer) + 
+        tm_fill(col='#a6bddb') +
+        tm_shape(w, bbox=bboxer) + 
         tm_borders(col='grey90', alpha=0.5) +
         tm_shape(w_foc) +
         tm_polygons(fill='grey90', border.col='black') +
@@ -57,6 +58,6 @@ lsms_map_fig<-function(dat){
         tm_dots( col='#b2182b', size=0.01) +
         tm_scale_bar(breaks = c(0, 100, 500), text.size = 1)
     
-    print(gmap)
+    return(gmap)
     
 }

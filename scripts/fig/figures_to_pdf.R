@@ -1,4 +1,4 @@
-figs<-function(fig1a, fig1b, figS1, figS2, figS3, figS4, figS5, figS6){
+figs<-function(fig1a, fig1b, fig2, figS1, figS2, figS3, figS4, figS5, figS6){
 
     pdf(file = 'fig/Figure1.pdf', height =5, width=10)
     print(
@@ -11,7 +11,7 @@ figs<-function(fig1a, fig1b, figS1, figS2, figS3, figS4, figS5, figS6){
     
     pdf(file = 'fig/Figure2.pdf', height =8, width=10)
     print(
-        gmap
+        fig2
     )
     dev.off()
 
