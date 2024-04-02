@@ -53,6 +53,7 @@ list(
     tar_target(figND, fig_ndensity(nut_data)),
     tar_target(figRNI_avg, fig_dried_rni(nut_data)[[1]]),
 
+    tar_target(figMap, lsms_map_fig(lsms_data)),
     
     # Sup Figures
     # change in nutrient content relative to fresh samples
@@ -70,7 +71,9 @@ list(
     
     ## compile figures
     tar_target(figAll, figs(
-        fig1a = figND, fig1b = figRNI_avg,
+        fig1a = figND, 
+        fig1b = figRNI_avg,
+        fig2 = figMap,
         figS1 = figContrast,
         figS2 = figRNI_species,
         figS3 = figPortionSize[[2]],
@@ -86,8 +89,7 @@ list(
 
 
 
-# run in terminal after sourcing to replace drive figures
-# cp /Users/robins64/Documents/git_repos/dried-fish/fig/Figure1_dried_content.pdf /Users/robins64/Google\ Drive/1_WORK/Manuscripts/dried-fish-drive/Figure1.pdf 
-# cp /Users/robins64/Documents/git_repos/dried-fish/fig/FigureSX_dried_portion_source.pdf /Users/robins64/Google\ Drive/1_WORK/Manuscripts/dried-fish-drive/Figure2.pdf 
-# cp /Users/robins64/Documents/git_repos/dried-fish/SupMat.pdf /Users/robins64/Google\ Drive/1_WORK/Manuscripts/dried-fish-drive/SupMat.pdf 
+# run in sudo terminal after sourcing to replace drive figures
+# cp /Users/robins64/Documents/git_repos/dried-fish/fig/Figure1.pdf /Users/robins64/My\ Drive/1_WORK/Manuscripts/dried-fish-drive/Figure1.pdf 
+# cp /Users/robins64/Documents/git_repos/dried-fish/SupMat.pdf /Users/robins64/My\ Drive/1_WORK/Manuscripts/dried-fish-drive/SupMat.pdf 
 

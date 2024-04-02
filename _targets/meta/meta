@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|d77b9d34e6069c26|||||||||||||||
+.Random.seed|object|e0e515576b523c07|||||||||||||||
 ca|object|c7a1c2fc6add07f3|||||||||||||||
 cadmium|object|c0ad24454042019f|||||||||||||||
 city_prox|function|64890e8cf637c8e3|||||||||||||||
@@ -16,6 +16,7 @@ figContaminant_Species|function|b86c8d9afa7c0410|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
 figContamS|stem|ffaadb1a7acc5d61|1c809b8cd275d7cf|5f47893d0b2926ed|-1359281853||t19803.7401564926s|1828217437389a79|2817348|rds|local|vector|||8.298|Multiple components found returning the first one. To return all, use return_all  TRUE.|
 figContrast|stem|abb00b86185ac125|3b2b83b7bb7e4e00|6c897ad9552fd08f|-1646584657||t19803.7402085618s|12d84303904e83f4|212288|rds|local|vector|||0.375|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
+figMap|stem||ea3036115afc5dec|7cfcff0e3c513f9a|450328000||t19815.6107244075s||0|rds|local|vector|||0.008||could not find function lsms_map_fig
 figND|stem|c21eb8fe1176ef21|899320275ab4ef21|50ecece11b7f36eb|1162846536||t19803.7402125999s|6b55658ef7828cb9|190373|rds|local|vector|||0.263|Specifying the id_cols argument by position was deprecated in tidyr 1.3.0.ℹ Please explicitly name id_cols, like id_cols  lab.|
 figPortion|function|f3c4ad6f0449f7ec|||||||||||||||
 figPortionSize|stem|5b862f69f279ddb4|0293d3fce1c5aa72|a43f7421e525dfd5|985414519||t19803.7417990757s|15ed0be24af9e5af|1614017|rds|local|vector|||13.654|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.|
@@ -24,7 +25,7 @@ figRNI_avg|stem|fd0033038ad4486a|7faa08f48f9e58fa|6c3d85e21bd7381c|-2078976083||
 figRNI_forms|stem|fa6fa6a636991b0a|dea8895f24c3fdec|6c3d85e21bd7381c|1450393985||t19803.7404694919s|f493af87d5fd70a0|1521637|rds|local|vector|||3.418||
 figRNI_nut|stem|57c12b645a6a43b0|7371083421e8fc8d|6c1e9b4f81cb2bfd|-359967961||t19803.5897901999s|2de9f12799cca7e8|1629702|rds|local|vector|||4.147||
 figRNI_species|stem|99c0791cec6cf2c2|cde25d6557b4faad|facee25f3e0d9f60|416951054||t19803.74057759s|a640533ce71c3b81|2868710|rds|local|vector|||7.995|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
-figs|function|2d7ac0dabccde919|||||||||||||||
+figs|function|f6e96724201a9a81|||||||||||||||
 folate|object|045b07e719c4cc68|||||||||||||||
 i|object|83786c110b338a54|||||||||||||||
 lead|object|01be7583daced974|||||||||||||||
@@ -34,7 +35,7 @@ lsms_map_hh|function|484c60c5918bf994|||||||||||||||
 lsms_proximity|stem|efcc9efb01cb65f1|74a83983dae9b10c|06d55e9a6587973d|-2005814670||t19805.4472969247s|bc457100d59121a4|290061|rds|local|vector|||1.04||
 lsms_read|function|d6bf77f3232e68c4|||||||||||||||
 lsms_save|stem|17656ca132f3e9f7|38cdeb555fa08ed3|c254123af7778a32|677687539||t19807.5072136004s|a1c456b03adbfbf8|44|rds|local|vector|||0.122||
-lsms_to_csv|function|86e02c80cc32523f|||||||||||||||
+lsms_to_csv|function|e8953447c5527556|||||||||||||||
 lsms_water|stem|cebed5e22a6e19ec|9e68be2e625aed6f|65d4824b27ea4571|408375142||t19805.4472834854s|22bb9a4380e88c8c|281659|rds|local|vector|||5276.491||
 mercury|object|ed77be4a2960536d|||||||||||||||
 meta_dry|stem|5810fb7735d3c759|53336ebff4136a16|ffe66d558cdb4c45|-1899378500||t19803.4886474865s|6bc8c359900bc152|892|rds|local|vector|||0.029||

@@ -256,12 +256,18 @@ lsms_fish<-rbind(
     mal_fish, uga_fish, tza_fish
 )
 
+# lsms_fish<-read.csv('data/lsms_subset/lsms_fish.csv')
 lsms_fish %>% group_by(country, tot_hh) %>% 
-    summarise(n_dried = n_distinct(hh_id[form %in% c('dried', 'smoked', 'dry/smoked')]),
+    summarise(n_processed = n_distinct(hh_id[form %in% c('dried', 'smoked', 'dry/smoked')]),
+              n_dried = n_distinct(hh_id[form %in% c('dried')]),
+              n_smoked = n_distinct(hh_id[form %in% c('smoked')]),
               n_fish = n_distinct(hh_id)) %>% 
     mutate(prop_dried_pop = n_dried / tot_hh,
               prop_fish_pop = n_fish / tot_hh,
-           prop_dried_of_fish = n_dried / n_fish)
+           prop_processed_of_fish = n_processed / n_fish,
+           prop_smoked_of_processed = n_smoked / n_processed,
+           prop_dried_of_processed = n_dried / n_processed
+           )
 
 ## Simmance stats for national total fish (dried within fish) consumption:
 # Malawi = 73% (71%)

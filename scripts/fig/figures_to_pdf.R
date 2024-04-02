@@ -8,6 +8,12 @@ figs<-function(fig1a, fig1b, figS1, figS2, figS3, figS4, figS5, figS6){
             ncol=2, labels=c('a', 'b'), rel_widths=c(1, 1))
     )
     dev.off()
+    
+    pdf(file = 'fig/Figure2.pdf', height =8, width=10)
+    print(
+        gmap
+    )
+    dev.off()
 
     pdf(file = 'fig/FigureS1.pdf', height =5, width=8)
     print(
