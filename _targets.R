@@ -4,7 +4,14 @@ source('scripts/00_plot.R')
 ## data cleaning functions
 source('scripts/norway_clean.R')
 source('scripts/read_nutrient_data.R')
-source('scripts/read_lsms_data.R') # note that LSMS files are loaded outside of targets in read_lsms.R
+lsms_read<-function(){
+    source('scripts/read_lsms.R')
+    output<-list(lsms_hh, 
+                 lsms_fish, 
+                 lsms_all %>% filter(!is.na(lat)))
+    return(output)
+}
+
 
 ## spatial processing functions
 source('scripts/water_prox.R')
@@ -40,11 +47,11 @@ list(
     
     
     # lsms household maps
-    tar_target(lsms_data, lsms_read(path = 'data/lsms_subset/lsms_fish.csv')),
+    tar_target(lsms_data, lsms_read()[[3]]),
     tar_target(lsms_map, lsms_map_hh(lsms_data)),
     tar_target(lsms_water, water_prox(lsms_data)),
     tar_target(lsms_proximity, city_prox(lsms_water)),
-    tar_target(lsms_save, write.csv(lsms_proximity, 'data/lsms_dried_fish_with_covariates.csv', row.names=FALSE)),
+    tar_target(lsms_save, write.csv(lsms_proximity, 'data/lsms_with_covariates.csv', row.names=FALSE)),
     
     
     # figures on nutrient values

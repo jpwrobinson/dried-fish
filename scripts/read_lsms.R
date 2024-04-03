@@ -262,9 +262,23 @@ lsms_fish<-rbind(
     mal_fish, uga_fish, tza_fish
 )
 
+## produce yes no consumption for all LSMS households
+lsms<-lsms_fish %>% 
+    mutate(form2 = ifelse(form %in% c('dried', 'dry/smoked', 'smoked'), 'dried', form)) %>% 
+    group_by(hh_id, form2, lat, lon, country) %>% 
+    summarise(n = length(unique(form2))) %>% 
+    dplyr::select(-n) %>% 
+    mutate(value = 'yes') %>% 
+    pivot_wider(names_from = form2, values_from = value, values_fill = list(value = 'no')) %>% 
+    # mutate(any_fish = case_when(if_any(dried:canned, ~. == "yes") ~ 'yes', TRUE ~ 'no')) %>% 
+    mutate(any_fish = 'yes') ## because all surveys contained fish already
 
-# lsms_fish<-read.csv('data/lsms_subset/lsms_fish.csv')
+lsms_all<-lsms_hh %>% left_join(lsms %>% ungroup() %>% select(country, hh_id, dried, any_fish)) %>% 
+    mutate(dried = ifelse(is.na(dried), 'no', dried),
+           any_fish = ifelse(is.na(any_fish), 'no', any_fish))
 
+
+## summary stats
 lsms_hh %>% group_by(country, tot_hh) %>% 
     filter(!is.na(n_hh)) %>% 
     summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))
@@ -297,3 +311,4 @@ lsms_fish %>% group_by(country, tot_hh) %>%
 
 write.csv(lsms_hh, file = 'data/lsms_subset/lsms_all_hh.csv', row.names=FALSE)
 write.csv(lsms_fish, file = 'data/lsms_subset/lsms_fish.csv', row.names=FALSE)
+write.csv(lsms_all, file = 'data/lsms_subset/lsms_for_mod.csv', row.names=FALSE)

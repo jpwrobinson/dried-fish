@@ -1,13 +1,5 @@
 lsms_map_fig<-function(dat){
     
-    # check prop dried by country  
-    # dat %>% 
-    #     group_by(country) %>% 
-    #     mutate(N = n_distinct(hh_id)) %>% 
-    #     group_by(country, N, form2) %>% 
-    #     summarise(n = n_distinct(hh_id)) %>% 
-    #     mutate(prop= n / N*100)
-    
     ber_proj4 <- '+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs'
     w<-ne_download(scale = 10, type = 'countries', category = 'cultural') %>% 
         st_as_sf() %>% 
@@ -32,8 +24,6 @@ lsms_map_fig<-function(dat){
 
     # Get marine EEZ
     w_eez<-w %>% 
-        # st_union() %>% 
-        # st_cast('MULTILINESTRING') %>% 
         st_buffer(dist = units::set_units(370.4, 'km')) %>% ## 200 nautical miles
         st_union(by_feature=TRUE) %>% 
         st_cast('POLYGON')
@@ -54,8 +44,10 @@ lsms_map_fig<-function(dat){
         tm_polygons(fill='grey90', border.col='black') +
         tm_shape(inlandB) +
         tm_polygons(col = 'lightblue', border.col='transparent') +
-        tm_shape(ls_points %>% filter(form2=='dried')) +
+        tm_shape(ls_points %>% filter(dried=='yes')) +
         tm_dots( col='#b2182b', size=0.01) +
+        tm_shape(ls_points %>% filter(dried=='no')) +
+        tm_dots( col='black', size=0.001, alpha=0.5) +
         tm_scale_bar(breaks = c(0, 100, 500), text.size = 1)
     
     return(gmap)

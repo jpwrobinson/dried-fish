@@ -7,7 +7,10 @@ library(tmap)
 library(raster)
 library(brms)
 library(rethinking)
+library(conflicted)
 options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
 
 source('scripts/theme_sleek.R')
 theme_set(theme_sleek())

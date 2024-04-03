@@ -8,7 +8,8 @@ mod_dat<-dat %>% ungroup() %>% mutate(
     proximity_to_water_km = scale(proximity_to_water_km)[,1],
     proximity_to_city_mins = scale(proximity_to_city_mins)[,1],
     hh_id = as.factor(hh_id),
-    country = as.factor(country)
+    country = as.factor(country),
+    response = ifelse(dried == 'yes', 1, 0)
 )
 
 ## 1. basic model with species intercepts and global cohort and hollings covariates
