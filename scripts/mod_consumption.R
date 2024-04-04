@@ -58,16 +58,32 @@ m1<-brm(data = mod_dat, family = bernoulli,
     iter = 1000, warmup = 500, chains = 3, cores = 6,
     seed = 10)
 
+save(m1, file = 'data/mod/lsms_mod.rds')
+
 summary(m1)
-coef(m1)
 conditional_effects(m1)
 plot(m1)
 
 mod_dat %>%  
     data_grid(proximity_to_water_km = seq_range(proximity_to_water_km, n = 100),
               proximity_to_city_mins = 0, 
-              nearest_water = c('Marine', 'Inland'),
-              n_hh = 4) %>%  
+              marine = 0, inland = 0,
+              country=unique(mod_dat$country),
+              n_hh = 0) %>%  
     add_epred_draws(m1, ndraws = 100, re_formula = NA) %>%  
     ggplot(aes(x = proximity_to_water_km)) +
-    stat_lineribbon(aes(y = .epred, col=nearest_water, fill=nearest_water), .width = 0.95, alpha = 0.5)
+    stat_lineribbon(aes(y = .epred, fill=country), .width = 0.95, alpha = 0.5) +
+    # geom_dots(data = mod_dat, aes(side = ifelse(response==0, "bottom", "top")), 
+    #           pch = 19, color = "grey20", scale = 0.2) +
+    scale_y_continuous(labels = scales::label_percent()) +
+    labs(x = 'Proximity to water, km', y = 'Probability of dried fish consumption')
+
+m1 %>%
+    spread_draws(r_country[state, term]) %>% 
+    ggplot(aes(x = inv_logit(r_country),
+               y = state)) +
+    stat_halfeye(.width = c(0.5, 0.8)) +
+    coord_flip() +
+    scale_x_continuous(labels = scales::label_percent()) +
+    labs(y = '', x = 'Probability of dried fish consumption')
+

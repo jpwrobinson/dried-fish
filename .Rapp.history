@@ -1,0 +1,73 @@
+file.edit("~/.Renviron")
+load("/Users/robins64/Downloads/CurrentPackages.rds")
+ip<-readRDS("/Users/robins64/Downloads/CurrentPackages.rds")
+install.packages(ip[,1])
+Error in system2(file.path(R.home(component = "bin"), "R"), args = paste("CMD config",  :
+library(rethinking)#
+data(chimpanzees)#
+d <- chimpanzees#
+d$treatment <- 1 + d$prosoc_left + 2*d$condition#
+dat_list <- list(#
+pulled_left = d$pulled_left,#
+actor = d$actor,#
+block_id = d$block,#
+treatment = as.integer(d$treatment) )#
+set.seed(13) #
+#
+m13.4 <- ulam(#
+alist(#
+		pulled_left ~ dbinom( 1 , p ) ,#
+		logit(p) <- a[actor] + g[block_id] + b[treatment] , b[treatment] ~ dnorm( 0 , 0.5 ),#
+		## adaptive priors#
+		a[actor] ~ dnorm( a_bar , sigma_a ), g[block_id] ~ dnorm( 0 , sigma_g ),#
+		## hyper-priors#
+		a_bar ~ dnorm( 0 , 1.5 ), sigma_a ~ dexp(1), sigma_g ~ dexp(1)#
+	) , #
+data=dat_list , chains=4 , cores=4 , log_lik=TRUE )
+library(remotes)#
+install_github('vincentarelbundock/countrycode')
+ead(countrycode::cldr_examples)
+head(countrycode::cldr_examples)
+(countrycode::cldr_examples)
+head(countrycode::cldr_examples)
+head(countrycode::cldr_examples,10)
+head(countrycode::cldr_examples,20)
+(countrycode::cldr_examples)
+install.packages('rfishbase')
+install.packages('exactextractr')
+install.packages('optimrx')
+install.packages('terra')
+install.packages('ggradar')
+devtools::install_github("ricardo-bion/ggradar", #
+                          dependencies = TRUE)
+install.packages("fmsb")
+pkgbuild::with_build_tools(install.packages("rstan", type = "source"))
+library(rstan)
+example(stan_model, package = "rstan", run.dontrun = TRUE)
+exp(4.5)
+install.packages('packcircles')
+rfishbase::load_taxa()
+Sys.setenv(MAKEFLAGS = paste0("-j",parallel::detectCores()))#
+#
+install.packages(c("StanHeaders","rstan"),type="source")
+example(stan_model, package = "rstan", run.dontrun = TRUE)
+install.packages('terra')
+example(stan_model, package = "rstan", run.dontrun = TRUE)
+library(FAOSTAT)
+class<-WDI(extra=TRUE)# WDIsearch('total.*female.*population')[1:20,]pop.df <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$entity %>%    clean_names() %>%    filter(year == 2020) %>%    left_join(class %>% distinct(country, region, capital, longitude, latitude, income), by = 'country') %>%    mutate(iso3 = countrycode(iso2_wb_code, origin = 'iso2c', destination = 'iso3c'),           income = ifelse(iso2_wb_code=='VN', 'Lower middle income', income)) %>%     left_join(pop.df %>% select(-year),               read.csv('data/Cost_Affordability_Healthy_Diet_(CoAHD)_E_All_Area_Groups/FAOSTAT_data_en_6-26-2023.csv') %>%                   clean_names() %>%                   filter(year == 2020 & item %in% c('Cost of a healthy diet (PPP dollar per person per day)')) %>%                   select(year, item, value, area) %>% mutate(country = area),              by = 'country')
+library(tidyverse)
+class<-WDI(extra=TRUE)# WDIsearch('total.*female.*population')[1:20,]pop.df <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$entity %>%    clean_names() %>%    filter(year == 2020) %>%    left_join(class %>% distinct(country, region, capital, longitude, latitude, income), by = 'country') %>%    mutate(iso3 = countrycode(iso2_wb_code, origin = 'iso2c', destination = 'iso3c'),           income = ifelse(iso2_wb_code=='VN', 'Lower middle income', income)) %>%     left_join(pop.df %>% select(-year),               read.csv('data/FAOSTAT_data_en_6-26-2023.csv') %>%  ## from EAT data                  clean_names() %>%                   filter(year == 2020 & item %in% c('Cost of a healthy diet (PPP dollar per person per day)')) %>%                   select(year, item, value, area) %>% mutate(country = area),              by = 'country')
+getwd()
+setwd('Documents/git_repos/dried-fish/')
+targets::tar_load(nut_data)
+ls
+ls()
+head(nut_data)
+unique(nut_data$form)
+library(tidyverse)
+nut_data %>%     filter(!form %in% c('Fresh', 'Fresh, gutted')) %>%     group_by(nutrient, unit) %>%     summarise(value = mean(value))
+nut_data %>%     filter(!form %in% c('Fresh', 'Fresh, gutted'),           nutrient %in% nuts) %>%     group_by(nutrient) %>%     summarise(value = mean(value)) %>%     pivot_wider(names_from = nutrient, values_from = value)
+nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
+nut_data %>%     filter(!form %in% c('Fresh', 'Fresh, gutted'),           nutrient %in% nuts) %>%     group_by(nutrient) %>%     summarise(value = mean(value)) %>%     pivot_wider(names_from = nutrient, values_from = value)
+add_column
+?add_column
