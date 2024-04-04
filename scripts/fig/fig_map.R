@@ -46,8 +46,8 @@ lsms_map_fig<-function(dat){
         tm_polygons(col = 'lightblue', border.col='transparent') +
         tm_shape(ls_points %>% filter(dried=='yes')) +
         tm_dots( col='#b2182b', size=0.01) +
-        tm_shape(ls_points %>% filter(dried=='no')) +
-        tm_dots( col='black', size=0.001, alpha=0.5) +
+        # tm_shape(ls_points %>% filter(dried=='no')) +
+        # tm_dots( col='black', size=0.001, alpha=0.5) +
         tm_scale_bar(breaks = c(0, 100, 500), text.size = 1)
     
     return(gmap)

@@ -16,7 +16,6 @@ city_prox<-function(dat){
 
 
 	ls_points<-dat %>% 
-	        filter(!is.na(lat) & form2 == 'dried') %>% 
 	        st_as_sf(coords = c('lon', 'lat'), crs = "EPSG:4326") %>% 
 	        st_transform(st_crs(cit))
 

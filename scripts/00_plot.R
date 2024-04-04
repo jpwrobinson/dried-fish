@@ -9,9 +9,19 @@ library(brms)
 library(rethinking)
 library(conflicted)
 options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
+
+## conflicts resolve
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
+conflicts_prefer(brms::ar)
+conflicts_prefer(stats::chisq.test)
+conflicts_prefer(tidyr::extract)
+conflicts_prefer(stats::fisher.test)
+conflicts_prefer(stats::lag)
+conflicts_prefer(brms::loo)
+conflicts_prefer(rethinking::LOO)
 
+# plot cols
 source('scripts/theme_sleek.R')
 theme_set(theme_sleek())
 pcols<-c(RColorBrewer::brewer.pal(9, 'Set1'), 'black') ## 10 colors
