@@ -1,5 +1,5 @@
 
-fig_ndensity<-function(dat){
+fig_ndensity<-function(dat, portion){
     ## tidy names
     nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%

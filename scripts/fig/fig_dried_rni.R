@@ -1,5 +1,5 @@
 
-fig_dried_rni<-function(dat){
+fig_dried_rni<-function(dat, portion){
     ## tidy names
     nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%

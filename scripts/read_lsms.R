@@ -21,6 +21,7 @@ for(i in 1:length(files)){
 # Column s07bq03c is ???? (takes integers 0 - 6 suggesting it is a code)
 
 ## hh dataset: s00q04 is the rural (2) / urban (1) Q
+# https://microdata.worldbank.org/index.php/catalog/4292/data-dictionary/F2?file_name=s01_me_civ2018
 
 civ<-cotedivoire %>% 
     mutate(hh_id = paste(vague, grappe, menage, sep = '_'),

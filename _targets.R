@@ -18,7 +18,8 @@ source('scripts/water_prox.R')
 source('scripts/city_prox.R')
 
 # nutrient arguments
-portion = 6
+portionK = 6
+portionW = 6
 pop = 'Children'
 nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
 cons<-c('lead', 'mercury', 'cadmium')
@@ -58,8 +59,8 @@ list(
 
     # Figure 1
     # nutrient density by species and form
-    tar_target(figND, fig_ndensity(nut_data)),
-    tar_target(figRNI_avg, fig_dried_rni(nut_data)[[1]]),
+    tar_target(figND, fig_ndensity(nut_data, portion = portionK)),
+    tar_target(figRNI_avg, fig_dried_rni(nut_data, portion = portionK)[[1]]),
 
     tar_target(figMap, lsms_map_fig(lsms_data)),
     
@@ -67,15 +68,15 @@ list(
     # change in nutrient content relative to fresh samples
     tar_target(figContrast, fig_fresh_contrast(nut_data)),    
     # species radar plots for RNI
-    tar_target(figRNI_species, figRNI(nut_data)),
+    tar_target(figRNI_species, figRNI(nut_data, portion = portionK)),
     # portion size plots for RNI
     tar_target(figPortionSize, figPortion(nut_data)),
     # processed forms RNI radars
-    tar_target(figRNI_forms, fig_dried_rni(nut_data)[[2]]),
+    tar_target(figRNI_forms, fig_dried_rni(nut_data, portion = portionK)[[2]]),
     # contaminant levels
-    tar_target(figContam, figContaminant(nut_data)),
+    tar_target(figContam, figContaminant(nut_data, portion = portionK)),
     # contaminant levels by species
-    tar_target(figContamS, figContaminant_Species(nut_data)),
+    tar_target(figContamS, figContaminant_Species(nut_data, portion = portionK)),
     
     ## compile figures
     tar_target(figAll, figs(

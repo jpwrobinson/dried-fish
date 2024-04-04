@@ -1,4 +1,4 @@
-figContaminant<-function(dat){
+figContaminant<-function(dat, portion){
 
     nutl<-dat %>% 
         filter(nutrient %in% cons) %>%

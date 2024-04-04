@@ -1,5 +1,9 @@
 library(tidyverse)
+library(janitor)
+library(countrycode)
 library(cowplot)
+library(tidybayes)  
+library(modelr)    
 library(ggradar)
 library(sf)
 library(rnaturalearth)
@@ -8,6 +12,7 @@ library(raster)
 library(brms)
 library(rethinking)
 library(conflicted)
+library(WDI)
 options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
 
 ## conflicts resolve

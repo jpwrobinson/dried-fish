@@ -1,4 +1,4 @@
-figRNI<-function(dat){
+figRNI<-function(dat, portion){
     ## tidy names
     nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%

@@ -1,4 +1,4 @@
-figContaminant_Species<-function(dat){
+figContaminant_Species<-function(dat, portion){
 
     ## tidy names
     nutl<-dat %>% 
