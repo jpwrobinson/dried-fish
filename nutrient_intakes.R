@@ -58,3 +58,5 @@ pop <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$entity 
     mutate(people_eating_dried = total_population * median,
            people_eating_dried_lo = total_population * q5,
            people_eating_dried_hi = total_population * q95)
+
+sum(pop$people_eating_dried)/1e6

@@ -5,7 +5,7 @@ library(readxl)
 source('scripts/lsms_fish_codes.R')
 
 ## load in food consumption tables and name
-files<-list.files('data/lsms_subset') %>% str_subset('meta|gps|household|urban-rural|lsms_all.csv', negate=TRUE)
+files<-list.files('data/lsms_subset') %>% str_subset('meta|gps|household|expenses|urban-rural|lsms_all.csv', negate=TRUE)
 for(i in 1:length(files)){
     df<-read.csv(paste0('data/lsms_subset/', files[i]))
     assign(str_split_fixed(files[i], '_', n = 2)[1], df)

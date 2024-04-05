@@ -72,7 +72,7 @@ mod_dat %>%
               n_hh = 0) %>%  
     add_epred_draws(m1, ndraws = 100, re_formula = NA) %>%  
     ggplot(aes(x = proximity_to_water_km)) +
-    stat_lineribbon(aes(y = .epred, fill=country), .width = 0.95, alpha = 0.5) +
+    stat_lineribbon(aes(y = .epred), .width = 0.95, alpha = 0.5) +
     # geom_dots(data = mod_dat, aes(side = ifelse(response==0, "bottom", "top")), 
     #           pch = 19, color = "grey20", scale = 0.2) +
     scale_y_continuous(labels = scales::label_percent()) +
