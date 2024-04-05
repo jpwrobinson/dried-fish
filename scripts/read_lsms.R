@@ -1,7 +1,4 @@
 # Script reading LSMS data
-library(tidyverse)
-library(readxl)
-
 source('scripts/lsms_fish_codes.R')
 
 ## load in food consumption tables and name
@@ -85,7 +82,7 @@ sen<-senegal %>%
                   summarise(monthly_exp = sum(s09cq03, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'SEN')
 
-sen_hh<-sen %>% distinct(hh_id, hh_cluster, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, country)
+sen_hh<-sen %>% distinct(hh_id, hh_cluster, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
 
 sen_fish<-sen %>%
     filter(s07bq01 %in% c(35:43)) %>%

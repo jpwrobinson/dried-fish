@@ -1,21 +1,5 @@
 library(targets)
-source('scripts/00_plot.R')
-
-## data cleaning functions
-source('scripts/norway_clean.R')
-source('scripts/read_nutrient_data.R')
-lsms_read<-function(){
-    source('scripts/read_lsms.R')
-    output<-list(lsms_hh, 
-                 lsms_fish, 
-                 lsms_all %>% filter(!is.na(lat)))
-    return(output)
-}
-
-
-## spatial processing functions
-source('scripts/water_prox.R')
-source('scripts/city_prox.R')
+source('scripts/functions.R')
 
 # nutrient arguments
 portionK = 6
@@ -23,18 +7,6 @@ portionW = 6
 pop = 'Children'
 nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
 cons<-c('lead', 'mercury', 'cadmium')
-
-# figure functions
-source('scripts/fig/figures_to_pdf.R')
-source('scripts/fig/fig_fresh_contrast.R')
-source('scripts/fig/fig_nutrient_density.R')
-source('scripts/fig/fig_dried_rni.R')
-source('scripts/fig/fig_rni_species.R')
-source('scripts/fig/fig_portion_size.R')
-source('scripts/fig/fig_map.R')
-source('scripts/fig/fig_contaminant_species.R')
-source('scripts/fig/fig_contaminant_content.R')
-source('scripts/dried_fish_maps.R')
 
 # tar_load(nut_data)
 # tar_load(lsms_data)
@@ -48,7 +20,7 @@ list(
     
     
     # lsms household maps
-    tar_target(lsms_data, lsms_read()[[3]]),
+    tar_target(lsms_data, lsms_read()[[1]]),
     tar_target(lsms_map, lsms_map_hh(lsms_data)),
     tar_target(lsms_water, water_prox(lsms_data)),
     tar_target(lsms_proximity, city_prox(lsms_water)),
