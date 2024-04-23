@@ -2,6 +2,9 @@
 
 load(file = 'data/mod/lsms_mod.rds')
 
+scales<-scale_y_continuous(labels = scales::label_percent()) +
+        scale_fill_manual(values = realm_cols_named)
+
 # proximity to water
 mod_dat %>%  
     data_grid(Sproximity_to_water_km = seq_range(Sproximity_to_water_km, n = 100),
@@ -16,7 +19,7 @@ mod_dat %>%
     stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.5, alpha = 0.5) +
     # geom_dots(data = mod_dat, aes(y = response, side = ifelse(response==0, "bottom", "top")),
     #           pch = 19, color = "grey20", scale = 0.1) +
-    scale_y_continuous(labels = scales::label_percent()) +
+    scales +
     labs(x = 'Proximity to water, km', y = 'Probability of dried fish consumption')
 
 
@@ -32,7 +35,7 @@ mod_dat %>%
     ggplot(aes(x = proximity_to_city_mins)) +
     stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.95, alpha = 0.5) +
     stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.5, alpha = 0.5) +
-    scale_y_continuous(labels = scales::label_percent()) +
+    scales +
     labs(x = 'Proximity to urban centre, mins', y = 'Probability of dried fish consumption')
 
 # country level intercepts
