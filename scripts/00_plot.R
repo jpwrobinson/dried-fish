@@ -35,6 +35,10 @@ conflicts_prefer(lubridate::stamp)
 conflicts_prefer(brms::stancode)
 conflicts_prefer(brms::WAIC)
 conflicts_prefer(base::union)
+conflicted::conflicts_prefer(janitor::crosstab)
+conflicted::conflicts_prefer(tidybayes::dstudent_t)
+conflicted::conflicts_prefer(base::intersect)
+conflicted::conflicts_prefer(purrr::map)
 
 # plot cols
 source('scripts/theme_sleek.R')
@@ -55,3 +59,7 @@ rda$nutrient[rda$nutrient=='Omega_3']<-'Omega-3 (DHA + EPA)'
 ## get nutrient units
 units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega-3 (DHA + EPA)', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
                   unit = c('percent', 'mg', 'mg', 'mcg', 'mg','mcg', 'g', 'mcg', 'mcg', 'mcg', 'mcg'))
+
+# inland / marine
+realm_cols<-c('#4daf4a', '#386cb0')
+realm_cols_named<-c('Inland' = '#4daf4a','Marine' = '#386cb0')
