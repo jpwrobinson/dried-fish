@@ -13,6 +13,10 @@ water_prox<-function(dat){
                       crs = "EPSG:4326") %>%  #4326 = WGS84
                 st_transform(proj)
     
+    ## remove brackish lakes from inland (Nigeria, Senegal, Ivory Coast)
+    bracks<-c(305, 418, 938, 1667, 2826, 485, 701)
+    inland<-inland %>% filter(!GLWD_ID %in% bracks)
+    
     marine<-ne_download(scale = 10, type = 'countries', category = 'cultural') %>% 
         st_as_sf() %>% 
         st_transform(ber_proj4) %>%

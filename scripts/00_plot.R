@@ -63,3 +63,7 @@ units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc',
 # inland / marine
 realm_cols<-c('#4daf4a', '#386cb0')
 realm_cols_named<-c('Inland' = '#4daf4a','Marine' = '#386cb0')
+
+
+countries<-c('Senegal', 'Nigeria', 'Malawi', 'Tanzania', 'Uganda', "Cote d'Ivoire")
+countries2<-c('Senegal', 'Nigeria', 'Malawi', 'Tanzania', 'Uganda', "Ivory Coast")

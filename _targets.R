@@ -10,6 +10,7 @@ cons<-c('lead', 'mercury', 'cadmium')
 
 # tar_load(nut_data)
 # tar_load(lsms_data)
+# tar_load(lsms_proximity)
 
 list(
     # read and clean nutrient dataset
@@ -21,11 +22,13 @@ list(
     
     # lsms household maps
     tar_target(lsms_data, lsms_read()[[1]]),
-    tar_target(lsms_map, lsms_map_hh(lsms_data)),
     tar_target(lsms_water, water_prox(lsms_data)),
     tar_target(lsms_proximity, city_prox(lsms_water)),
     tar_target(lsms_save, write.csv(lsms_proximity, 'data/lsms_with_covariates.csv', row.names=FALSE)),
+    tar_target(lsms_map, lsms_map_hh(dat1= lsms_data, dat2=lsms_proximity)),
     
+    # modelling
+    tar_target(mod_dat, mod_prep(lsms_proximity)),
     
     # figures on nutrient values
 
@@ -35,6 +38,8 @@ list(
     tar_target(figRNI_avg, fig_dried_rni(nut_data, portion = portionK)[[1]]),
 
     tar_target(figMap, lsms_map_fig(lsms_data)),
+    tar_target(figMod, fig_mod(mod_dat)),
+
     
     # Sup Figures
     # change in nutrient content relative to fresh samples
@@ -55,6 +60,7 @@ list(
         fig1a = figND, 
         fig1b = figRNI_avg,
         fig2 = figMap,
+        fig3 = figMod,
         figS1 = figContrast,
         figS2 = figRNI_species,
         figS3 = figPortionSize[[2]],
@@ -67,7 +73,7 @@ list(
 
 # tar_manifest()
 # tar_visnetwork()
-tar_load(lsms_data)
+# tar_load(lsms_data)
 
 
 

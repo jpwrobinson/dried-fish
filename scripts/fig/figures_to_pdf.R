@@ -1,4 +1,4 @@
-figs<-function(fig1a, fig1b, fig2, figS1, figS2, figS3, figS4, figS5, figS6){
+figs<-function(fig1a, fig1b, fig2, fig3, figS1, figS2, figS3, figS4, figS5, figS6){
 
     pdf(file = 'fig/Figure1.pdf', height =5, width=10)
     print(
@@ -14,6 +14,13 @@ figs<-function(fig1a, fig1b, fig2, figS1, figS2, figS3, figS4, figS5, figS6){
         fig2
     )
     dev.off()
+    
+    pdf(file = 'fig/Figure3.pdf', height =10, width=7)
+    print(
+        fig3
+    )
+    dev.off()
+    
 
     pdf(file = 'fig/FigureS1.pdf', height =5, width=8)
     print(

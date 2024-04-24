@@ -21,3 +21,13 @@ dried %>% filter(nutrient %in% c('epa', 'dha')) %>% group_by(form, nutrient, uni
     reframe(n_samples = n_distinct(sample_id), min=min(value),max=max(value), mean=mean(value)) %>% 
     filter(form %in% c('Powder', 'Smoked', 'Sun-dried')) %>% 
     select(form, nutrient, min:mean, unit, n_samples)
+
+
+## country pouplations
+library(WDI)
+
+pop.df <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$entity %>%
+    clean_names() %>%
+    filter(country == countries) 
+
+pop.df %>% group_by(country) %>% slice_max(year, n =3)

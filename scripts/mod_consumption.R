@@ -4,54 +4,8 @@ library(rstan)
 targets::tar_load(lsms_proximity)
 dat<-lsms_proximity
 
-mod_dat<-dat %>% 
-    filter(!is.na(n_hh) & !is.na(monthly_exp)) %>%  ## mostly in Tanzania - check these
-    group_by(country) %>% 
-    mutate(Swealth = scales::rescale(monthly_exp / sqrt(n_hh), to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size
-    ungroup() %>% mutate(
-    Sn_hh = scale(n_hh)[,1],
-    Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
-    Sproximity_to_city_mins = scale(proximity_to_city_mins)[,1],
-    nearest_water = as.factor(ifelse(distance_to_inland > distance_to_marine, 'Marine', 'Inland')),
-    marine = ifelse(distance_to_inland > distance_to_marine, 1, 0),
-    inland = ifelse(marine == 1, 0, 1),
-    hh_cluster = as.factor(hh_cluster),
-    country = as.factor(country),
-    response = ifelse(dried == 'yes', 1, 0)) %>% 
-    select(-any_fish)
-
 # ## binomial model of dried fish consumption, hierarchical by cluster + country
-# m<-ulam(
-#     alist(
-#         response ~ dbinom(1, p),
-#         
-#         logit(p) <-  a_bar + 
-#             
-#             # access covariates
-#             b_1*proximity_to_water_km +
-#             b_2*proximity_to_city_mins + 
-#             b_3*n_hh +
-#             b_4*wealth +
-#             b_5[nearest_water] +
-#             
-#             # nested households in countries
-#             # x[hh_cluster]*sigma_a +
-#             x2[country],
-#         
-#         # x[hh_cluster] ~ dnorm(0, 1),
-#         x2[country] ~ dnorm(0, 1),
-#         b_1 ~ dnorm(0, 1),
-#         b_2 ~ dnorm(0, 1),
-#         b_3 ~ dnorm(0, 1),
-#         b_4 ~ dnorm(0, 1),
-#         b_5[nearest_water] ~ dnorm(0, 1),
-#         
-#         a_bar ~ dnorm(0, 1) 
-#         # sigma_a ~ dexp(1),
-#         # gq > vector[hh_cluster]:a <<- a_bar + x*sigma_a
-#         
-#     ), data = mod_dat, chains = 3, cores = 6, log_lik=TRUE)
-# precis(m)
+
 
 # m1<-brm(data = mod_dat, family = bernoulli,
 #     response ~ 1 + proximity_to_water_km + proximity_to_city_mins + n_hh + wealth +
@@ -64,6 +18,8 @@ mod_dat<-dat %>%
 #     iter = 1000, warmup = 500, chains = 3, cores = 6,
 #     seed = 10)
 
+mod_dat<-mod_prep(lsms_proximity)
+
 m2<-brm(data = mod_dat, family = bernoulli,
         response ~ 1 + nearest_water*(Sproximity_to_water_km + Sproximity_to_city_mins + Sn_hh + Swealth) +
             # marine + inland + 
@@ -74,7 +30,7 @@ m2<-brm(data = mod_dat, family = bernoulli,
         iter = 1000, warmup = 500, chains = 3, cores = 6,
         seed = 10)
 
-save(m2, file = 'data/mod/lsms_mod.rds')
+save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 
 load(file = 'data/mod/lsms_mod.rds')
 summary(m2)
