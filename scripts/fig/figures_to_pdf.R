@@ -1,6 +1,6 @@
 figs<-function(fig1a, fig1b, fig2, fig3, figS1, figS2, figS3, figS4, figS5, figS6){
 
-    pdf(file = 'fig/Figure1.pdf', height =5, width=10)
+    pdf(file = 'fig/Figure1.pdf', height =4, width=12)
     print(
         plot_grid(
             fig1a + theme(plot.margin=unit(c(1,3,1,0), 'cm')), 

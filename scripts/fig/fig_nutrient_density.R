@@ -45,21 +45,38 @@ fig_ndensity<-function(dat, portion){
         mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni)) %>% 
         group_by(lab, species, nutrient, form, location) %>% 
         summarise(rni = mean(rni)) %>% 
-        pivot_wider(-lab,  names_from = nutrient, values_from = rni) %>% 
+        pivot_wider(id_cols = -lab,  names_from = nutrient, values_from = rni) %>% 
         filter(form != 'Fresh') %>% 
         mutate(density = rowSums(across(where(is.numeric)), na.rm=TRUE)*100,
                id = paste(species, form, sep='\n'),
                env = ifelse(location %in% c('Mombasa', "Accra"), 'Marine', 'Freshwater'))
 
+    # form aggs
+    datter2<-nutl_agg %>% 
+        mutate(rni = case_when(str_detect(pop, 'Children') ~ rni_kids, 
+                               str_detect(pop, 'Adult women')~rni_women,
+                               str_detect(pop, 'Adult men')~rni_men,
+                               str_detect(pop, 'Pregnant')~rni_pregnant)) %>% 
+        mutate(rni = rni/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
+        ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
+        mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni),
+               env = ifelse(location %in% c('Mombasa', "Accra"), 'Marine', 'Freshwater')) %>% 
+        group_by(lab, nutrient, form, env) %>% 
+        summarise(rni = mean(rni)) %>% 
+        pivot_wider(id_cols = -lab,  names_from = nutrient, values_from = rni) %>% 
+        mutate(density = rowSums(across(where(is.numeric)), na.rm=TRUE)*100,
+               id = paste(env, form, sep='\n'))
 
-    g1B<-ggplot(datter, aes(fct_reorder(id, density), density, fill=form)) + 
+    g1B<-ggplot(datter2, aes(fct_reorder(id, density), density, fill=form)) + 
             geom_bar(stat='identity', position = 'dodge') + 
-            geom_text(aes(label = env), nudge_y = 4, size = 2, hjust=0) +
+            geom_text(aes(label = paste0(round(density, 0), '%')), nudge_y = 4, size = 2, hjust=0) +
             scale_fill_manual(values=pcols_named)  +
             scale_y_continuous(expand=c(0,0)) +
-            theme(legend.position = 'none', axis.text.y = element_text(size=7, vjust=0.5)) +
+            theme(legend.position = 'none', 
+                  axis.text.y = element_text(size=7, vjust=0.5),
+                  axis.line.y = element_blank()) +
             labs(x = '', y = 'Nutrient density, %') +
             coord_flip(clip='off') 
 
-    print(g1B)
+        print(g1B)
 }
