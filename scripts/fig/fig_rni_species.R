@@ -100,7 +100,7 @@ figRNI<-function(dat, portion){
     gg_leg<-ggradar(datter %>% filter(form %in% unique(datter$form)) %>% distinct(form, nutrient) %>% 
                         mutate(rni = 0) %>% 
                         pivot_wider(names_from = nutrient, values_from = rni), 
-                    fill=TRUE) + guides(color='none') + scale_fill_manual(values=pcols_named[-1]) 
+                    fill=TRUE) + guides(color='none') + scale_fill_manual(values=pcols_named[-3]) 
 
     pl<-list(gg_1, gg_2, gg_3, gg_4, gg_5, gg_6, gg_7, gg_8, gg_9, gg_10, gg_11, get_legend(gg_leg))
     gSX<-plot_grid(plotlist=pl)

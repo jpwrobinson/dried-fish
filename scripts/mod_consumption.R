@@ -1,5 +1,5 @@
-library(rethinking)
 library(rstan)
+library(brms)
 
 targets::tar_load(lsms_proximity)
 dat<-lsms_proximity
@@ -65,4 +65,9 @@ m2 %>%
     scale_x_continuous(labels = scales::label_percent()) +
     scale_y_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
     labs(y = '', x = 'Probability of dried fish consumption')
+
+## summary stats
+# https://www.andrewheiss.com/blog/2021/11/10/ame-bayes-re-guide/
+# https://www.andrewheiss.com/blog/2022/09/26/guide-visualizing-types-posteriors/
+    
 

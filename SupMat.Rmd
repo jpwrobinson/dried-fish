@@ -28,7 +28,7 @@ i = 0
 knitr::include_graphics("fig/FigureS2.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Nutrient content of processed fish species**. Radars show contribution of 6 g portion to recommend intakes of each nutrient, for each sampled species. Plots coloured by processing type.
+**Fig. S`r i`. Nutrient content of processed fish species**. Radars show contribution of 9 g portion to recommend intakes of each nutrient, for each sampled species. Plots coloured by processing type.
 
 \blandscape
 
@@ -52,14 +52,14 @@ knitr::include_graphics("fig/FigureS1.pdf"); i = i + 1
 knitr::include_graphics("fig/FigureS4.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Nutrient content of fish species by processing type**. Radars show contribution of 6 g portion to recommend intakes of each nutrient, for processing type, averaged across species.
+**Fig. S`r i`. Nutrient content of fish species by processing type**. Radars show contribution of 9 g portion to recommend intakes of each nutrient, for processing type, averaged across species.
 
 \newpage
 ```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
 knitr::include_graphics("fig/FigureS5.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Contaminant content of fish by processing type**. Radars show contribution of 6 g portion to maximum permissible level of three heavy metals, for each processing type, averaged across species.
+**Fig. S`r i`. Contaminant content of fish by processing type**. Radars show contribution of 9 g portion to maximum permissible level of three heavy metals, for each processing type, averaged across species.
 
 \newpage
 
@@ -67,4 +67,4 @@ knitr::include_graphics("fig/FigureS5.pdf"); i = i + 1
 knitr::include_graphics("fig/FigureS6.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Contaminant content of processed fish species**. Radars show contribution of 6 g portion to maximum permissible level of three heavy metals, for each sampled species. Plots coloured by processing type.
+**Fig. S`r i`. Contaminant content of processed fish species**. Radars show contribution of 9 g portion to maximum permissible level of three heavy metals, for each sampled species. Plots coloured by processing type.

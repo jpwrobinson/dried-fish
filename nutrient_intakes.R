@@ -1,6 +1,7 @@
 
 targets::tar_load(nut_data)
 
+## RNI contributions
 nut_data %>% 
     filter(!form %in% c('Fresh', 'Fresh, gutted'),
            nutrient %in% nuts) %>% 
@@ -29,7 +30,7 @@ prop_dried<-lsms_proximity %>%
     filter(dried=='yes')
 
 load(file = 'data/mod/lsms_mod.rds')
-post<-m1 %>%
+post<-m2 %>%
     spread_draws(b_Intercept, r_country[state,]) %>% 
     mutate(country_mean = inv_logit(b_Intercept + r_country)) %>%
     summarise_draws() %>% 
@@ -60,3 +61,4 @@ pop <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$entity 
            people_eating_dried_hi = total_population * q95)
 
 sum(pop$people_eating_dried)/1e6
+

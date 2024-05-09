@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|e4bc134d226337b6|||||||||||||||
+.Random.seed|object|471643aadd50962a|||||||||||||||
 ca|object|c7a1c2fc6add07f3|||||||||||||||
 cadmium|object|c0ad24454042019f|||||||||||||||
 city_prox|function|12c8fee957abf70f|||||||||||||||
@@ -8,27 +8,27 @@ cont|object|d4d992ac7bb40b78|||||||||||||||
 countries|object|28e529cba7faf2a7|||||||||||||||
 countries2|object|13222fcbe9913115|||||||||||||||
 fe|object|6ee3a4ffae6c03e5|||||||||||||||
-fig_dried_rni|function|07e9821714df6be2|||||||||||||||
-fig_fresh_contrast|function|48db711ce2ac96e1|||||||||||||||
+fig_dried_rni|function|2f1eea0b73f8826a|||||||||||||||
+fig_fresh_contrast|function|b0dfcf95ccfa1ac8|||||||||||||||
 fig_mod|function|3f3942e1b3870cc6|||||||||||||||
-fig_ndensity|function|a65bdca29923a9d6|||||||||||||||
-figAll|stem|c6407a74d6524722|b5eb309f0b902f45|88b977872c18a83f|-1799039079||t19838.5502900866s|40b3a10246f0095b|83|rds|local|vector|||7.631|Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
-figContam|stem|b83e8996a209666d|27778642ecbe842f|507e6a46ec76ead7|-483990596||t19838.5372511119s|8a901da391dfe1a1|1401776|rds|local|vector|||3.53|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.|
-figContaminant|function|a417f5022093428e|||||||||||||||
-figContaminant_Species|function|d90be9c288bbd875|||||||||||||||
+fig_ndensity|function|22d063ee778db348|||||||||||||||
+figAll|stem|df4273d76388ed67|b5eb309f0b902f45|1e43bec9c1ab3d86|-1799039079||t19852.569757846s|c852eab37a726e04|78|rds|local|vector|||8.614|Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
+figContam|stem|eb2608526245b51b|27778642ecbe842f|a392b16704e81c6c|-483990596||t19852.5667340677s|b5f3f0d819964448|1402116|rds|local|vector|||3.647||
+figContaminant|function|eb6ca4a00622a78a|||||||||||||||
+figContaminant_Species|function|06c024a461a8a648|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
-figContamS|stem|287d8e712c7ed5d0|21343ba9428da644|dbcaf63ba93818e4|-1359281853||t19838.5372035154s|8924fbcc7a6f031b|2816990|rds|local|vector|||8.331|Multiple components found returning the first one. To return all, use return_all  TRUE.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.|
-figContrast|stem|958a83bfce9adf9b|3b2b83b7bb7e4e00|ed0b4212d8b179d6|-1646584657||t19838.5372572713s|0db6471d31cba15b|212270|rds|local|vector|||0.44|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
+figContamS|stem|e99a6206bba08c70|21343ba9428da644|ec5bf0f56c190d44|-1359281853||t19852.5666851055s|64678383c3b5f30a|2817404|rds|local|vector|||8.573|Multiple components found returning the first one. To return all, use return_all  TRUE.|
+figContrast|stem|6c7ae2607d15693a|3b2b83b7bb7e4e00|01c09613c5d9509e|-1646584657||t19852.5695648802s|ef59e6f61a39c3f0|212278|rds|local|vector|||0.561|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
 figMap|stem|ca7b7d897cad882c|ea3036115afc5dec|3fa2f152aa1b2f18|450328000||t19818.5133954042s|543060cbca8f8c4c|14910885|rds|local|vector|||5.732|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
 figMod|stem|de04d3001b40c7c8|c50ce1f53f21dc1c|d4e0127052825803|1382495384||t19837.6695817095s|528c84e0fb873675|89705152|rds|local|vector|||12.255|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.|
-figND|stem|2f72f06959478bd9|eb9061a8a8de87d8|cc9960fe03e507d4|1162846536||t19838.5372632965s|a40685de162fd32d|190484|rds|local|vector|||0.437||
-figPortion|function|31aa1b4c9449baf0|||||||||||||||
-figPortionSize|stem|2778738586ac0dc9|5f4ef142e50766c9|26547c5e8df3f654|985414519||t19838.5499953102s|1b6146ec1c9f7c6f|947160|rds|local|vector|||12.476|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.|
-figRNI|function|a2fb6ca940757f16|||||||||||||||
-figRNI_avg|stem|468236e5f42cc568|1f401e08a0b20d11|26547c5e8df3f654|-2078976083||t19838.5501181782s|ff3c26c80e277e4c|846997|rds|local|vector|||10.416||
-figRNI_forms|stem|8fc6c968a9ed5ccc|3962c4bf59f8f239|ce40acc8a290e189|1450393985||t19838.5446496402s|4516b9f0be269ee7|1521783|rds|local|vector|||3.464||
+figND|stem|bcdffeb70130f4a5|eb9061a8a8de87d8|65e53cf72419c70a|1162846536||t19852.5667447488s|ee73e66b36b3fe4c|190375|rds|local|vector|||0.311||
+figPortion|function|126da8dcd815f46f|||||||||||||||
+figPortionSize|stem|57a8a9e2e017648c|5f4ef142e50766c9|b6c0578b22f560b6|985414519||t19852.5668750384s|5b55512ac7a23d47|951685|rds|local|vector|||11.043||
+figRNI|function|d06b7dfa0d3fb7b6|||||||||||||||
+figRNI_avg|stem|1f1703ee4a2ffe54|1f401e08a0b20d11|b6c0578b22f560b6|-2078976083||t19852.5670013717s|f7331cbf48021a20|850261|rds|local|vector|||10.711||
+figRNI_forms|stem|66faed328a3edf0d|3962c4bf59f8f239|577e6816797babde|1450393985||t19852.5670504888s|f83a1bb75863f678|1521336|rds|local|vector|||3.48||
 figRNI_nut|stem|57c12b645a6a43b0|7371083421e8fc8d|6c1e9b4f81cb2bfd|-359967961||t19803.5897901999s|2de9f12799cca7e8|1629702|rds|local|vector|||4.147||
-figRNI_species|stem|e3039d60698b7b73|758541c59ae590af|31e4fb05372a7f22|416951054||t19838.5447563681s|23e62b67b5f047db|2868322|rds|local|vector|||7.888|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.|
+figRNI_species|stem|6bbe8c39f577e3be|758541c59ae590af|3fcb06a3619c6418|416951054||t19852.5671581572s|7c158678f6660a41|2867379|rds|local|vector|||7.987|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
 figs|function|6ab3f3573a760eb4|||||||||||||||
 folate|object|045b07e719c4cc68|||||||||||||||
 i|object|83786c110b338a54|||||||||||||||
@@ -55,12 +55,12 @@ nutl|object|5aa2c6cb6f6148c4|||||||||||||||
 nuts|object|93d9954a0d0ba3b3|||||||||||||||
 omega|object|366b9b69784dd35e|||||||||||||||
 pcols|object|05bf435179b26f54|||||||||||||||
-pcols_named|object|d99b2508d755c6ee|||||||||||||||
+pcols_named|object|291844f50f13d53b|||||||||||||||
 pcols_order|object|f74477ab452f7a94|||||||||||||||
 pop|object|19d4312a955a1f26|||||||||||||||
 portion|object|034a656f55683244|||||||||||||||
-portionK|object|034a656f55683244|||||||||||||||
-portionW|object|034a656f55683244|||||||||||||||
+portionK|object|bfd2ca4835bfbdf3|||||||||||||||
+portionW|object|499521698191e4a4|||||||||||||||
 rda|object|dfa0ba4659955993|||||||||||||||
 read_dry|stem|5810fb7735d3c759|53336ebff4136a16|ffe66d558cdb4c45|-831724696||t19780.6162553215s|6bc8c359900bc152|892|rds|local|vector|||0.044||
 read_nut|stem|460000d6dd5d780f|1372f27cfa65365f|9111b0587d37e5d5|1140053488||t19780.6162944486s|40b3a10246f0095b|83|rds|local|vector|||3.364|Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. There was 1 warning in mutate.ℹ In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse NAs introduced by coercion|
