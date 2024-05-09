@@ -1,4 +1,5 @@
 library(tidyverse)
+source('scripts/functions.R')
 
 ## Dried nutrient sample metadata
 dried<-read.csv('data/clean/dried_nutrient_estimates_long.csv')
@@ -31,3 +32,39 @@ pop.df <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$enti
     filter(country == countries) 
 
 pop.df %>% group_by(country) %>% slice_max(year, n =3)
+
+
+## model summaries
+
+# marine / inland
+mod_dat %>% 
+    data_grid(Sproximity_to_water_km = 0,
+              Sproximity_to_city_mins = 0,
+              Swealth = 0,
+              nearest_water=levels(mod_dat$nearest_water),
+              Sn_hh = 0) %>%  
+    add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
+    group_by(nearest_water) %>% 
+    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2])
+
+# prox to city
+mod_dat %>%  
+    data_grid(Sproximity_to_water_km = 0,
+              Sproximity_to_city_mins = seq_range(Sproximity_to_city_mins, n = 100),
+              Swealth = 0,
+              nearest_water=levels(mod_dat$nearest_water),
+              Sn_hh = 0) %>%  
+    mutate(proximity_to_city_mins = rep(seq_range(mod_dat$proximity_to_city_mins, n = 100), each=2)) %>% 
+    add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
+    group_by(proximity_to_city_mins, nearest_water) %>% 
+    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 
+    slice_min_max(proximity_to_city_mins)
+
+m2 %>% 
+    emmeans(~ nearest_water,
+            at = list(Sproximity_to_city_mins = 0),
+            epred = TRUE)
+
+m2 %>% 
+    emmeans(~ Sn_hh,
+            epred = TRUE)

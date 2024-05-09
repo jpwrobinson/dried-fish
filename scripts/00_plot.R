@@ -15,6 +15,7 @@ library(rethinking)
 library(conflicted)
 library(WDI)
 library(FAOSTAT)
+library(emmeans)
 options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
 
 ## conflicts resolve

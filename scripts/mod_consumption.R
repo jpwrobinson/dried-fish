@@ -39,13 +39,13 @@ plot(m2)
 ranef(m2)$country
 
 mod_dat %>%  
-    data_grid(proximity_to_water_km = seq_range(proximity_to_water_km, n = 100),
-              proximity_to_city_mins = 0, 
-              wealth = 0,
+    data_grid(Sproximity_to_water_km = seq_range(proximity_to_water_km, n = 100),
+              Sproximity_to_city_mins = 0, 
+              Swealth = 0,
               # marine = 0, inland = 0, 
               nearest_water=levels(mod_dat$nearest_water),
               # country=unique(mod_dat$country),
-              n_hh = 0) %>%  
+              Sn_hh = 0) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
     ggplot(aes(x = proximity_to_water_km)) +
     stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.95, alpha = 0.5) +
