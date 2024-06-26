@@ -50,3 +50,17 @@ source('scripts/fig/fig_mod.R')
 source('scripts/fig/fig_contaminant_species.R')
 source('scripts/fig/fig_contaminant_content.R')
 source('scripts/dried_fish_maps.R')
+
+
+## random slice min max
+slice_min_max <- function(df, order_by = value, n = 1) {
+    order_by = enquo(order_by)
+    min <- slice_min(df, !!order_by, n = n) %>%
+        mutate(type = "min")
+    max <- slice_max(df, !!order_by, n = n) %>%
+        mutate(type = "max")
+    df <- bind_rows(min, max) %>%
+        as_tibble()
+    return(df)
+    
+}

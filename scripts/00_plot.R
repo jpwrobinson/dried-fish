@@ -14,6 +14,8 @@ library(brms)
 library(rethinking)
 library(conflicted)
 library(WDI)
+library(FAOSTAT)
+library(emmeans)
 options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
 
 ## conflicts resolve
@@ -48,7 +50,7 @@ pcols_order<-c('Fresh','Fried', 'Powder','Smoked', 'Sun-dried')
 # pcols_named<-c('Fresh' = pcols[1], 'Sun-dried' = pcols[2], 'Smoked' = pcols[3],'Fried' = pcols[4], 'Powder' = pcols[5])
 
 # https://paletton.com/#uid=73b0u0km0n-cfyYhFrXq1juvce8
-pcols_named<-c('Sun-dried' = '#B1374B', 'Smoked' = '#712D03', 'Fresh' = '#267966', 'Powder' = '#DF9364')
+pcols_named<-c('Sun-dried' = '#B1374B', 'Smoked' = '#712D03', 'Fresh' = '#267966', 'Powder' = '#DF9364', 'Fried' = pcols[4])
 
 ## get RDA reference vals
 source('scripts/rda_reader_integrated.R')

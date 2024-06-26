@@ -33,18 +33,18 @@ fig_fresh_contrast<-function(dat){
         mutate(lwr = contrast - 2*se, upr = contrast + 2*se)
 
     g1A<-ggplot(nut_mean2, aes(contrast, fct_reorder2(nutrient, type, -contrast))) +
-    # geom_rect(xmin = -Inf, xmax = Inf, ymin = 10.5, ymax = 11.5, fill = 'grey90', alpha=0.5) +
-    # geom_rect(xmin = -Inf, xmax = Inf, ymin = 12.5, ymax = Inf, fill = 'grey90', alpha=0.5) +
-    # geom_rect(xmin = -Inf, xmax = Inf, ymin = 3.5, ymax = 4.5, fill = 'grey90', alpha=0.5) +
-    geom_vline(xintercept = 0, linetype=5, col='grey80')+
-    geom_jitter(data = nut, aes( col = form), height=0.1, size=1, alpha=0.5) +
-    geom_pointrange(aes(xmin = lwr, xmax = upr)) +
-    # geom_pointrange(aes(xmin = lwr, xmax = upr, fill=form), size=0.5, pch=21, col='black') +
-    scale_colour_manual(values=pcols_named[-1]) +
-    facet_grid(type~., scales='free', space = 'free_y') +
-    labs(x = 'Change in nutrient / contaminant content after processing', y = '') +
-    scale_x_continuous(limits=c(-1, 2), breaks=seq(-1, 2, by = 0.5), labels=scales::percent) +
-    theme(legend.title = element_blank(), legend.position = c(0.8, 0.4), strip.text.y = element_blank())
+        # geom_rect(xmin = -Inf, xmax = Inf, ymin = 10.5, ymax = 11.5, fill = 'grey90', alpha=0.5) +
+        # geom_rect(xmin = -Inf, xmax = Inf, ymin = 12.5, ymax = Inf, fill = 'grey90', alpha=0.5) +
+        # geom_rect(xmin = -Inf, xmax = Inf, ymin = 3.5, ymax = 4.5, fill = 'grey90', alpha=0.5) +
+        geom_vline(xintercept = 0, linetype=5, col='grey80')+
+        geom_jitter(data = nut, aes( col = form), height=0.1, size=1, alpha=0.5) +
+        geom_pointrange(aes(xmin = lwr, xmax = upr)) +
+        # geom_pointrange(aes(xmin = lwr, xmax = upr, fill=form), size=0.5, pch=21, col='black') +
+        scale_colour_manual(values=pcols_named) +
+        facet_grid(type~., scales='free', space = 'free_y') +
+        labs(x = 'Change in nutrient / contaminant content after processing', y = '') +
+        scale_x_continuous(limits=c(-1, 2), breaks=seq(-1, 2, by = 0.5), labels=scales::percent) +
+        theme(legend.title = element_blank(), legend.position = c(0.8, 0.4), strip.text.y = element_blank())
 
 
     print(g1A)
