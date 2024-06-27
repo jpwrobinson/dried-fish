@@ -88,7 +88,7 @@ figContaminant_Species<-function(dat, portion){
             guides(color='none') + 
             scale_fill_manual(values=pcols_named[-1]) 
 
-    pl<-list(gg_1, gg_2, gg_3, gg_4, gg_5, gg_6, gg_7, gg_8, gg_9, gg_10, gg_11, get_legend(gg_leg))
+    pl<-list(gg_1, gg_2, gg_3, gg_4, gg_5, gg_6, gg_7, gg_8, gg_9, gg_10, gg_11,gg_12, gg_13, gg_14, gg_15, gg_16, gg_17, gg_18, get_legend(gg_leg))
     gSX<-plot_grid(plotlist=pl)
     print(gSX)
 }

@@ -2,14 +2,13 @@ library(tidyverse)
 library(janitor)
 library(readxl)
 
-## Read dried Ghana + Kenya samples Jan/Feb 2022
+## Read dried Ghana + Kenya samples Jan/Feb 2022, and supp LEC samples
 metat_dry<-function(path){
     ## 1. Dried fish size, species, source
     # rm(metat)
     metat<-read.csv(path) %>% 
-            # read.csv('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.csv') %>% 
-    		mutate(sample_id = str_replace_all(sample_id, '_A|_B|_C|_D|_E', '')
-    		       #sample_id = recode(sample_id, 'A_005' = 'A_001')
+    		mutate(sample_id = ifelse(location %in% c('Kisumu', 'Accra', 'Lake Volta', 'Mombasa'), 
+    		                          str_replace_all(sample_id, '_A|_B|_C|_D|_E', ''), sample_id)
     		       ) %>%
     		distinct(sample_id, date, location, type, days_processed, catch_source, local_name, latin_name) %>% 
             rename(form = type) %>% 

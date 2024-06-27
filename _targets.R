@@ -12,10 +12,13 @@ cons<-c('lead', 'mercury', 'cadmium')
 # tar_load(lsms_data)
 # tar_load(lsms_proximity)
 
+# tar_load(nut_data)
+
 list(
     # read and clean nutrient dataset
-    tar_target(meta_dry, metat_dry('data/sample_metadata/Kenya_Ghana_fish_nutrients - DATA_DRIED.csv')),
-    tar_target(nut_data, norway_read(path='data/norway_sep22/2022-734 downloaded 06.01.23.xlsx', 
+    tar_target(meta_dry, metat_dry('data/sample_metadata/all_dried_fish_samples.csv')),
+    tar_target(nut_data, norway_read(path1='data/norway_results/2022-734 downloaded 06.01.23.xlsx', 
+                                     path2='data/norway_results/2023-1200 Lancaster_James_25.06.2024_final results.xlsx', 
                                      filesave='dried_nutrient_estimates',
                                      metat = meta_dry)),
     

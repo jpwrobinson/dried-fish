@@ -1,0 +1,126 @@
+sample_unit,sample_id,interview_sheet,date,location,market,stall,type,days_processed,catch_source,local_name,latin_name,mean_total_length_mm,mass_g,sample_mass_inbag_g,bag_mass_g,sample_mass_g,number_fish
+M_001,M_001_A,dried_000,17/01/2022,Mombasa,,1,Sun-dried,2,Tanzania,Omena,Encrasicholina punctifer,,,,,100,
+M_001,M_001_B,dried_000,17/01/2022,Mombasa,,1,Sun-dried,2,Tanzania,Omena,Encrasicholina punctifer,,,,,100,
+M_001,M_001_C,dried_000,17/01/2022,Mombasa,,1,Sun-dried,2,Tanzania,Omena,Encrasicholina punctifer,,,,,100,
+M_001,M_001_D,dried_000,17/01/2022,Mombasa,,1,Sun-dried,2,Tanzania,Omena,Encrasicholina punctifer,,,,,100,
+M_001,M_001_E,dried_000,17/01/2022,Mombasa,,1,Sun-dried,2,Tanzania,Omena,Encrasicholina punctifer,,,,,100,
+K_001,K_001_A,dried_001,20/01/2022,Kisumu,Dunga,1,Sun-dried,2,Lake Victoria,Omena,Rastrineobola argenteus,42.1,,,,100,
+K_001,K_001_B,dried_001,20/01/2022,Kisumu,Dunga,1,Sun-dried,2,Lake Victoria,Omena,Rastrineobola argenteus,42.1,,,,100,
+K_001,K_001_C,dried_001,20/01/2022,Kisumu,Dunga,1,Sun-dried,2,Lake Victoria,Omena,Rastrineobola argenteus,42.1,,,,100,
+K_001,K_001_D,dried_001,20/01/2022,Kisumu,Dunga,1,Sun-dried,2,Lake Victoria,Omena,Rastrineobola argenteus,42.1,,,,100,
+K_001,K_001_E,dried_001,20/01/2022,Kisumu,Dunga,1,Sun-dried,2,Lake Victoria,Omena,Rastrineobola argenteus,42.1,,,,100,
+K_001_W,K_001_W,dried_001,20/01/2022,Kisumu,Dunga,1,Fresh,0,Lake Victoria,Omena,Rastrineobola argenteus,,,386,5,381,
+K_002_W,K_002_W,dried_002,20/01/2022,Kisumu,Dunga,2,Fresh,0,Lake Victoria,Omena,Rastrineobola argenteus,,,359,5,354,
+K_003_W,K_003_W,dried_002,20/01/2022,Kisumu,Dunga,2,Fresh,0,Lake Victoria,Fulu,Haplochromines,,,342,5,337,
+K_002,K_002_A,dried_003,20/01/2022,Kisumu,Kisumu Centre,1,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,38.7,,,,100,
+K_002,K_002_B,dried_003,20/01/2022,Kisumu,Kisumu Centre,1,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,38.7,,,,100,
+K_002,K_002_C,dried_003,20/01/2022,Kisumu,Kisumu Centre,1,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,38.7,,,,100,
+K_002,K_002_D,dried_003,20/01/2022,Kisumu,Kisumu Centre,1,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,38.7,,,,100,
+K_002,K_002_E,dried_003,20/01/2022,Kisumu,Kisumu Centre,1,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,38.7,,,,100,
+K_003,K_003_A,dried_004,20/01/2022,Kisumu,Kisumu Centre,2,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,42.9,,,,100,
+K_003,K_003_B,dried_004,20/01/2022,Kisumu,Kisumu Centre,2,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,42.9,,,,100,
+K_003,K_003_C,dried_004,20/01/2022,Kisumu,Kisumu Centre,2,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,42.9,,,,100,
+K_003,K_003_D,dried_004,20/01/2022,Kisumu,Kisumu Centre,2,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,42.9,,,,100,
+K_003,K_003_E,dried_004,20/01/2022,Kisumu,Kisumu Centre,2,Sun-dried,1,Uyoma beach,Omena,Rastrineobola argenteus,42.9,,,,100,
+K_004,K_004_A,dried_005,20/01/2022,Kisumu,Kisumu Centre,3,Sun-dried,1,Nyandiwa beach,Omena,Rastrineobola argenteus,37.5,,,,100,
+K_004,K_004_B,dried_005,20/01/2022,Kisumu,Kisumu Centre,3,Sun-dried,1,Nyandiwa beach,Omena,Rastrineobola argenteus,37.5,,,,100,
+K_004,K_004_C,dried_005,20/01/2022,Kisumu,Kisumu Centre,3,Sun-dried,1,Nyandiwa beach,Omena,Rastrineobola argenteus,37.5,,,,100,
+K_004,K_004_D,dried_005,20/01/2022,Kisumu,Kisumu Centre,3,Sun-dried,1,Nyandiwa beach,Omena,Rastrineobola argenteus,37.5,,,,100,
+K_004,K_004_E,dried_005,20/01/2022,Kisumu,Kisumu Centre,3,Sun-dried,1,Nyandiwa beach,Omena,Rastrineobola argenteus,37.5,,,,100,
+K_005,K_005,dried_006,20/01/2022,Kisumu,Kisumu Centre,4,Sun-dried,7,Lake Turkana,Tilapia,Oreochromis niloticus,250,,87,5,82,1
+K_006,K_006,dried_006,20/01/2022,Kisumu,Kisumu Centre,4,Sun-dried,7,Lake Turkana,Tilapia,Oreochromis niloticus,255,,70,5,65,1
+K_007,K_007,dried_006,20/01/2022,Kisumu,Kisumu Centre,4,Sun-dried,7,Lake Turkana,Tilapia,Oreochromis niloticus,285,,91,5,86,1
+K_008,K_008,dried_006,20/01/2022,Kisumu,Kisumu Centre,4,Smoked,7,Lake Turkana,Tilapia,Oreochromis niloticus,258,,88,5,83,1
+K_009,K_009,dried_006,20/01/2022,Kisumu,Kisumu Centre,4,Smoked,7,Lake Turkana,Tilapia,Oreochromis niloticus,246,,70,5,65,1
+K_010,K_010,dried_006,20/01/2022,Kisumu,Kisumu Centre,4,Smoked,7,Lake Turkana,Tilapia,Oreochromis niloticus,290,,116,5,111,1
+K_011,K_011_A,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Omena,Rastrineobola argenteus,38.6,,,,100,
+K_011,K_011_B,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Omena,Rastrineobola argenteus,38.6,,,,100,
+K_011,K_011_C,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Omena,Rastrineobola argenteus,38.6,,,,100,
+K_011,K_011_D,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Omena,Rastrineobola argenteus,38.6,,,,100,
+K_011,K_011_E,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Omena,Rastrineobola argenteus,38.6,,,,100,
+K_012,K_012_A,dried_008,20/01/2022,Kisumu,Kisumu Centre,6,Fried,1,Mandundu beach,Fulu,Haplochromines,49.3,,,,100,
+K_012,K_012_B,dried_008,20/01/2022,Kisumu,Kisumu Centre,6,Fried,1,Mandundu beach,Fulu,Haplochromines,49.3,,,,100,
+K_012,K_012_C,dried_008,20/01/2022,Kisumu,Kisumu Centre,6,Fried,1,Mandundu beach,Fulu,Haplochromines,49.3,,,,100,
+K_012,K_012_D,dried_008,20/01/2022,Kisumu,Kisumu Centre,6,Fried,1,Mandundu beach,Fulu,Haplochromines,49.3,,,,100,
+K_012,K_012_E,dried_008,20/01/2022,Kisumu,Kisumu Centre,6,Fried,1,Mandundu beach,Fulu,Haplochromines,49.3,,,,100,
+K_013,K_013_A,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Fulu,Haplochromines,54.5,,,,100,
+K_013,K_013_B,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Fulu,Haplochromines,54.5,,,,100,
+K_013,K_013_C,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Fulu,Haplochromines,54.5,,,,100,
+K_013,K_013_D,dried_007,20/01/2022,Kisumu,Kisumu Centre,5,Sun-dried,1,Uhanya beach,Fulu,Haplochromines,54.5,,,,56,
+A_001,A_001_W,dried_008,31/01/2022,Accra,Tema,1,Fresh,0,Accra,Tuna fingerling,,204.2857143,,558,3,555,7
+A_002,A_002_W,dried_008,31/01/2022,Accra,Tema,1,Fresh,0,Accra,Horse mackerel,Trachurus sp.,149.8461538,,503,3,500,13
+A_003,A_003_W,dried_008,31/01/2022,Accra,Tema,1,Fresh,0,Accra,Herring,Sardinella maderensis,214.4285714,,566,3,563,7
+A_004,A_004_W,dried_009,31/01/2022,Accra,Tema,2,Fresh,0,Accra,Anchovy,Engraulis encrasicolus,79.4,,666,3,663,
+A_005,A_005_A,dried_009,31/01/2022,Accra,Tema,2,Sun-dried,2,Accra,Anchovy,Engraulis encrasicolus,57.6,,157,3,154,
+A_005,A_005_B,dried_009,31/01/2022,Accra,Tema,2,Sun-dried,2,Accra,Anchovy,Engraulis encrasicolus,57.6,,178,3,175,
+A_005,A_005_C,dried_009,31/01/2022,Accra,Tema,2,Sun-dried,2,Accra,Anchovy,Engraulis encrasicolus,57.6,,149,3,146,
+A_005,A_005_W,NA,31/01/2022,Accra,Tema,3,"Fresh, gutted",0,Accra,Mackerel,Scomberomorus tritor,315,,341,3,338,1
+A_006,A_006_W,NA,31/01/2022,Accra,Tema,3,"Fresh, gutted",0,Accra,Mackerel,Scomberomorus tritor,295,,228,3,225,1
+A_007,A_007_W,NA,31/01/2022,Accra,Tema,3,"Fresh, gutted",0,Accra,Mackerel,Scomberomorus tritor,285,,231,3,228,1
+A_008,A_008_W,dried_009,31/01/2022,Accra,Tema,2,"Fresh, gutted",0,Accra,Flying fish,Cheilopogon melanurus,251.8,,574,3,571,5
+A_009,A_009_A,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Tuna fingerling,,150.4,,203,5,198,9
+A_009,A_009_B,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Tuna fingerling,,150.4,,248,5,243,12
+A_009,A_009_C,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Tuna fingerling,,150.4,,228,5,223,11
+A_010,A_010_A,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Herring,Sardinella maderensis,164.5,,203,5,198,6
+A_010,A_010_B,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Herring,Sardinella maderensis,164.5,,214,5,209,6
+A_010,A_010_C,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Herring,Sardinella maderensis,164.5,,274,5,269,7
+A_011,A_011_A,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Horse mackerel,Trachurus sp.,130.2,,158,5,153,12
+A_011,A_011_B,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Horse mackerel,Trachurus sp.,130.2,,161,5,156,11
+A_011,A_011_C,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Horse mackerel,Trachurus sp.,130.2,,137,5,132,10
+A_012,A_012_A,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Flying fish,Cheilopogon melanurus,Curled,,140,3,137,4
+A_012,A_012_B,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Flying fish,Cheilopogon melanurus,Curled,,139,3,136,4
+A_013,A_013,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Mackerel,Scomberomorus tritor,226,,182,3,179,1
+A_014,A_014,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Mackerel,Scomberomorus tritor,230,,190,3,187,1
+A_015,A_015,dried_009,01/02/2022,Accra,Tema,,Smoked,1,Accra,Mackerel,Scomberomorus tritor,226,,155,3,152,1
+A_016,A_016_A,dried_011,02/02/2022,Accra,Makola,2,Sun-dried,3,Accra,Anchovy,Engraulis encrasicolus,57,,109,5,104,
+A_016,A_016_B,dried_011,02/02/2022,Accra,Makola,2,Sun-dried,3,Accra,Anchovy,Engraulis encrasicolus,57,,107,5,102,
+A_016,A_016_C,dried_011,02/02/2022,Accra,Makola,2,Sun-dried,3,Accra,Anchovy,Engraulis encrasicolus,57,,105,5,100,
+A_016,A_016_D,dried_011,02/02/2022,Accra,Makola,2,Sun-dried,3,Accra,Anchovy,Engraulis encrasicolus,57,,105,5,100,
+A_016,A_016_E,dried_011,02/02/2022,Accra,Makola,2,Sun-dried,3,Accra,Anchovy,Engraulis encrasicolus,57,,76,5,71,
+A_017,A_017_A,dried_010,02/02/2022,Accra,Makola,1,Smoked,2,"Cape Coast, Accra",Herring,Sardinella sp,90.8,,114,5,109,
+A_017,A_017_B,dried_010,02/02/2022,Accra,Makola,1,Smoked,2,"Cape Coast, Accra",Herring,Sardinella sp,90.8,,111,5,106,
+A_017,A_017_C,dried_010,02/02/2022,Accra,Makola,1,Smoked,2,"Cape Coast, Accra",Herring,Sardinella sp,90.8,,111,5,106,
+A_017,A_017_D,dried_010,02/02/2022,Accra,Makola,1,Smoked,2,"Cape Coast, Accra",Herring,Sardinella sp,90.8,,110,5,105,
+A_017,A_017_E,dried_010,02/02/2022,Accra,Makola,1,Smoked,2,"Cape Coast, Accra",Herring,Sardinella sp,90.8,,114,5,109,
+A_018,A_018_A,dried_010,02/02/2022,Accra,Makola,1,Powder,2,"Cape Coast, Accra",Herring,Sardinella sp,NA,,107,5,102,
+A_018,A_018_B,dried_010,02/02/2022,Accra,Makola,1,Powder,2,"Cape Coast, Accra",Herring,Sardinella sp,NA,,108,5,103,
+A_018,A_018_C,dried_010,02/02/2022,Accra,Makola,1,Powder,2,"Cape Coast, Accra",Herring,Sardinella sp,NA,,108,5,103,
+A_018,A_018_D,dried_010,02/02/2022,Accra,Makola,1,Powder,2,"Cape Coast, Accra",Herring,Sardinella sp,NA,,107,5,102,
+A_018,A_018_E,dried_010,02/02/2022,Accra,Makola,1,Powder,2,"Cape Coast, Accra",Herring,Sardinella sp,NA,,111,5,106,
+V_001_W,V_001_W,dried_011,03/02/2022,Lake Volta,Lakeside,1,Wet,0,Lake Volta,One man thousand,Sierrathrissa leonensis,20.8,,557,5,552,
+V_002_W,V_002_W,dried_011,03/02/2022,Lake Volta,Lakeside,1,Wet,0,Lake Volta,One man thousand,Sierrathrissa leonensis,20.8,,514,5,509,
+V_001,V_001_A,dried_011,03/02/2022,Lake Volta,Lakeside,1,Fried,0,Lake Volta,One man thousand,Sierrathrissa leonensis,14.1,,118,5,113,
+V_001,V_001_B,dried_011,03/02/2022,Lake Volta,Lakeside,1,Fried,0,Lake Volta,One man thousand,Sierrathrissa leonensis,14.1,,122,5,117,
+V_001,V_001_C,dried_011,03/02/2022,Lake Volta,Lakeside,1,Fried,0,Lake Volta,One man thousand,Sierrathrissa leonensis,14.1,,103,5,98,
+V_001,V_001_D,dried_011,03/02/2022,Lake Volta,Lakeside,1,Fried,0,Lake Volta,One man thousand,Sierrathrissa leonensis,14.1,,111,5,106,
+V_001,V_001_E,dried_011,03/02/2022,Lake Volta,Lakeside,1,Fried,0,Lake Volta,One man thousand,Sierrathrissa leonensis,14.1,,104,5,99,
+V_002,V_002_A,dried_012,03/02/2022,Lake Volta,Akosombo,2,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.4,,108,5,103,
+V_002,V_002_B,dried_012,03/02/2022,Lake Volta,Akosombo,2,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.4,,115,5,110,
+V_002,V_002_C,dried_012,03/02/2022,Lake Volta,Akosombo,2,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.4,,111,5,106,
+V_002,V_002_D,dried_012,03/02/2022,Lake Volta,Akosombo,2,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.4,,104,5,99,
+V_002,V_002_E,dried_012,03/02/2022,Lake Volta,Akosombo,2,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.4,,120,5,115,
+V_003,V_003_A,dried_013,03/02/2022,Lake Volta,Akosombo,3,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.3,,108,5,103,
+V_003,V_003_B,dried_013,03/02/2022,Lake Volta,Akosombo,3,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.3,,112,5,107,
+V_003,V_003_C,dried_013,03/02/2022,Lake Volta,Akosombo,3,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.3,,111,5,106,
+V_003,V_003_D,dried_013,03/02/2022,Lake Volta,Akosombo,3,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.3,,113,5,108,
+V_003,V_003_E,dried_013,03/02/2022,Lake Volta,Akosombo,3,Fried,1,Lake Volta,One man thousand,Sierrathrissa leonensis,14.3,,114,5,109,
+S_001_D,S_001_D,,2023,Seychelles,,,Dried,,Coral reef,Kordonyen,Siganus sutor,,,,,,
+S_002_D,S_002_D,,2023,Seychelles,,,Dried,,Coral reef,Kordonyen,Siganus sutor,,,,,,
+M_001_D,M_001_D,,2023,Lake Malawi,,,Dried,,Lake Malawi,Usipa,Engraulicypris sardella,,,,,,
+M_002_D,M_002_D,,2023,Lake Malawi,,,Dried,,Lake Malawi,Usipa,Engraulicypris sardella,,,,,,
+M_003_D,M_003_D,,2023,Lake Malawi,,,Dried,,Lake Malawi,Usipa,Engraulicypris sardella,,,,,,
+M_004_D,M_004_D,,2023,Lake Malawi,,,Dried,,Lake Malawi,Usipa,Engraulicypris sardella,,,,,,
+M_005_D,M_005_D,,2023,Lake Malawi,,,Dried,,Lake Malawi,Usipa,Engraulicypris sardella,,,,,,
+M_006_D,M_006_D,,2023,Lake Malawi,,,Dried,,Lake Malawi,Usipa,Engraulicypris sardella,,,,,,
+L_001_D,L_001_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Epinephelus fuscoguttatus,,,,,,
+L_002_D,L_002_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Aethaloperca rogaa,,,,,,
+L_003_D,L_003_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Aethaloperca rogaa,,,,,,
+L_004_D,L_004_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lutjanus gibbus,,,,,,
+L_005_D,L_005_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lutjanus gibbus,,,,,,
+L_006_D,L_006_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lutjanus gibbus,,,,,,
+L_007_D,L_007_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lutjanus bohar,,,,,,
+L_008_D,L_008_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lutjanus bohar,,,,,,
+L_009_D,L_009_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lutjanus bohar,,,,,,
+L_010_D,L_010_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lethrinidae sp.,,,,,,
+L_011_D,L_011_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lethrinidae sp.,,,,,,
+L_012_D,L_012_D,,2023,Lakshadweep,,,Dried,,Coral reef,,Lethrinidae sp.,,,,,,

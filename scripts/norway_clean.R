@@ -1,5 +1,5 @@
 ## Function to read in all norway results by sheet, combining ww and dw (which were incorrectly separated by technicians)
-norway_read<-function(path, filesave, metat){
+norway_read<-function(path1,path2, filesave, metat){
         
     ## combine mineral + vitamin sheets
     sheets<-c(1,2,3,4,5,6,7,9,12)
@@ -11,7 +11,9 @@ norway_read<-function(path, filesave, metat){
     minerals<-c(5,7) # skip these sheets
     for(i in 1:length(sheets)){
         if(i %in% minerals) next
-        df<-read_excel(path, sheet = sheets[i]) %>% clean_names() 
+        df1<-read_excel(path1, sheet = sheets[i]) %>% clean_names() 
+        df2<-read_excel(path2, sheet = sheets[i]) %>% clean_names() 
+        df<-rbind(df1,df2)
         if(i == 1){dat <- df %>% select(-any_of(drop_vars))} 
         if(i != 1){dat <- dat %>% left_join(df, by = 'customer_marking') %>% select(-any_of(drop_vars))}
     }
@@ -25,9 +27,10 @@ norway_read<-function(path, filesave, metat){
     metat<-dat %>% left_join(metat)
     rm(dat)
     
-    # dried / wet weight confusion
+    # dried / wet weight confusion in path1
     for(i in minerals){
-        df<-read_excel(path, sheet = sheets[i]) %>% clean_names() %>%
+        df1<-read_excel(path1, sheet = sheets[i]) %>% 
+            clean_names() %>% 
             select(-any_of(drop_vars)) %>% 
             mutate_if(is.numeric, as.character) %>% 
             pivot_longer(-customer_marking, names_to = 'nut', values_to = 'value') %>% 
@@ -35,13 +38,30 @@ norway_read<-function(path, filesave, metat){
             filter(value != "'") %>% 
             select(-type) %>% 
             pivot_wider(names_from = 'nut', values_from = 'value', names_glue = paste0("{nut}","kg_ww"))
+        
+        df2<-read_excel(path2, sheet = sheets[i]) %>% 
+            clean_names() %>% 
+            select(-any_of(drop_vars)) %>% 
+            mutate_if(is.numeric, as.character) %>% 
+            pivot_longer(-customer_marking, names_to = 'nut', values_to = 'value') %>% 
+            separate(nut, into=c("nut", "type"), sep="kg_") %>% 
+            filter(value != "'") %>% 
+            select(-type) %>% 
+            pivot_wider(names_from = 'nut', values_from = 'value', names_glue = paste0("{nut}","kg_ww"))
+        
+        df<-rbind(df1,df2)
         if(i == 5){dat<-df}
         if(i == 7){dat<-dat %>% left_join(df, by = 'customer_marking')}
     }
     
     # join with fatty acids
-    fa<-read_excel(path, sheet = 10) %>% clean_names() %>% 
+    fa1<-read_excel(path1, sheet = 10) %>% clean_names() %>% 
         select(customer_marking, x20_5n_3_epa_mg_g_ww, x22_6n_3_dha_mg_g_ww, sum_epa_dha_mg_g_ww)
+    
+    fa2<-read_excel(path2, sheet = 10) %>% clean_names() %>% 
+        select(customer_marking, x20_5n_3_epa_mg_g_ww, x22_6n_3_dha_mg_g_ww, sum_epa_dha_mg_g_ww)
+    
+    fa<-rbind(fa1, fa2)
     colnames(fa)<-c('customer_marking', 'epa', 'dha', 'epa_dha')
     
     ## convert epa / dha from mg per g (equivalent to g per kg) to g per 100g (divide by 10)
