@@ -1,5 +1,6 @@
 ### Shiny app to viz DRIED nutrient predictions (JPWR)
 # April 2022 (omega update)
+# June 2024 (LEC data update)
 
 ## packages
 library(shiny)
@@ -71,7 +72,7 @@ ui <- fluidPage(
     useShinyjs(),
     theme = bslib::bs_theme(bootswatch = "lux"),
     headerPanel(div("Fish nutrient content", img(src = "FishNapp_logo.png", height=98, width=130)), windowTitle = 'Fish nutrient content'),
-    p('Dried fish nutrient content in Ghana & Kenya: use the drop-down box below to select species by their scientific name'),
+    p('Tropical dried fish nutrient content: use the drop-down box below to select species by their scientific name'),
     sidebarLayout(
         # Sidebar panel for inputs
         sidebarPanel(
@@ -204,7 +205,7 @@ server<-function(input, output, session) {
         dat2<-nutl[nutl$species %in% nutSelect(),] %>% filter(!is.na(mu))
         fbname_long<-paste0(unique(dat2$species), ' = ', unique(dat2$fbname), collapse='\n')
         cap<-paste('\n\n\n', fbname_long, '\n\n', 'Number of composite samples =',  dat$n)
-            
+                
         ggplot(dat, aes(form, mu, fill=form)) + 
             geom_bar(stat='identity', alpha=0.7) +
             geom_jitter(data=dat2, alpha=0.8, pch=21, col='black') +

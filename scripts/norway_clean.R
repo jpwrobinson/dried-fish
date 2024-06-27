@@ -1,4 +1,5 @@
 ## Function to read in all norway results by sheet, combining ww and dw (which were incorrectly separated by technicians)
+## This reads in two files containing Ghana/Kenya (1) and LEC samples (2)
 norway_read<-function(path1,path2, filesave, metat){
         
     ## combine mineral + vitamin sheets

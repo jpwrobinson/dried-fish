@@ -2,7 +2,7 @@ library(tidyverse)
 library(janitor)
 library(readxl)
 
-## Read dried Ghana + Kenya samples Jan/Feb 2022, and supp LEC samples
+## This reads in two files containing sample metadat for Ghana/Kenya (1) and LEC samples (2)
 metat_dry<-function(path){
     ## 1. Dried fish size, species, source
     # rm(metat)
