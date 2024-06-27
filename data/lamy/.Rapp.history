@@ -1,0 +1,3 @@
+load("/Users/jamesrobinson/Documents/git-repos/dried-fish/data/lamy/data_sdf_Mada.RData")
+ls
+ls()
