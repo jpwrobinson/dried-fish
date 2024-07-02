@@ -23,6 +23,12 @@ dried %>% filter(nutrient %in% c('epa', 'dha')) %>% group_by(form, nutrient, uni
     filter(form %in% c('Powder', 'Smoked', 'Sun-dried')) %>% 
     select(form, nutrient, min:mean, unit, n_samples)
 
+# moisture content
+dried %>% 
+    distinct(dry_matter_g_100g, local_name, latin_name, form) %>% 
+    group_by(form) %>% 
+    reframe(mean = 100-mean (dry_matter_g_100g), min = 100-min(dry_matter_g_100g), max = 100-max(dry_matter_g_100g))
+
 
 ## country pouplations
 library(WDI)
