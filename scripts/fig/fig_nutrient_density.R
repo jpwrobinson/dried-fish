@@ -67,15 +67,15 @@ fig_ndensity<-function(dat, portion){
         mutate(density = rowSums(across(where(is.numeric)), na.rm=TRUE)*100,
                id = paste(env, form, sep='\n'))
 
-    g1B<-ggplot(datter2, aes(fct_reorder(id, density), density, fill=form)) + 
-            geom_bar(stat='identity', position = 'dodge') + 
-            geom_text(aes(label = paste0(round(density, 0), '%')), nudge_y = 4, size = 2, hjust=0) +
+    g1B<-ggplot(datter2, aes(fct_reorder(id, density), density/100, fill=form)) + 
+            geom_bar(stat='identity', position = 'dodge', alpha=0.7) + 
+            geom_text(aes(label = paste0(round(density, 0), '%')), nudge_y = .05, size = 2, hjust=0) +
             scale_fill_manual(values=pcols_named)  +
-            scale_y_continuous(expand=c(0,0)) +
+            scale_y_continuous(expand=c(0,0), labels=scales::percent) +
             theme(legend.position = 'none', 
                   axis.text.y = element_text(size=7, vjust=0.5),
                   axis.line.y = element_blank()) +
-            labs(x = '', y = 'Nutrient density, %') +
+            labs(x = '', y = 'Nutrient density in 9 g portion') +
             coord_flip(clip='off') 
 
         print(g1B)

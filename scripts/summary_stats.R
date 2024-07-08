@@ -4,16 +4,16 @@ source('scripts/functions.R')
 ## Dried nutrient sample metadata
 dried<-read.csv('data/clean/dried_nutrient_estimates_long.csv')
 
-tab<-dried %>% group_by(local_name, latin_name, type) %>% 
+tab<-dried %>% group_by(local_name, latin_name, form) %>% 
     summarise(n_samples = n_distinct(sample_id), 
               sample_locations = unique(location))
 
-tab %>% group_by(type) %>% summarise(N = sum(n_samples))
+tab %>% group_by(form) %>% summarise(N = sum(n_samples))
 dried %>% group_by(location) %>% summarise(N = n_distinct(sample_id))
 dried %>% group_by(local_name, latin_name) %>% summarise(N = n_distinct(sample_id))
 
 # cadmium
-avgs<-dried %>% group_by(nutrient, type, unit) %>% summarise(mu = mean(value))
+avgs<-dried %>% group_by(nutrient, form, unit) %>% summarise(mu = mean(value))
 avgs %>% filter(nutrient=='cadmium') ## 0.8 mug / 100g for wet weight in Sroy et al. 2023. Corresponds to 2.49 mug in this dataset.
 
 
@@ -28,6 +28,23 @@ dried %>%
     distinct(dry_matter_g_100g, local_name, latin_name, form) %>% 
     group_by(form) %>% 
     reframe(mean = 100-mean (dry_matter_g_100g), min = 100-min(dry_matter_g_100g), max = 100-max(dry_matter_g_100g))
+
+## average water content in fresh samples is 76%
+
+# to estimate diff between fresh + dried 
+tar_load(figPortionDat)
+
+figPortionDat %>% 
+    filter(rni > 0.15) %>% 
+    group_by(nutrient, form2) %>% 
+    slice_min(rni) %>% 
+    pivot_wider(-rni, names_from = 'form2', values_from = 'portion') %>% 
+    mutate(diff = Fresh - Dried, inc = diff / Dried * 100,
+           type = ifelse(nutrient %in% c('Calcium', 'Iodine', "Iron", 'Selenium', 'Zinc'), 'mineral', 'other'),
+            type = ifelse(str_detect(nutrient, 'Vit*'), 'vitamin', type)) %>% 
+    group_by(type) %>% 
+    summarise(dried = mean(Dried), fresh = mean(Fresh), diff = mean(diff))
+
 
 
 ## country pouplations
