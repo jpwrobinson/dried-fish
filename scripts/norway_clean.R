@@ -57,18 +57,20 @@ norway_read<-function(path1,path2, filesave, metat){
     
     # join with fatty acids
     fa1<-read_excel(path1, sheet = 10) %>% clean_names() %>% 
-        select(customer_marking, x20_5n_3_epa_mg_g_ww, x22_6n_3_dha_mg_g_ww, sum_epa_dha_mg_g_ww)
+        mutate(sum_fatty_acids_mg_g_ww = sum_fettsyrer_mg_g_ww) %>% 
+        select(customer_marking, x20_5n_3_epa_mg_g_ww, x22_6n_3_dha_mg_g_ww, sum_epa_dha_mg_g_ww, sum_fatty_acids_mg_g_ww)
     
     fa2<-read_excel(path2, sheet = 10) %>% clean_names() %>% 
-        select(customer_marking, x20_5n_3_epa_mg_g_ww, x22_6n_3_dha_mg_g_ww, sum_epa_dha_mg_g_ww)
+        select(customer_marking, x20_5n_3_epa_mg_g_ww, x22_6n_3_dha_mg_g_ww, sum_epa_dha_mg_g_ww, sum_fatty_acids_mg_g_ww)
     
     fa<-rbind(fa1, fa2)
-    colnames(fa)<-c('customer_marking', 'epa', 'dha', 'epa_dha')
+    colnames(fa)<-c('customer_marking', 'epa', 'dha', 'epa_dha', 'total_fats')
     
     ## convert epa / dha from mg per g (equivalent to g per kg) to g per 100g (divide by 10)
     fa$epa<-fa$epa / 10
     fa$dha<-fa$dha / 10
     fa$epa_dha<-fa$epa_dha / 10
+    fa$total_fats<-fa$total_fats / 10
     # fa$unit<-'g_100g'
     
     dat<-dat %>% left_join(fa)
@@ -83,7 +85,7 @@ norway_read<-function(path1,path2, filesave, metat){
     ## long version with trace values removed
     datl<-metat %>% mutate_if(is.numeric, as.character) %>% 
         pivot_longer(-c(sample_id,date:latin_name, dry_matter_g_100g), values_to = 'value', names_to = 'nutrient') %>% 
-        mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst|epa|dha'),'g_100g','mg_kg'),
+        mutate(unit = ifelse(str_detect(nutrient, 'dry|protein|torrst|epa|dha|fats'),'g_100g','mg_kg'),
                nutrient = str_replace_all(nutrient, '_mg_kg_mg_kg', '_mg_kg'),
                nutrient = str_replace_all(nutrient, '_mg_kg', ''),
                nutrient = str_replace_all(nutrient, '_g_100g', ''),
@@ -100,7 +102,7 @@ norway_read<-function(path1,path2, filesave, metat){
         mutate(value = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), value*1000, value)) %>% 
         mutate(value = ifelse(unit =='mg_kg', value/10, value)) %>% 
         mutate(unit = ifelse(str_detect(nutrient, 'vitamin|selenium|folat|iodi'), 'mug_100g', 'mg_100g')) %>% 
-        mutate(unit = ifelse(str_detect(nutrient, 'protein|epa|dha'), 'g_100g', unit)) %>% 
+        mutate(unit = ifelse(str_detect(nutrient, 'protein|epa|dha|fats'), 'g_100g', unit)) %>% 
         filter(!is.na(value))
     
     write.csv(metat, file = paste0('data/clean/', filesave, '_wide.csv'), row.names=FALSE)
