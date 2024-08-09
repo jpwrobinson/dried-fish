@@ -88,7 +88,28 @@ mercury <- 0.5 ## assuming 100% methylmercury
 cadmium <- 0.05 
 # arsenic has no limit in EU or Ghana, and WHO withdrew limit in 2011
 
-cont$limit<-c(lead, mercury, cadmium)
+cont$max_limit<-c(lead, mercury, cadmium)
 
 ## convert to mg per 100g
-cont$limit_100g<-cont$limit / 10
+cont$max_limit_100g<-cont$max_limit / 10
+
+## these are weight specific limits (permissible)
+## mug per kg body weight
+lead <- NA
+mercury <- 1.6 ## assuming 100% methylmercury
+cadmium <- 25 
+# arsenic has no limit in EU or Ghana, and WHO withdrew limit in 2011
+
+# convert to mg
+cont$ptwi<-c(lead, mercury, cadmium)/1000
+
+## convert to body weight kg
+girl_6mo<-6.2
+adult<-65
+cont$ptwi_child<-cont$ptwi * girl_6mo
+cont$ptwi_adult<-cont$ptwi * adult
+
+
+## rename to limit_100g, depending on contaminant type
+cont<-cont %>% mutate(
+    limit_100g = ifelse(nutrient == 'lead', max_limit_100g, ptwi_child))
