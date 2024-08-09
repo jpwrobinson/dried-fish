@@ -7,7 +7,7 @@ figPortion<-function(dat){
         rename(species = latin_name, fbname = local_name, mu = value) %>% 
         mutate(nutrient = fct_relevel(nutrient, c('Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 
                                                   'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Epa_dha'))) %>%
-        mutate(nutrient = recode(nutrient,  Epa_dha = 'Omega-3 (DHA + EPA)', 
+        mutate(nutrient = recode(nutrient,  Epa_dha = 'Omega-3', 
                                  Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
         mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
         mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
@@ -82,10 +82,12 @@ figPortion<-function(dat){
         geom_text(data = labber, aes(26.5, y = rni, label = nutrient), vjust=0, hjust=0, size=2.5) +
         geom_text(data = data.frame(rni = 0.18, portion = 0, lab='Source of nutrient'), 
                   aes(label = lab), col='grey40', size=2) +
-        geom_point(data = intersect, aes(portion, rni), size=4) + 
+        geom_point(data = intersect, aes(portion, rni, fill=nutrient), size=3, pch=21, col='black') + 
         scale_y_continuous(labels=scales::percent) +
         scale_x_continuous(limits =c(1, 30), expand=c(0,0), breaks=c(1, 5, 10, 15, 20, 25)) +
         scale_colour_manual(values = nut_cols) +
+        scale_fill_manual(values = nut_cols) +
+        coord_cartesian(clip='off') +
         theme(legend.position = 'none')
 
     ## now portion size at which sun-dried and smoked are sources of nutrients
@@ -118,7 +120,8 @@ figPortion<-function(dat){
     list(
         plot_grid(gg_source, gg_source_hist, nrow =1, labels = c('a', 'b')),
         gg_port,
-        gg_portMain
+        gg_portMain,
+        porter
         )
 
 }

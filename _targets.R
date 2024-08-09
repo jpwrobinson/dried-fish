@@ -52,6 +52,7 @@ list(
     tar_target(figRNI_species, figRNI(nut_data, portion = portionK)),
     # portion size plots for RNI
     tar_target(figPortionSize, figPortion(nut_data)[[2]]),
+    tar_target(figPortionDat, figPortion(nut_data)[[4]]),
     # processed forms RNI radars
     tar_target(figRNI_forms, fig_dried_rni(nut_data, portion = portionK)[[2]]),
     # contaminant levels
@@ -63,14 +64,14 @@ list(
     tar_target(figAll, figs(
         fig1a = figND, 
         fig1b = figRNI_avg,
+        fig1c = figContrast,
         fig2 = figMap,
         fig3 = figMod,
-        figS1 = figContrast,
-        figS2 = figRNI_species,
-        figS3 = figPortionSize,
-        figS4 = figRNI_forms,
-        figS5 = figContam,
-        figS6 = figContamS
+        figS1 = figRNI_species,
+        figS2 = figPortionSize,
+        figS3 = figRNI_forms,
+        figS4 = figContam,
+        figS5 = figContamS
     ))
     
 )
