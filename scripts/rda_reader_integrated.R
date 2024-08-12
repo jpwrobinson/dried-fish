@@ -111,5 +111,12 @@ cont$ptwi_adult<-cont$ptwi * adult
 
 
 ## rename to limit_100g, depending on contaminant type
+if(pop == 'Children'){
 cont<-cont %>% mutate(
-    limit_100g = ifelse(nutrient == 'lead', max_limit_100g, ptwi_child))
+    limit_100g = ifelse(nutrient == 'lead', max_limit_100g, ptwi_child))} else {
+        if(pop == 'Adult'){
+            cont<-cont %>% mutate(
+                limit_100g = ifelse(nutrient == 'lead', max_limit_100g, ptwi_adult))
+        }
+        } 
+    

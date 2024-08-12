@@ -1,5 +1,4 @@
 library(targets)
-source('scripts/functions.R')
 
 # nutrient arguments
 portionK = 9
@@ -7,6 +6,8 @@ portionW = 41
 pop = 'Children'
 nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
 cons<-c('lead', 'mercury', 'cadmium')
+
+source('scripts/functions.R')
 
 # tar_load(nut_data)
 # tar_load(lsms_data)
