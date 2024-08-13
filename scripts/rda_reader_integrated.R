@@ -78,7 +78,7 @@ folate<-120
 rda$rni_kids = c(ca, fe, se, zn, i, omega, vita, vitd, vitb12, folate)
 
 
-## contaminants - Hasselberg et al. 2020 (EU limits)
+## contaminants - Rexsten et al. 2021
 cont<-data.frame(nutrient = c('lead', 'mercury', 'cadmium'))
 
 ## these are wet weight limits. what to use for dried fish? (ie partially wet)
@@ -94,7 +94,7 @@ cont$max_limit<-c(lead, mercury, cadmium)
 cont$max_limit_100g<-cont$max_limit / 10
 
 ## these are weight specific limits (permissible)
-## mug per kg body weight
+## mug per kg body weight per week (Mg) or month (Cd)
 lead <- NA
 mercury <- 1.6 ## assuming 100% methylmercury
 cadmium <- 25 

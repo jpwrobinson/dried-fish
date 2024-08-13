@@ -1,6 +1,9 @@
 library(tidyverse)
 source('scripts/functions.R')
 
+nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
+cons<-c('lead', 'mercury', 'cadmium')
+
 ## Dried nutrient sample metadata
 dried<-read.csv('data/clean/dried_nutrient_estimates_long.csv')
 
@@ -16,6 +19,11 @@ dried %>% group_by(local_name, latin_name) %>% summarise(N = n_distinct(sample_i
 avgs<-dried %>% group_by(nutrient, form, unit) %>% summarise(mu = mean(value))
 avgs %>% filter(nutrient=='cadmium') ## 0.8 mug / 100g for wet weight in Sroy et al. 2023. Corresponds to 2.49 mug in this dataset.
 
+# check variation in contaminants
+dried %>% group_by(nutrient, form) %>% 
+    filter(nutrient %in% c(nuts,cons)) %>% 
+    summarise(var = sd(value)) %>% 
+    arrange(-var)
 
 ## epa + dha
 dried %>% filter(nutrient %in% c('epa', 'dha')) %>% group_by(form, nutrient, unit) %>% 
