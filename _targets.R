@@ -57,7 +57,8 @@ list(
     # processed forms RNI radars
     tar_target(figRNI_forms, fig_dried_rni(nut_data, portion = portionK)[[2]]),
     # contaminant levels
-    tar_target(figContam, figContaminant(nut_data, portion = portionK)),
+    # tar_target(figContam, figContaminant(nut_data, portion = portionK)),
+    tar_target(figContam, figContaminantPortion(nut_data, portion = portionK)),
     # contaminant levels by species
     tar_target(figContamS, figContaminant_Species(nut_data, portion = portionK)),
     

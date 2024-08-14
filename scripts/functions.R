@@ -49,6 +49,7 @@ source('scripts/fig/fig_map.R')
 source('scripts/fig/fig_mod.R')
 source('scripts/fig/fig_contaminant_species.R')
 source('scripts/fig/fig_contaminant_content.R')
+source('scripts/fig/fig_contaminant_portions.R')
 source('scripts/dried_fish_maps.R')
 
 
