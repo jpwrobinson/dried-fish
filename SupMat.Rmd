@@ -51,7 +51,7 @@ knitr::include_graphics("fig/FigureS3.pdf"); i = i + 1
 knitr::include_graphics("fig/FigureS4.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Contaminant content of fish by processing type**. Radars show contribution of 9 g portion to maximum permissible level of three heavy metals, for each processing type, averaged across species.
+**Fig. S`r i`. Contaminant content of fish by processing type**. Bars show contribution of 9 g portion to exposure limits of cadmium, lead, and mercury for each processing type, averaged across species.
 
 \newpage
 
@@ -59,4 +59,4 @@ knitr::include_graphics("fig/FigureS4.pdf"); i = i + 1
 knitr::include_graphics("fig/FigureS5.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Contaminant content of processed fish species**. Radars show contribution of 9 g portion to maximum permissible level of three heavy metals, for each sampled species. Plots coloured by processing type.
+**Fig. S`r i`. Contaminant content of processed fish species**. Bars show contribution of 9 g portion to exposure limits of cadmium, lead, and mercury for each sampled species, coloured by processing type.
