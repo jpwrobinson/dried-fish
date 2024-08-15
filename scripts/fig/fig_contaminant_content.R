@@ -10,8 +10,8 @@ figContaminant<-function(dat, portion){
 
     ## units in labels
     nutl$lab<-as.factor(nutl$nutrient)
-    levels(nutl$lab)<-c("'Cadmium, mg'","Lead, mg", "'Mercury, mg'")
-
+    levels(nutl$lab)<-c('Cadmium\nmonthly','Lead\ndaily', 'Mercury\nweekly limit')
+    
     nutl_agg<-nutl %>% 
         group_by(species, fbname, nutrient, lab) %>% 
         mutate(n = length(mu)) %>% 
@@ -50,6 +50,7 @@ figContaminant<-function(dat, portion){
                         group.colours = pcols,
                         base.size = 1,
                         # values.radar = '',
+                        grid.max = 0.1,
                         grid.label.size = 3,
                         group.point.size = 2,
                         group.line.width = 1,

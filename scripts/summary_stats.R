@@ -25,16 +25,17 @@ dried %>% group_by(nutrient, form) %>%
     summarise(var = sd(value)) %>% 
     arrange(-var)
 
-# contam limits
+# contam limits %
 dried %>% 
     filter(nutrient %in% cons) %>% 
     mutate(nutrient = str_to_title(nutrient)) %>% 
+    mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
     group_by(form, latin_name, nutrient) %>% 
     summarise(mu = median(value, na.rm=TRUE)) %>% 
     ungroup() %>% droplevels() %>% 
     ## add RDA and units
     left_join(cont %>% mutate(nutrient = str_to_title(nutrient))) %>% 
-    mutate(exposure = mu  / limit_100g * 100,
+    mutate(exposure = mu  / limit_100g * 100 * (portionK/100),
            nportions = limit_100g / (mu * portionK/100)) %>% 
     group_by(nutrient, form) %>% 
     summarise(exposure = mean(exposure), nportions = mean(nportions))

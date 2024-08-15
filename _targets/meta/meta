@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|81b5c1e7302e4991|||||||||||||||
+.Random.seed|object|78a1815d59316ddb|||||||||||||||
 adult|object|1d635f53cb385f1d|||||||||||||||
 ca|object|c7a1c2fc6add07f3|||||||||||||||
 cadmium|object|2b2759c574770a1b|||||||||||||||
@@ -13,13 +13,13 @@ fig_dried_rni|function|3397060bd60b818f|||||||||||||||
 fig_fresh_contrast|function|cdfbcabd93be5542|||||||||||||||
 fig_mod|function|3f3942e1b3870cc6|||||||||||||||
 fig_ndensity|function|2d43bc7c3d8833b6|||||||||||||||
-figAll|stem|df4273d76388ed67|a8930c2730cfe0c2|65fec6d05efbe956|-1799039079||t19949.4824868022s|c852eab37a726e04|78|rds|local|vector|||8.522|Removed 251 rows containing missing values or values outside the scale rangegeom_line.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
-figContam|stem|4b519a8484222ce9|73ab9267f1028452|1db6611d001a1a7e|-483990596||t19949.4822807982s|95fd9feb1c7740b5|151406|rds|local|vector|||0.542||
-figContaminant|function|a306a14e451941a8|||||||||||||||
-figContaminant_Species|function|a6e498633f0d8d01|||||||||||||||
-figContaminantPortion|function|5ac2a9ef7d2cad64|||||||||||||||
+figAll|stem|df4273d76388ed67|a8930c2730cfe0c2|1cafb647aa16bb82|-1799039079||t19950.4029982822s|c852eab37a726e04|78|rds|local|vector|||6.773|Removed 251 rows containing missing values or values outside the scale rangegeom_line.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
+figContam|stem|19c802b4fee38c11|73ab9267f1028452|1917deebe8060715|-483990596||t19949.622407784s|e3277bb5fe3be450|151141|rds|local|vector|||0.396||
+figContaminant|function|44d21a20fbc32d03|||||||||||||||
+figContaminant_Species|function|7a7739c39c4cd57b|||||||||||||||
+figContaminantPortion|function|9465665f15bc55f2|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
-figContamS|stem|74353f74189c970d|21343ba9428da644|abb63b29a5c0e307|-1359281853||t19948.067708327s|efc6f95639c02211|4474995|rds|local|vector|||13.979|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
+figContamS|stem|9ab3a8d0b78cb5a0|21343ba9428da644|5f94fbd47c07b121|-1359281853||t19950.4028433721s|721ad9cf54582c03|370361|rds|local|vector|||0.649||
 figContrast|stem|f455f86087e95b4f|3b2b83b7bb7e4e00|cb26714f8727cf1f|-1646584657||t19948.0677630003s|a542984f9723d30d|221188|rds|local|vector|||0.499|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
 figMap|stem|ca7b7d897cad882c|ea3036115afc5dec|3fa2f152aa1b2f18|450328000||t19948.6462509785s|543060cbca8f8c4c|14910885|rds|local|vector|||5.124|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
 figMod|stem|de04d3001b40c7c8|c50ce1f53f21dc1c|d4e0127052825803|1382495384||t19837.6695817095s|528c84e0fb873675|89705152|rds|local|vector|||12.255|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.|

@@ -98,7 +98,6 @@ cont$max_limit_100g<-cont$max_limit / 10
 lead <- NA
 mercury <- 1.6 ## assuming 100% methylmercury
 cadmium <- 25 
-# arsenic has no limit in EU or Ghana, and WHO withdrew limit in 2011
 
 # convert to mg
 cont$ptwi<-c(lead, mercury, cadmium)/1000

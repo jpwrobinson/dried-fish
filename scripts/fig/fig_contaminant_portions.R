@@ -10,7 +10,7 @@ figContaminantPortion<-function(dat, portion){
     
     ## units in labels
     nutl$lab<-as.factor(nutl$nutrient)
-    levels(nutl$lab)<-c("'Cadmium, mg'","Lead, mg", "'Mercury, mg'")
+    levels(nutl$lab)<-c('Cadmium\nmonthly limit','Lead\ndaily limit', 'Mercury\nweekly limit')
     
     nutl_agg<-nutl %>% 
         group_by(species, fbname, nutrient, lab) %>% 
@@ -27,24 +27,20 @@ figContaminantPortion<-function(dat, portion){
     
     ## arrange data
     datter<-nutl_agg %>% 
-        mutate(exposure = exposure/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
-        mutate(exposure = case_when(exposure > 1 ~ 1, TRUE ~ exposure)) %>% ## cap limits for plot - but note some forms are more than 100% limit
+        mutate(exposure = exposure * portion/100) %>% ## correct for portion size (portion * 100) 
+        # mutate(exposure = case_when(exposure > 1 ~ 1, TRUE ~ exposure)) %>% ## cap limits for plot - but note some forms are more than 100% limit
         group_by(form, nutrient, lab) %>% 
-        summarise(exposure = mean(exposure, na.rm = TRUE),
-                  nportions = mean(nportions, na.rm = TRUE)) %>% 
-        # convert limits to number of daily portions
-        mutate(nportions = ifelse(nutrient == 'Cadmium', nportions/30, nportions),
-               nportions = ifelse(nutrient == 'Mercury', nportions/7, nportions))
+        summarise(exposure = mean(exposure, na.rm = TRUE))
     
     forms<-unique(datter$form)
     
     th<-theme(plot.subtitle = element_text(size=9, colour='black', face=3, hjust=0),
               legend.position = 'none') 
     
-    gg<-ggplot(datter, aes(form, nportions, fill = form)) +
+    gg<-ggplot(datter, aes(form, exposure, fill = form)) +
         geom_col() + 
         facet_wrap(~lab, nrow=1) +
-        labs(x = '', y = 'Limit of daily portions') +
+        labs(x = '', y = '% of limit in one portion') +
         scale_fill_manual(values = pcols_named) +
         th
     
