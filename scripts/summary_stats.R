@@ -20,6 +20,7 @@ avgs<-dried %>% group_by(nutrient, form, unit) %>% summarise(mu = mean(value))
 avgs %>% filter(nutrient=='cadmium') ## 0.8 mug / 100g for wet weight in Sroy et al. 2023. Corresponds to 2.49 mug in this dataset.
 
 # check variation in contaminants
+
 dried %>% 
     filter(nutrient %in% c(nuts,cons)) %>% 
     mutate(nutrient = str_to_title(nutrient)) %>% 
