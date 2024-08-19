@@ -103,9 +103,9 @@ cadmium <- 25
 cont$ptwi<-c(lead, mercury, cadmium)/1000
 
 ## convert to body weight kg
-girl_6mo<-6.2
+girl_36mo<-12.8
 adult<-65
-cont$ptwi_child<-cont$ptwi * girl_6mo
+cont$ptwi_child<-cont$ptwi * girl_36mo
 cont$ptwi_adult<-cont$ptwi * adult
 
 

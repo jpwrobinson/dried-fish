@@ -1,11 +1,11 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|daebc3d360e00e3b|||||||||||||||
+.Random.seed|object|837ae4cb31a29989|||||||||||||||
 adult|object|1d635f53cb385f1d|||||||||||||||
 ca|object|c7a1c2fc6add07f3|||||||||||||||
 cadmium|object|2b2759c574770a1b|||||||||||||||
 city_prox|function|12c8fee957abf70f|||||||||||||||
 cons|object|2c8c454a223605e7|||||||||||||||
-cont|object|ef270cfd933f3330|||||||||||||||
+cont|object|733292be537f8551|||||||||||||||
 countries|object|28e529cba7faf2a7|||||||||||||||
 countries2|object|13222fcbe9913115|||||||||||||||
 fe|object|6ee3a4ffae6c03e5|||||||||||||||
@@ -13,13 +13,13 @@ fig_dried_rni|function|3397060bd60b818f|||||||||||||||
 fig_fresh_contrast|function|cdfbcabd93be5542|||||||||||||||
 fig_mod|function|3f3942e1b3870cc6|||||||||||||||
 fig_ndensity|function|2d43bc7c3d8833b6|||||||||||||||
-figAll|stem|df4273d76388ed67|a8930c2730cfe0c2|85d3c9444a540f27|-1799039079||t19950.4062429092s|c852eab37a726e04|78|rds|local|vector|||7.805|Removed 251 rows containing missing values or values outside the scale rangegeom_line.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
-figContam|stem|19c802b4fee38c11|73ab9267f1028452|1917deebe8060715|-483990596||t19949.622407784s|e3277bb5fe3be450|151141|rds|local|vector|||0.396||
-figContaminant|function|44d21a20fbc32d03|||||||||||||||
-figContaminant_Species|function|7a7739c39c4cd57b|||||||||||||||
-figContaminantPortion|function|9465665f15bc55f2|||||||||||||||
+figAll|stem|df4273d76388ed67|a8930c2730cfe0c2|f66f1cdf4b2e86d8|-1799039079||t19954.4247853709s|c852eab37a726e04|78|rds|local|vector|||8.019|Removed 251 rows containing missing values or values outside the scale rangegeom_line.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
+figContam|stem|3096c25d34dffe86|73ab9267f1028452|781cba54e00985f2|-483990596||t19954.4246169019s|bc5b57f8ed5a92ba|150957|rds|local|vector|||0.281||
+figContaminant|function|d51070feaa78b60c|||||||||||||||
+figContaminant_Species|function|c17f199ff076d28a|||||||||||||||
+figContaminantPortion|function|44e19a21a3311f54|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
-figContamS|stem|9ab3a8d0b78cb5a0|21343ba9428da644|5f94fbd47c07b121|-1359281853||t19950.4028433721s|721ad9cf54582c03|370361|rds|local|vector|||0.649||
+figContamS|stem|e5f533c726511b8a|21343ba9428da644|4f987cc4d3508eb5|-1359281853||t19954.4246127633s|440d50e6c336c1ed|370465|rds|local|vector|||0.779||
 figContrast|stem|f455f86087e95b4f|3b2b83b7bb7e4e00|cb26714f8727cf1f|-1646584657||t19948.0677630003s|a542984f9723d30d|221188|rds|local|vector|||0.499|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
 figMap|stem|ca7b7d897cad882c|ea3036115afc5dec|3fa2f152aa1b2f18|450328000||t19948.6462509785s|543060cbca8f8c4c|14910885|rds|local|vector|||5.124|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
 figMod|stem|de04d3001b40c7c8|c50ce1f53f21dc1c|d4e0127052825803|1382495384||t19837.6695817095s|528c84e0fb873675|89705152|rds|local|vector|||12.255|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.|
@@ -35,6 +35,7 @@ figRNI_nut|stem|57c12b645a6a43b0|7371083421e8fc8d|6c1e9b4f81cb2bfd|-359967961||t
 figRNI_species|stem|b77f0eb71dec8ffc|758541c59ae590af|009f4e54c97aa6ac|416951054||t19950.4060921164s|7aed880a082ffec3|4553088|rds|local|vector|||13.185|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
 figs|function|2dcbf5562915fbdb|||||||||||||||
 folate|object|045b07e719c4cc68|||||||||||||||
+girl_36mo|object|c278f837ddddc29b|||||||||||||||
 girl_6mo|object|5b5b9a643859028d|||||||||||||||
 i|object|83786c110b338a54|||||||||||||||
 lead|object|c8f634b61ef52fcb|||||||||||||||

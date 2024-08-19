@@ -26,7 +26,7 @@ dried %>% group_by(nutrient, form) %>%
     arrange(-var)
 
 # contam limits %
-dried %>% 
+contam<-dried %>% 
     filter(nutrient %in% cons) %>% 
     mutate(nutrient = str_to_title(nutrient)) %>% 
     mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
@@ -36,9 +36,14 @@ dried %>%
     ## add RDA and units
     left_join(cont %>% mutate(nutrient = str_to_title(nutrient))) %>% 
     mutate(exposure = mu  / limit_100g * 100 * (portionK/100),
-           nportions = limit_100g / (mu * portionK/100)) %>% 
+           nportions = limit_100g / (mu * portionK/100),
+           lab2 = paste(latin_name, form))
+
+contam %>% 
     group_by(nutrient, form) %>% 
     summarise(exposure = mean(exposure), nportions = mean(nportions))
+
+contam %>% ungroup() %>% slice_max(exposure, n =10) %>% select(nutrient, exposure, lab2)
 
 
 ## epa + dha
