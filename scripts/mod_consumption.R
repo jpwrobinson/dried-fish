@@ -21,7 +21,17 @@ dat<-lsms_proximity
 mod_dat<-mod_prep(lsms_proximity)
 
 m2<-brm(data = mod_dat, family = bernoulli,
-        response ~ 1 + nearest_water*(Sproximity_to_water_km + Sproximity_to_city_mins + Sn_hh + Swealth) +
+        response_dried ~ 1 + nearest_water + Sproximity_to_water_km + Sproximity_to_city_mins + Sn_hh + Swealth +
+            # marine + inland + 
+            (1 | country / hh_cluster),
+        prior = c(prior(normal(0, 1), class = Intercept),
+                  prior(normal(0, 1), class = b),
+                  prior(cauchy(0, 1), class = sd)),
+        iter = 1000, warmup = 500, chains = 3, cores = 6,
+        seed = 10)
+
+m3<-brm(data = mod_dat, family = bernoulli,
+        response_fresh ~ 1 + nearest_water + Sproximity_to_water_km + Sproximity_to_city_mins + Sn_hh + Swealth +
             # marine + inland + 
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
@@ -31,6 +41,7 @@ m2<-brm(data = mod_dat, family = bernoulli,
         seed = 10)
 
 save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
+save(mod_dat, m3, file = 'data/mod/lsms_mod_fresh.rds')
 
 load(file = 'data/mod/lsms_mod.rds')
 summary(m2)
@@ -70,4 +81,10 @@ m2 %>%
 # https://www.andrewheiss.com/blog/2021/11/10/ame-bayes-re-guide/
 # https://www.andrewheiss.com/blog/2022/09/26/guide-visualizing-types-posteriors/
     
+
+load(file = 'data/mod/lsms_mod_fresh.rds')
+summary(m3)
+conditional_effects(m3)
+plot(m3)
+ranef(m3)$country
 

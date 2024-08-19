@@ -20,10 +20,19 @@ avgs<-dried %>% group_by(nutrient, form, unit) %>% summarise(mu = mean(value))
 avgs %>% filter(nutrient=='cadmium') ## 0.8 mug / 100g for wet weight in Sroy et al. 2023. Corresponds to 2.49 mug in this dataset.
 
 # check variation in contaminants
-dried %>% group_by(nutrient, form) %>% 
+dried %>% 
     filter(nutrient %in% c(nuts,cons)) %>% 
-    summarise(var = sd(value)) %>% 
-    arrange(-var)
+    mutate(nutrient = str_to_title(nutrient)) %>% 
+    mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
+    mutate(id = ifelse(form == 'Fresh', 'fresh', 'dried')) %>% 
+    group_by(nutrient, id) %>% 
+    summarise(var = cv(value)) %>% 
+    filter(!is.na(var)) %>% 
+    ggplot(aes(fct_reorder(nutrient, var), var, fill=id)) + 
+    geom_col(position = position_dodge(width=0.9)) + 
+    coord_flip() +
+    labs(y = 'Coefficient of Variation', x = '') +
+    scale_y_continuous(expand=c(0,0))
 
 # contam limits %
 contam<-dried %>% 
@@ -75,6 +84,26 @@ figPortionDat %>%
     summarise(dried = mean(Dried), fresh = mean(Fresh), diff = mean(diff))
 
 
+## summary stats - LSMS
+lsms_hh<-read.csv(file = 'data/lsms_subset/lsms_all_hh.csv')
+lsms_fish<-read.csv(file = 'data/lsms_subset/lsms_fish.csv')
+lsms_all<-read.csv(file = 'data/lsms_subset/lsms_for_mod.csv')
+
+lsms_hh %>% group_by(country, tot_hh) %>% 
+    filter(!is.na(n_hh)) %>% 
+    summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))
+
+lsms_fish %>% group_by(country, tot_hh) %>% 
+    summarise(n_processed = n_distinct(hh_id[form %in% c('dried', 'smoked', 'dry/smoked')]),
+              n_dried = n_distinct(hh_id[form %in% c('dried')]),
+              n_smoked = n_distinct(hh_id[form %in% c('smoked')]),
+              n_fish = n_distinct(hh_id)) %>% 
+    mutate(prop_dried_pop = n_processed / tot_hh,
+           prop_fish_pop = n_fish / tot_hh,
+           prop_processed_of_fish = n_processed / n_fish,
+           prop_smoked_of_processed = n_smoked / n_processed,
+           prop_dried_of_processed = n_dried / n_processed
+    )
 
 ## country pouplations
 library(WDI)

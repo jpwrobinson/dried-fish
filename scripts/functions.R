@@ -24,12 +24,14 @@ mod_prep<-function(dat){
             Sn_hh = scale(n_hh)[,1],
             Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
             Sproximity_to_city_mins = scale(proximity_to_city_mins)[,1],
-            nearest_water = as.factor(ifelse(distance_to_inland > distance_to_marine, 'Marine', 'Inland')),
-            marine = ifelse(distance_to_inland > distance_to_marine, 1, 0),
-            inland = ifelse(marine == 1, 0, 1),
+            nearest_water = ifelse(distance_to_marine < 20000, 'Marine', 'Inland, no waterbody'),
+            nearest_water = as.factor(ifelse(distance_to_inland < 20000, 'Inland, waterbody', nearest_water)),
+            # marine = ifelse(distance_to_inland > distance_to_marine, 1, 0),
+            # inland = ifelse(marine == 1, 0, 1),
             hh_cluster = as.factor(hh_cluster),
             country = as.factor(country),
-            response = ifelse(dried == 'yes', 1, 0)) %>% 
+            response_dried = ifelse(dried == 'yes', 1, 0),
+            response_fresh = ifelse(dried == 'no' & any_fish == 'yes', 1, 0)) %>% 
         select(-any_fish)
     
     return(mod_dat)

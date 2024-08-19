@@ -57,10 +57,10 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, figS1, figS2, figS3, figS4, figS
     )
     dev.off()
 
-    # pdf(file = 'fig/FigureS6.pdf', height =7, width=12)
-    # print(
-    #     figS6
-    # )
-    # dev.off()
+    pdf(file = 'fig/FigureS6.pdf', height =7, width=12)
+    print(
+        figS6
+    )
+    dev.off()
 
 }

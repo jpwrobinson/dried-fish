@@ -1,6 +1,14 @@
 
-fig_mod<-function(dat){
-    load(file = 'data/mod/lsms_mod.rds')
+fig_mod<-function(dat, model = 'dried'){
+    
+    if(model == 'dried'){
+        load(file = 'data/mod/lsms_mod.rds')
+        ylab = 'P(dried fish consumption)'
+    } else {
+        load(file = 'data/mod/lsms_mod_fresh.rds')
+        m2<-m3
+        ylab = 'P(fresh fish consumption)'
+    }
     
     scales<-list(
         scale_y_continuous(labels = scales::label_percent()), 
@@ -23,7 +31,7 @@ fig_mod<-function(dat){
         #           pch = 19, color = "grey20", scale = 0.1) +
         scales +
         guides(fill='none') +
-        labs(x = 'Proximity to water, km', y = 'P(processed fish consumption)')
+        labs(x = 'Proximity to water, km', y = ylab)
     
     
     # proximity to urban centre
@@ -39,8 +47,8 @@ fig_mod<-function(dat){
         stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.95, alpha = 0.5) +
         stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.5, alpha = 0.5) +
         scales +
-        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.8)) +
-        labs(x = 'Proximity to urban centre, mins', y = 'P(processed fish consumption)')
+        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.8), legend.title = element_blank()) +
+        labs(x = 'Proximity to urban centre, mins', y = ylab)
     
     # country level intercepts
     gc<-m2 %>%
@@ -52,7 +60,7 @@ fig_mod<-function(dat){
         coord_flip() +
         scale_x_continuous(labels = scales::label_percent()) +
         scale_y_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
-        labs(y = '', x = 'P(processed fish consumption)')
+        labs(y = '', x = ylab)
     
     # marine / inland
     gd<-mod_dat %>% 
@@ -66,7 +74,7 @@ fig_mod<-function(dat){
         stat_pointinterval(aes(  y = .epred, col=nearest_water)) +
         scales +
         theme(legend.position = 'none') +
-        labs(x = '', y = 'P(processed fish consumption)')
+        labs(x = '', y = ylab)
     
     
     lhs<-plot_grid(ga, gb, nrow=2, labels=c('c', 'd'))
@@ -75,5 +83,5 @@ fig_mod<-function(dat){
     
     
     return(pp)
-
+    
 }
