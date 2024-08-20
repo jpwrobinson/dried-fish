@@ -23,6 +23,8 @@ mod_prep<-function(dat){
         ungroup() %>% mutate(
             Sn_hh = scale(n_hh)[,1],
             Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
+            Sproximity_to_inland_km = scale(distance_to_inland/100)[,1],
+            Sproximity_to_marine_km = scale(distance_to_marine/100)[,1],
             Sproximity_to_city_mins = scale(proximity_to_city_mins)[,1],
             nearest_water = ifelse(distance_to_marine < 20000, 'Marine', 'Inland, no waterbody'),
             nearest_water = as.factor(ifelse(distance_to_inland < 20000, 'Inland, waterbody', nearest_water)),

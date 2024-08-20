@@ -15,16 +15,34 @@ fig_mod<-function(dat, model = 'dried'){
         scale_fill_manual(values = realm_cols_named),
         scale_colour_manual(values = realm_cols_named))
     
-    # proximity to water
-    ga<-dat %>%  
-        data_grid(Sproximity_to_water_km = seq_range(Sproximity_to_water_km, n = 100),
+    # proximity to water (marine)
+    ga1<-dat %>%  
+        data_grid(Sproximity_to_marine_km = seq_range(Sproximity_to_marine_km, n = 100),
+                  Sproximity_to_inland_km = 0,
                   Sproximity_to_city_mins = 0, 
                   Swealth = 0,
-                  nearest_water=levels(mod_dat$nearest_water),
+                  # nearest_water=levels(nearest_water),
                   Sn_hh = 0) %>%  
-        mutate(proximity_to_water_km = rep(seq_range(mod_dat$proximity_to_water_km, n = 100), each=2)) %>% 
-        add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
-        ggplot(aes(x = proximity_to_water_km)) +
+        mutate(proximity_to_water_km = seq_range(dat$distance_to_marine/1000, n = 100),
+               nearest_water = 'Marine') %>% 
+        add_epred_draws(m2, ndraws = 100, re_formula = NA)
+    
+    # proximity to water (inland)
+    ga2<-dat %>%  
+        data_grid(Sproximity_to_inland_km = seq_range(Sproximity_to_inland_km, n = 100),
+                  Sproximity_to_marine_km = 0,
+                  Sproximity_to_city_mins = 0, 
+                  Swealth = 0,
+                  # nearest_water=levels(nearest_water),
+                  Sn_hh = 0) %>%  
+        mutate(proximity_to_water_km = seq_range(dat$distance_to_inland/1000, n = 100),
+               nearest_water = 'Inland') %>% 
+        add_epred_draws(m2, ndraws = 100, re_formula = NA)
+    
+    
+    ga<-rbind(ga1, ga2) %>% 
+        mutate(nearest_water = factor(nearest_water)) %>% 
+        ggplot(aes(x = proximity_to_water_km, fill=nearest_water)) +
         stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.95, alpha = 0.5) +
         stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.5, alpha = 0.5) +
         # geom_dots(data = mod_dat, aes(y = response, side = ifelse(response==0, "bottom", "top")),
@@ -36,7 +54,8 @@ fig_mod<-function(dat, model = 'dried'){
     
     # proximity to urban centre
     gb<-mod_dat %>%  
-        data_grid(Sproximity_to_water_km = 0,
+        data_grid(Sproximity_to_marine_km = 0,
+                  Sproximity_to_inland_km = 0,
                   Sproximity_to_city_mins = seq_range(Sproximity_to_city_mins, n = 100),
                   Swealth = 0,
                   nearest_water=levels(mod_dat$nearest_water),
@@ -64,10 +83,11 @@ fig_mod<-function(dat, model = 'dried'){
     
     # marine / inland
     gd<-mod_dat %>% 
-        data_grid(Sproximity_to_water_km = 0,
+        data_grid(Sproximity_to_marine_km = c(min(Sproximity_to_marine_km), 0),
+                  Sproximity_to_inland_km = c(0, min(Sproximity_to_inland_km)),
                   Sproximity_to_city_mins = 0,
                   Swealth = 0,
-                  nearest_water=levels(mod_dat$nearest_water),
+                  nearest_water=c('Marine', 'Inland'),
                   Sn_hh = 0) %>%  
         add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
         ggplot(aes(x = nearest_water)) +
