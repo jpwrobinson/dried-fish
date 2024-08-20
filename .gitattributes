@@ -1,3 +1,4 @@
 data/lsms_subset/malawi_HH_MOD_G1.csv filter=lfs diff=lfs merge=lfs -text
 data/lsms_subset/nigeria_sect6b_food_cons.csv filter=lfs diff=lfs merge=lfs -text
 *lsms_mod.rds filter=lfs diff=lfs merge=lfs -text
+CurrentPackages.rds filter=lfs diff=lfs merge=lfs -text
