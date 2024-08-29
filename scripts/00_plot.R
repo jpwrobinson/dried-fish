@@ -4,6 +4,7 @@ library(janitor)
 library(countrycode)
 library(cowplot)
 library(tidybayes)  
+library(bayesplot)
 library(modelr)    
 library(ggradar)
 library(sf)
@@ -51,7 +52,7 @@ pcols_order<-c('Fresh','Fried', 'Powder','Smoked', 'Sun-dried')
 
 # https://paletton.com/#uid=73b0u0km0n-cfyYhFrXq1juvce8
 pcols_named<-c('Sun-dried' = '#ED0606', 'Smoked' = '#048E8E', 
-               'Fresh' = '#05BE05', 'Powder' = '#ED6F06', 'Fried' = '#EEB407')
+               'Fresh' = '#05BE05', 'Powder' = '#ED6F06', 'Fried' = '#EEB407', 'Dried' = '#ED6F06')
 
 ## get RDA reference vals
 source('scripts/rda_reader_integrated.R')

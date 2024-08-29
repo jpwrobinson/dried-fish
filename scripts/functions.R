@@ -39,8 +39,6 @@ mod_prep<-function(dat){
     return(mod_dat)
 }
 
-source('scripts/fig/fig_mod.R')
-
 
 # figure functions
 source('scripts/fig/figures_to_pdf.R')
@@ -50,6 +48,7 @@ source('scripts/fig/fig_dried_rni.R')
 source('scripts/fig/fig_rni_species.R')
 source('scripts/fig/fig_portion_size.R')
 source('scripts/fig/fig_map.R')
+source('scripts/fig/fig_post.R')
 source('scripts/fig/fig_mod.R')
 source('scripts/fig/fig_contaminant_species.R')
 source('scripts/fig/fig_contaminant_content.R')

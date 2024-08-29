@@ -93,3 +93,7 @@ conditional_effects(m3)
 plot(m3)
 ranef(m3)$country
 
+ppc_dens_overlay(y = dat$response_fresh,
+                 yrep = posterior_predict(m3, draws = 50))
+
+mcmc_intervals_data(m2)

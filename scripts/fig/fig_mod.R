@@ -41,14 +41,14 @@ fig_mod<-function(dat, model = 'dried'){
     
     
     ga<-rbind(ga1, ga2) %>% 
-        mutate(nearest_water = factor(nearest_water)) %>% 
-        ggplot(aes(x = proximity_to_water_km, fill=nearest_water)) +
+        # mutate(nearest_water = factor(nearest_water)) %>% 
+        ggplot(aes(x = proximity_to_water_km)) +
         stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.95, alpha = 0.5) +
-        stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.5, alpha = 0.5) +
+        stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.5, alpha = 0.3) +
         # geom_dots(data = mod_dat, aes(y = response, side = ifelse(response==0, "bottom", "top")),
         #           pch = 19, color = "grey20", scale = 0.1) +
         scales +
-        guides(fill='none') +
+        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.8), legend.title = element_blank()) +
         labs(x = 'Proximity to water, km', y = ylab)
     
     
@@ -58,15 +58,14 @@ fig_mod<-function(dat, model = 'dried'){
                   Sproximity_to_inland_km = 0,
                   Sproximity_to_city_mins = seq_range(Sproximity_to_city_mins, n = 100),
                   Swealth = 0,
-                  nearest_water=levels(mod_dat$nearest_water),
                   Sn_hh = 0) %>%  
-        mutate(proximity_to_city_mins = rep(seq_range(mod_dat$proximity_to_city_mins, n = 100), each=2)) %>% 
+        mutate(proximity_to_city_mins = seq_range(mod_dat$proximity_to_city_mins, n = 100)) %>% 
         add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
         ggplot(aes(x = proximity_to_city_mins)) +
-        stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.95, alpha = 0.5) +
-        stat_lineribbon(aes(y = .epred, fill=nearest_water), .width = 0.5, alpha = 0.5) +
+        stat_lineribbon(aes(y = .epred), .width = 0.95, alpha = 0.5, fill='grey90') +
+        stat_lineribbon(aes(y = .epred), .width = 0.5, alpha = 0.3, fill='grey90') +
         scales +
-        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.8), legend.title = element_blank()) +
+        theme(legend.position = 'none') +
         labs(x = 'Proximity to urban centre, mins', y = ylab)
     
     # country level intercepts
@@ -81,27 +80,27 @@ fig_mod<-function(dat, model = 'dried'){
         scale_y_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
         labs(y = '', x = ylab)
     
-    # marine / inland
-    gd<-mod_dat %>% 
-        data_grid(Sproximity_to_marine_km = c(min(Sproximity_to_marine_km), 0),
-                  Sproximity_to_inland_km = c(0, min(Sproximity_to_inland_km)),
-                  Sproximity_to_city_mins = 0,
-                  Swealth = 0,
-                  nearest_water=c('Marine', 'Inland'),
-                  Sn_hh = 0) %>%  
-        add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
-        ggplot(aes(x = nearest_water)) +
-        stat_pointinterval(aes(  y = .epred, col=nearest_water)) +
-        scales +
-        theme(legend.position = 'none') +
-        labs(x = '', y = ylab)
+    # # marine / inland
+    # gd<-mod_dat %>% 
+    #     data_grid(Sproximity_to_marine_km = c(min(Sproximity_to_marine_km), 0),
+    #               Sproximity_to_inland_km = c(0, min(Sproximity_to_inland_km)),
+    #               Sproximity_to_city_mins = 0,
+    #               Swealth = 0,
+    #               nearest_water=c('Marine', 'Inland'),
+    #               Sn_hh = 0) %>%  
+    #     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
+    #     ggplot(aes(x = nearest_water)) +
+    #     stat_pointinterval(aes(  y = .epred, col=nearest_water)) +
+    #     scales +
+    #     theme(legend.position = 'none') +
+    #     labs(x = '', y = ylab)
     
     
-    lhs<-plot_grid(ga, gb, nrow=2, labels=c('c', 'd'))
-    top<-plot_grid(gc, gd, nrow=1, labels=c('a', 'b'))
-    pp<-plot_grid(top, lhs, nrow=2, rel_heights=c(0.4, 1))
+    lhs<-plot_grid(ga, gb, nrow=1, labels=c('a', 'b'))
+    # top<-plot_grid(gc, gd, nrow=1, labels=c('a', 'b'))
+    # pp<-plot_grid(top, lhs, nrow=2, rel_heights=c(0.4, 1))
     
     
-    return(pp)
+    return(lhs)
     
 }

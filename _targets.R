@@ -43,6 +43,7 @@ list(
     # tar_target(figRNI_avg, fig_dried_rni(nut_data, portion = portionK)[[1]]),
 
     tar_target(figMap, lsms_map_fig(lsms_data)),
+    tar_target(figPost, fig_post(mod_dat)),
     tar_target(figMod, fig_mod(mod_dat, model='dried')),
     tar_target(figModF, fig_mod(mod_dat, model='fresh')),
 
@@ -69,7 +70,8 @@ list(
         fig1b = figRNI_avg,
         fig1c = figContrast,
         fig2 = figMap,
-        fig3 = figMod,
+        fig3 = figPost,
+        fig4 = figMod,
         figS1 = figRNI_species,
         figS2 = figPortionSize,
         figS3 = figRNI_forms,
