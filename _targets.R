@@ -12,8 +12,7 @@ source('scripts/functions.R')
 # tar_load(nut_data)
 # tar_load(lsms_data)
 # tar_load(lsms_proximity)
-
-# tar_load(nut_data)
+# tar_load(mod_dat)
 
 list(
     # read and clean nutrient dataset
@@ -46,6 +45,7 @@ list(
     tar_target(figPost, fig_post(mod_dat)),
     tar_target(figMod, fig_mod(mod_dat, model='dried')),
     tar_target(figModF, fig_mod(mod_dat, model='fresh')),
+    tar_target(figHeat, fig_heat(mod_dat)),
 
     
     # Sup Figures
@@ -77,7 +77,8 @@ list(
         figS3 = figRNI_forms,
         figS4 = figContam,
         figS5 = figContamS,
-        figS6 = figModF
+        figS6 = figModF,
+        figS7 = figHeat
     ))
     
 )
