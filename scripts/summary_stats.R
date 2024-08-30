@@ -119,22 +119,24 @@ pop.df %>% group_by(country) %>% slice_max(year, n =3)
 ## model summaries
 
 # marine / inland
+marine<-mod_dat$Sproximity_to_marine_km[mod_dat$proximity_to_marine_km<5]
+inland<-mod_dat$Sproximity_to_inland_km[mod_dat$proximity_to_inland_km<5]
+
 mod_dat %>% 
-    data_grid(Sproximity_to_water_km = 0,
+    data_grid(Sproximity_to_marine_km = median(marine),
+              Sproximity_to_inland_km = median(inland),
               Sproximity_to_city_mins = 0,
               Swealth = 0,
-              nearest_water=levels(mod_dat$nearest_water),
               Sn_hh = 0) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
-    group_by(nearest_water) %>% 
     reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2])
 
 # prox to city
 mod_dat %>%  
-    data_grid(Sproximity_to_water_km = 0,
+    data_grid(Sproximity_to_marine_km = 0,
+              Sproximity_to_inland_km = 0,
               Sproximity_to_city_mins = seq_range(Sproximity_to_city_mins, n = 100),
               Swealth = 0,
-              nearest_water=levels(mod_dat$nearest_water),
               Sn_hh = 0) %>%  
     mutate(proximity_to_city_mins = rep(seq_range(mod_dat$proximity_to_city_mins, n = 100), each=2)) %>% 
     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
