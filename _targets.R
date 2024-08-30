@@ -71,14 +71,14 @@ list(
         fig1c = figContrast,
         fig2 = figMap,
         fig3 = figPost,
-        fig4 = figMod,
+        fig4a = figMod,
+        fig4b = figModF,
         figS1 = figRNI_species,
         figS2 = figPortionSize,
         figS3 = figRNI_forms,
         figS4 = figContam,
         figS5 = figContamS,
-        figS6 = figModF,
-        figS7 = figHeat
+        figS6 = figHeat
     ))
     
 )

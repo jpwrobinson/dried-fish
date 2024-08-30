@@ -1,4 +1,4 @@
-figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4, figS5, figS6, figS7){
+figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4a, fig4b, figS1, figS2, figS3, figS4, figS5, figS6){
 
     th2<-theme(plot.margin=unit(c(1,.5,.1,0), 'cm'), axis.title = element_text(size = 10), axis.text = element_text(size = 10))
     
@@ -24,9 +24,9 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4
     )
     dev.off()
     
-    pdf(file = 'fig/Figure4.pdf', height =5, width=8)
+    pdf(file = 'fig/Figure4.pdf', height =7, width=12)
     print(
-        fig4
+        plot_grid(fig4a, fig4b, nrow=2, labels=c('a', 'b'))
     )
     dev.off()
     
@@ -63,16 +63,17 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4
     )
     dev.off()
 
-    pdf(file = 'fig/FigureS6.pdf', height =5, width=8)
+    
+    pdf(file = 'fig/FigureS6.pdf', height =5, width=12)
     print(
         figS6
     )
     dev.off()
     
-    pdf(file = 'fig/FigureS7.pdf', height =5, width=8)
-    print(
-        figS7
-    )
-    dev.off()
+    # pdf(file = 'fig/FigureS6.pdf', height =5, width=8)
+    # print(
+    #     figS6
+    # )
+    # dev.off()
 
 }

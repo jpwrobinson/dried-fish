@@ -39,6 +39,24 @@ mod_prep<-function(dat){
     return(mod_dat)
 }
 
+# model posteriors
+mod_post<-function(mod, dat, var, raw_var){
+    
+    condo<-conditional_effects(mod, as.name(var), prob=0.95)[[1]] %>% 
+        mutate(raw = seq_range(dat[[raw_var]], n=100)) %>% 
+        mutate(lower95 = lower__, upper95 = upper__) %>% 
+        select({{var}}, raw, estimate__, lower95, upper95)
+        
+    c2<-conditional_effects(mod, as.name(var), prob=0.55)[[1]] %>% 
+            select(lower__:upper__)
+    
+    condo$lower50<-c2$lower__
+    condo$upper50<-c2$upper__
+    
+    return(condo)
+}
+
+
 
 # figure functions
 source('scripts/fig/figures_to_pdf.R')
