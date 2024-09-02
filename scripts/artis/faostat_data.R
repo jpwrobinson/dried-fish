@@ -26,15 +26,24 @@ fao<-read.csv('data/faostat_small_pelagic_catch.csv') %>%
 plotter<-fao %>% group_by(asfis_species_name, fao_major_fishing_area_name, year) %>% 
     summarise(t = sum(catch_t)) %>% 
     group_by(asfis_species_name, fao_major_fishing_area_name) %>% 
-    mutate(meaner = mean(t), resid = t - meaner)
+    mutate(meaner = mean(t), 
+           resid = t - meaner, 
+           Scatch = scales::rescale(t, to = c(0,1)),
+           Scatch_avg = slider::slide_dbl(Scatch, mean, .before = 1, .after = 1)) 
 
-ggplot(plotter) + geom_area(aes(year, t, fill=asfis_species_name)) +
-    facet_wrap(~fao_major_fishing_area_name)
-
-ggplot(plotter) + 
-    geom_line(aes(year, t, col=asfis_species_name)) +
-    facet_wrap(~fao_major_fishing_area_name)
-
-ggplot(plotter %>% filter(meaner > 10000)) + 
-    geom_line(aes(year, resid, col=asfis_species_name)) +
-    facet_wrap(~fao_major_fishing_area_name)
+g1<-ggplot(plotter %>% filter(meaner > 10000)) + 
+    geom_line(aes(year, Scatch, col=Scatch, group=asfis_species_name)) +
+    geom_text(data = plotter %>% filter(meaner > 10000 & year==2022),
+              size=2, hjust=0,
+              aes(x = 2023, y = Scatch, label = asfis_species_name)) +
+    facet_wrap(~fao_major_fishing_area_name, ncol=1) +
+    scale_colour_gradientn(colors = viridis::turbo(n=6), breaks=seq(0, 1, length.out = 6), labels=c(0,'', '', '','', 1)) +
+    labs(y = 'Relative catch', x = '', color='Relative Catch') +
+    theme(strip.text.x = element_text(hjust=0),
+          legend.position='top') +
+    coord_cartesian(clip='off')
+    # scale_discrete_manual("linewidth", values = seq(0.1, 2, length.out = 5))
+    
+pdf(file = 'fig/fao_landing.pdf', height=7, width=12)
+print(g1)
+dev.off()
