@@ -23,6 +23,7 @@ options(dplyr.summarise.inform = FALSE) # suppress warning from dplyr
 ## conflicts resolve
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
+conflicts_prefer(brms::rhat)
 conflicts_prefer(brms::ar)
 conflicts_prefer(stats::chisq.test)
 conflicts_prefer(tidyr::extract)

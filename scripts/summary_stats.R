@@ -118,6 +118,18 @@ pop.df %>% group_by(country) %>% slice_max(year, n =3)
 
 ## model summaries
 
+## country level probabilities, based on average covariate values per country
+mod_dat %>% 
+    group_by(country) %>% 
+    summarise(Sproximity_to_marine_km = median(Sproximity_to_marine_km),
+              Sproximity_to_inland_km = median(Sproximity_to_inland_km),
+              Sproximity_to_city_mins = median(Sproximity_to_city_mins),
+              Swealth = median(Swealth),
+              Sn_hh = median(Sn_hh)) %>%  
+    add_epred_draws(m2, ndraws = 100) %>% 
+    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2])
+
+
 # marine / inland
 marine<-mod_dat$Sproximity_to_marine_km[mod_dat$proximity_to_marine_km<5]
 inland<-mod_dat$Sproximity_to_inland_km[mod_dat$proximity_to_inland_km<5]

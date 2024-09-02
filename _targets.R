@@ -23,15 +23,17 @@ list(
                                      metat = meta_dry)),
     
     
-    # lsms household maps
-    tar_target(lsms_data, lsms_read()[[1]]),
+    # lsms extract consumption and proximity covariates
+    tar_target(lsms_data, lsms_read()[[3]]),
     tar_target(lsms_water, water_prox(lsms_data)),
     tar_target(lsms_proximity, city_prox(lsms_water)),
     tar_target(lsms_save, write.csv(lsms_proximity, 'data/lsms_with_covariates.csv', row.names=FALSE)),
-    tar_target(lsms_map, lsms_map_hh(dat1= lsms_data, dat2=lsms_proximity)),
     
     # modelling
     tar_target(mod_dat, mod_prep(lsms_proximity)),
+    
+    # household maps
+    tar_target(lsms_map, lsms_map_hh(dat1= lsms_data, dat2=lsms_proximity, dat3 = mod_dat)),
     
     # figures on nutrient values
 
@@ -85,7 +87,6 @@ list(
 
 # tar_manifest()
 # tar_visnetwork()
-# tar_load(lsms_data)
 # tar_make()
 
 

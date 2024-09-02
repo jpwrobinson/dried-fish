@@ -51,7 +51,7 @@ fig_heat<-function(dat){
     
     # ggMarginal(g1, type='histogram')
     
-    g1
+    
     g2<-g1 %+% fres +
         labs(subtitle = 'Fresh fish') +
         guides(fill = 'none') 

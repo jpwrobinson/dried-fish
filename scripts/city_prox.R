@@ -43,9 +43,13 @@ city_prox<-function(dat){
 
 # # plotting and exploring results
 # # with google earth and visual cities layer online
-# # looks good
-# r <- clamp(cit, 0, 500) 
+# looks good
+# r <- clamp(cit, 0, 500)
 # pal <- colorRampPalette(c("green","red"))
 # plot(cit, xlim = c(39, 40), ylim = c(-6, -5), col=pal(10))
 # points(dat$lon, dat$lat, col='black')
-# dat %>% filter(lon > 39.2 & lat >-5.5)
+# dat %>% filter(lon > 39.2 & lat >-5.5) %>% data.frame
+# 
+# plot(cit, xlim = c(39, 40), ylim = c(-6, -5), col=pal(10))
+# points(dat$lon, dat$lat, col='black')
+# 

@@ -5,7 +5,7 @@ source('scripts/norway_clean.R')
 source('scripts/read_nutrient_data.R')
 lsms_read<-function(){
     source('scripts/read_lsms.R')
-    output<-list( lsms_all %>% filter(!is.na(lat)), lsms_hh, lsms_fish)
+    output<-list(lsms_hh, lsms_fish, lsms_all %>% filter(!is.na(lat)))
     return(output)
 }
 
@@ -21,19 +21,20 @@ mod_prep<-function(dat){
         group_by(country) %>% 
         mutate(Swealth = scales::rescale(monthly_exp / sqrt(n_hh), to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size
         ungroup() %>% mutate(
+            proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
+            log10_proximity_to_city_mins = log10(proximity_to_city_mins),
             Sn_hh = scale(n_hh)[,1],
             Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
-            Sproximity_to_inland_km = scale(distance_to_inland/100)[,1],
-            Sproximity_to_marine_km = scale(distance_to_marine/100)[,1],
-            Sproximity_to_city_mins = scale(proximity_to_city_mins)[,1],
-            nearest_water = ifelse(distance_to_marine < 20000, 'Marine', 'Inland, no waterbody'),
-            nearest_water = as.factor(ifelse(distance_to_inland < 20000, 'Inland, waterbody', nearest_water)),
-            # marine = ifelse(distance_to_inland > distance_to_marine, 1, 0),
-            # inland = ifelse(marine == 1, 0, 1),
+            Sproximity_to_inland_km = scale(distance_to_inland)[,1],
+            Sproximity_to_marine_km = scale(distance_to_marine)[,1],
+            Sproximity_to_city_mins = scale(log10_proximity_to_city_mins)[,1],
+            # nearest_water = ifelse(distance_to_marine < 20000, 'Marine', 'Inland, no waterbody'),
+            # nearest_water = as.factor(ifelse(distance_to_inland < 20000, 'Inland, waterbody', nearest_water)),
+            nearest_water = as.factor(ifelse(distance_to_inland > distance_to_marine, 'Marine', 'Inland')),
             hh_cluster = as.factor(hh_cluster),
             country = as.factor(country),
             response_dried = ifelse(dried == 'yes', 1, 0),
-            response_fresh = ifelse(dried == 'no' & any_fish == 'yes', 1, 0)) %>% 
+            response_fresh = ifelse(fresh == 'yes', 1, 0)) %>% 
         select(-any_fish)
     
     return(mod_dat)

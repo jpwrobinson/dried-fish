@@ -1,4 +1,4 @@
-lsms_map_hh<-function(dat1, dat2){
+lsms_map_hh<-function(dat1, dat2, dat3){
     
     ber_proj4 <- '+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs'
     w<-ne_download(scale = 10, type = 'countries', category = 'cultural') %>% 
@@ -54,4 +54,25 @@ lsms_map_hh<-function(dat1, dat2){
     print(g2)
     print(g3)
     dev.off()
+    
+    ls_points<-dat3 %>% 
+        st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% 
+        st_transform(ber_proj4) 
+    
+    g4<-base +
+        tm_shape(ls_points) +
+        tm_dots(col = 'proximity_to_city_mins', palette="-RdYlBu")
+    
+    g5<-base +
+        tm_shape(ls_points) +
+        tm_dots(col = 'proximity_to_water_km', palette="-RdYlBu")
+    
+    pdf(file = 'fig/map_lsms_proximity_covariates.pdf', height=7, width=12)
+    print(g4)
+    print(g5)
+    dev.off()
+    
+    
 }
+
+

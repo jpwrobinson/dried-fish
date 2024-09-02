@@ -20,9 +20,10 @@ dat<-lsms_proximity
 
 mod_dat<-mod_prep(lsms_proximity)
 
-m2<-brm(data = mod_dat, family = bernoulli,
-        response_dried ~ 1 + #nearest_water + 
-            Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km + 
+m2b<-brm(data = mod_dat, family = bernoulli,
+        response_dried ~ 1 + 
+            nearest_water*Sproximity_to_water_km +
+            # Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km + 
             Sproximity_to_city_mins + Sn_hh + Swealth +
             # marine + inland + 
             (1 | country / hh_cluster),
@@ -97,3 +98,27 @@ ppc_dens_overlay(y = dat$response_fresh,
                  yrep = posterior_predict(m3, draws = 50))
 
 mcmc_intervals_data(m2)
+
+posterior <- as.array(m2)
+mcmc_pairs(posterior, regex_pars = 'S*')
+
+
+## sens test to check with simmance et al. 2022
+mS<-brm(data = mod_dat %>% 
+            filter(country %in% c('TZA', 'MWI', 'UGA')) %>% 
+            mutate(prox = ifelse(proximity_to_water_km<= 5, 'near', 'far')), 
+        family = bernoulli,
+        response_dried ~ 1 + #nearest_water + 
+            #Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km + 
+            prox*Swealth +
+            Sproximity_to_city_mins + Sn_hh + Swealth +
+            # marine + inland + 
+            (1 | country / hh_cluster),
+        prior = c(prior(normal(0, 1), class = Intercept),
+                  prior(normal(0, 1), class = b),
+                  prior(cauchy(0, 1), class = sd)),
+        iter = 1000, warmup = 500, chains = 3, cores = 6,
+        seed = 10)
+
+conditional_effects(mS)
+# No difference between far and near consumption. Dried fish decreases with increasing distance from city. No wealth relationship or interaction with distance to city.

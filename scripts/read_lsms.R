@@ -290,8 +290,9 @@ lsms<-lsms_fish %>%
     # mutate(any_fish = case_when(if_any(dried:canned, ~. == "yes") ~ 'yes', TRUE ~ 'no')) %>% 
     mutate(any_fish = 'yes') ## because all surveys contained fish already
 
-lsms_all<-lsms_hh %>% left_join(lsms %>% ungroup() %>% select(country, hh_id, dried, any_fish)) %>% 
+lsms_all<-lsms_hh %>% left_join(lsms %>% ungroup() %>% select(country, hh_id, dried, fresh, any_fish)) %>% 
     mutate(dried = ifelse(is.na(dried), 'no', dried),
+           fresh = ifelse(is.na(fresh), 'no', fresh),
            any_fish = ifelse(is.na(any_fish), 'no', any_fish))
 
 
