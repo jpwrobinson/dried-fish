@@ -16,7 +16,7 @@ fig_heat<-function(dat){
     dri<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                   Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-                  Swealth = 0,
+                  Swealth = 0.1,
                   Sn_hh = 0) %>% 
         add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
@@ -28,7 +28,7 @@ fig_heat<-function(dat){
     fres<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                      Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-               Swealth = 0,
+               Swealth = 0.1,
                Sn_hh = 0) %>% 
         add_epred_draws(m3, ndraws = 100, re_formula = NA) %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
@@ -56,7 +56,7 @@ fig_heat<-function(dat){
         labs(subtitle = 'Fresh fish') +
         guides(fill = 'none') 
     
-    lhs<-plot_grid(g1, g2, nrow=1, labels=c('a', 'b'))
+    lhs<-plot_grid(g1, g2, nrow=2)#, labels=c('a', 'b'))
     # top<-plot_grid(gc, gd, nrow=1, labels=c('a', 'b'))
     # pp<-plot_grid(top, lhs, nrow=2, rel_heights=c(0.4, 1))
     

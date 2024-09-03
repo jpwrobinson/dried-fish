@@ -75,12 +75,12 @@ list(
         fig3 = figPost,
         fig4a = figMod,
         fig4b = figModF,
+        fig4c = figHeat,
         figS1 = figRNI_species,
         figS2 = figPortionSize,
         figS3 = figRNI_forms,
         figS4 = figContam,
-        figS5 = figContamS,
-        figS6 = figHeat
+        figS5 = figContamS
     ))
     
 )
