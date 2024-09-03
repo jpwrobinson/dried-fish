@@ -33,7 +33,7 @@ list(
     tar_target(mod_dat, mod_prep(lsms_proximity)),
     
     # household maps
-    tar_target(lsms_map, lsms_map_hh(dat1= lsms_data, dat2=lsms_proximity, dat3 = mod_dat)),
+    tar_target(lsms_map, lsms_map_hh(dat1= lsms_data, dat2 = mod_dat)),
     
     # figures on nutrient values
 
