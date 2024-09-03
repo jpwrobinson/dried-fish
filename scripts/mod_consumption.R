@@ -20,10 +20,10 @@ dat<-lsms_proximity
 
 mod_dat<-mod_prep(lsms_proximity)
 
-m2c<-brm(data = mod_dat, family = bernoulli,
+m2<-brm(data = mod_dat, family = bernoulli,
         response_dried ~ 1 + 
-            nearest_water*Sproximity_to_water_km +
-            # Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km + 
+            # nearest_water*Sproximity_to_water_km +
+            Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
             Sproximity_to_city_mins + Sn_hh + Swealth +
             # marine + inland + 
             (1 | country / hh_cluster),
@@ -37,8 +37,8 @@ save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 
 m3<-brm(data = mod_dat, family = bernoulli,
         response_fresh ~ 1 + #nearest_water
-            nearest_water*Sproximity_to_water_km +
-            # Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km + 
+            # nearest_water*Sproximity_to_water_km +
+            Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
             Sproximity_to_city_mins + Sn_hh + Swealth +
             # marine + inland + 
             (1 | country / hh_cluster),
@@ -90,7 +90,7 @@ m2 %>%
     
 
 load(file = 'data/mod/lsms_mod_fresh.rds')
-summary(m3)
+summary(m2)
 conditional_effects(m3)
 plot(m3)
 ranef(m3)$country
