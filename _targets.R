@@ -33,7 +33,7 @@ list(
     tar_target(mod_dat, mod_prep(lsms_proximity)),
     
     # household maps
-    tar_target(lsms_map, lsms_map_hh(dat1= lsms_data, dat2=lsms_proximity, dat3 = mod_dat)),
+    tar_target(lsms_map, lsms_map_hh(dat1= lsms_data, dat2 = mod_dat)),
     
     # figures on nutrient values
 
@@ -75,12 +75,12 @@ list(
         fig3 = figPost,
         fig4a = figMod,
         fig4b = figModF,
+        fig4c = figHeat,
         figS1 = figRNI_species,
         figS2 = figPortionSize,
         figS3 = figRNI_forms,
         figS4 = figContam,
-        figS5 = figContamS,
-        figS6 = figHeat
+        figS5 = figContamS
     ))
     
 )

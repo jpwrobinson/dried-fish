@@ -1,4 +1,4 @@
-lsms_map_hh<-function(dat1, dat2, dat3){
+lsms_map_hh<-function(dat1, dat2){
     
     ber_proj4 <- '+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs'
     w<-ne_download(scale = 10, type = 'countries', category = 'cultural') %>% 
@@ -13,10 +13,9 @@ lsms_map_hh<-function(dat1, dat2, dat3){
         st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% 
         st_transform(ber_proj4) 
     
-    ls_mod<-dat2 %>% 
+    ls_points<-dat2 %>% 
         st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% 
-        st_transform(ber_proj4) %>% 
-        mutate(nearest_water = as.factor(ifelse(distance_to_inland > distance_to_marine, 'Marine', 'Inland')))
+        st_transform(ber_proj4) 
     
     # overlay lakes
     inland <- st_read("data/maps/8ark3lcpfw_GLWD_level1/glwd_1.shp",
@@ -43,21 +42,18 @@ lsms_map_hh<-function(dat1, dat2, dat3){
         tm_dots(alpha=0.5) +
         tm_layout(main.title = 'Households surveyed by LSMS')
     
-    
-    g3<-base +
-        tm_shape(ls_mod) + 
-        tm_dots(col='nearest_water', alpha=0.5, palette=realm_cols) +
-        tm_layout(main.title = 'Households surveyed by LSMS')
-    
+
     pdf(file = 'fig/map_lsms_household_surveys.pdf', height=7, width=12)
     print(g1)
     print(g2)
-    print(g3)
     dev.off()
+
+    g3a<-ggplot(dat2, 
+                aes(distance_to_marine/1000, distance_to_inland/1000, col=nearest_water)) + geom_point()
     
-    ls_points<-dat3 %>% 
-        st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% 
-        st_transform(ber_proj4) 
+    g3<-base +
+        tm_shape(ls_points) + 
+        tm_dots(col='nearest_water', alpha=0.5, palette=realm_cols)
     
     g4<-base +
         tm_shape(ls_points) +
@@ -68,6 +64,8 @@ lsms_map_hh<-function(dat1, dat2, dat3){
         tm_dots(col = 'proximity_to_water_km', palette="-RdYlBu")
     
     pdf(file = 'fig/map_lsms_proximity_covariates.pdf', height=7, width=12)
+    print(g3a)
+    print(g3)
     print(g4)
     print(g5)
     dev.off()
