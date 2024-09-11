@@ -5,6 +5,7 @@ fig_post<-function(dat){
         load(file = 'data/mod/lsms_mod_fresh.rds')
         ylab = 'Probability fish consumption'
         
+        basesize = 9
     
     # posterior effect sizes
     posterior <- mcmc_intervals_data(m2)
@@ -34,6 +35,8 @@ fig_post<-function(dat){
         theme_sleek() +
         scale_colour_manual(values = pcols_named) +
         theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.2),
+              axis.text = element_text(size = basesize), 
+              axis.title = element_text(size = basesize),
               legend.title=element_blank())
     
     
@@ -55,7 +58,9 @@ fig_post<-function(dat){
         scale_colour_manual(values = pcols_named) +
         scale_x_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
         labs(x = '', y = ylab) +
-        theme(legend.position = 'none')
+        theme(legend.position = 'none',
+              axis.text = element_text(size = basesize), 
+              axis.title = element_text(size = basesize))
     
     
     lhs<-plot_grid(ga, gb, nrow=1, labels=c('a', 'b'), rel_widths=c(0.8, 1))

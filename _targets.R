@@ -7,7 +7,7 @@ pop = 'Children'
 nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
 cons<-c('lead', 'mercury', 'cadmium')
 
-set.seed(43)
+set.seed(909)
 
 source('scripts/functions.R')
 

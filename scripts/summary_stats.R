@@ -143,6 +143,13 @@ mod_dat %>%
     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
     reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2])
 
+## households in interaction hotspots
+mod_dat %>% filter(distance_to_marine/1000 > 1000 & distance_to_inland/1000 < 10) %>% summarise(n_distinct(hh_id)) # n = 111
+111/dim(mod_dat)[1]*100
+
+mod_dat %>% filter(distance_to_marine/1000 < 250 & distance_to_inland/1000 < 320) %>% summarise(n_distinct(hh_id)) # n = 14715
+14715/dim(mod_dat)[1]*100
+
 # prox to city
 mod_dat %>%  
     data_grid(Sproximity_to_marine_km = 0,
@@ -156,10 +163,37 @@ mod_dat %>%
     reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 
     slice_min_max(proximity_to_city_mins)
 
+
+# Fresh - near marine only
 m2 %>% 
-    emmeans(~ nearest_water,
-            at = list(Sproximity_to_city_mins = 0),
+    emmeans(~ 1,
+            at = list(Sproximity_to_city_mins = 0, 
+                      Swealth = 0, 
+                      Sn_hh = 0, 
+                      Sproximity_to_inland_km = 0,
+                      Sproximity_to_marine_km = min(mod_dat$Sproximity_to_marine_km)),
             epred = TRUE)
+
+# Fresh - distant from marine, near inland
+m3 %>% 
+    emmeans(~ 1,
+            at = list(Sproximity_to_city_mins = 0, 
+                      Swealth = 0, 
+                      Sn_hh = 0, 
+                      Sproximity_to_inland_km = min(mod_dat$Sproximity_to_inland_km),
+                      Sproximity_to_marine_km = max(mod_dat$Sproximity_to_marine_km)),
+            epred = TRUE)
+
+# Fresh - near marine, distant from inland
+m3 %>% 
+    emmeans(~ 1,
+            at = list(Sproximity_to_city_mins = 0, 
+                      Swealth = 0, 
+                      Sn_hh = 0, 
+                      Sproximity_to_inland_km = max(mod_dat$Sproximity_to_inland_km),
+                      Sproximity_to_marine_km = min(mod_dat$Sproximity_to_marine_km)),
+            epred = TRUE)
+
 
 m2 %>% 
     emmeans(~ Sn_hh,

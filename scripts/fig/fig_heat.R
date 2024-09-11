@@ -18,12 +18,12 @@ fig_heat<-function(dat){
     dri<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                   Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-               country = 'marginal',
+               # country = 'marginal',
                   Swealth = 0,
                   Sn_hh = 0) %>% 
-        add_epred_draws(m2, ndraws = 1000, re_formula = NULL, allow_new_levels = TRUE, sample_new_levels = "gaussian") %>% 
+        add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
-        summarise(mu = median(.epred)) 
+        summarise(y = median(.epred), lo = HPDI(.epred)[1], hi = HPDI(.epred)[2]) 
     
     dri$distance_to_marine<-raw_r$distance_to_marine
     dri$distance_to_inland<-raw_r$distance_to_inland
@@ -31,28 +31,31 @@ fig_heat<-function(dat){
     fres<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                      Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-               country = 'marginal',
+               # country = 'marginal',
                Swealth = 0,
                Sn_hh = 0) %>% 
-        add_epred_draws(m3, ndraws = 1000, re_formula = NULL, allow_new_levels = TRUE, sample_new_levels = "gaussian") %>% 
+        add_epred_draws(m3, ndraws = 100, re_formula = NA) %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
-        summarise(mu = median(.epred))
+        summarise(y = median(.epred) , lo = HPDI(.epred)[1], hi = HPDI(.epred)[2])
     
     fres$distance_to_marine<-raw_r$distance_to_marine
     fres$distance_to_inland<-raw_r$distance_to_inland
     
+    hh_clusters<-dat %>% group_by(hh_cluster) %>% summarise(distance_to_marine = mean(distance_to_marine), distance_to_inland = mean(distance_to_inland))
+    
     g1<-ggplot(dri, aes(distance_to_marine, distance_to_inland)) + 
-        geom_tile(aes(fill=mu)) +
+        geom_tile(aes(fill=y)) +
         scale_y_continuous(expand=c(0,0)) +
         scale_x_continuous(expand=c(0,0)) +
         scale_fill_gradientn(labels=scales::percent, 
                              # midpoint = median(dri$mu),
                              colors = rev(hcl.colors(20, "RdYlBu")),
-                             limits=c(0, max(dri$mu))) +
-        geom_point(data = dat, alpha=0.1, size=.005, col='black') +
-        theme(legend.position = 'inside', legend.position.inside = c(0.98, 0.7),
+                             limits=c(0, max(c(dri$y, fres$y)))) +
+        geom_point(data = hh_clusters, alpha=0.1, size=.005, col='black') +
+        theme(legend.position = 'inside', legend.position.inside = c(0.85, 0.8),
               legend.text=element_text(color='white'),
-              text = element_text(size = basesize)) +
+              axis.text = element_text(size = basesize), 
+              axis.title = element_text(size = basesize)) +
         labs(fill = '',x = 'Distance to marine, km', y = 'Distance to inland, km') 
     
     # ggMarginal(g1, type='histogram')
@@ -70,4 +73,9 @@ fig_heat<-function(dat){
     
     return(lhs)
     
-    }
+}
+
+
+## summary stats
+# dri %>% ungroup() %>%  filter(distance_to_marine < 250 & distance_to_inland < 350) %>% summarise(mean(y))
+# fres %>% ungroup() %>%  filter(distance_to_marine < 250 & distance_to_inland < 350) %>% summarise(mean(y))

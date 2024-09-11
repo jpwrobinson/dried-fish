@@ -24,7 +24,7 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4a, fig4b, fig4c, figS1, figS
     )
     dev.off()
     
-    pdf(file = 'fig/Figure4.pdf', height =5, width=11)
+    pdf(file = 'fig/Figure4.pdf', height =4.5, width=11)
     print(
         plot_grid(
             plot_grid(

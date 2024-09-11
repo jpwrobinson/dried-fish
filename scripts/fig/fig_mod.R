@@ -5,11 +5,11 @@ fig_mod<-function(dat, model = 'dried'){
     
     if(model == 'dried'){
         load(file = 'data/mod/lsms_mod.rds')
-        ylab = 'Probability consumption - dried'
+        ylab = 'Probability, dried'
     } else {
         load(file = 'data/mod/lsms_mod_fresh.rds')
         m2<-m3
-        ylab = 'Probability consumption - fresh'
+        ylab = 'Probability, fresh'
     }
     
     scales<-list(
@@ -38,9 +38,10 @@ fig_mod<-function(dat, model = 'dried'){
         geom_lineribbon(aes(y = estimate__, ymin = lower50, ymax = upper50,fill=nearest_water), alpha = 0.5) +
         geom_lineribbon(aes(y = estimate__, ymin = lower95, ymax = upper95,fill=nearest_water), alpha = 0.3) +
         scales +
-        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.9), legend.title = element_blank(),
+        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.75), legend.title = element_blank(),
               plot.margin = unit(c(.05, .01, .05, .05), 'cm'),
-              text = element_text(size = basesize)) +
+              axis.text = element_text(size = basesize), 
+              axis.title = element_text(size = basesize)) +
         labs(x = 'Distance to water, km', y = ylab)
     
     
@@ -50,7 +51,8 @@ fig_mod<-function(dat, model = 'dried'){
         geom_lineribbon(aes(y = estimate__,ymin = lower95, ymax = upper95), alpha = 0.3) +
         scales +
         theme(legend.position = 'none', plot.margin = unit(c(.05, .05, .05, .01), 'cm'),
-              text = element_text(size = basesize)) +
+              axis.text = element_text(size = basesize), 
+              axis.title = element_text(size = basesize)) +
         labs(x = 'Distance to urban centre, mins', y = '')
     
     gc<-gb %+% dc +
