@@ -1,5 +1,7 @@
 fig_heat<-function(dat){
     
+    basesize = 9
+    
     load(file = 'data/mod/lsms_mod.rds')
     load(file = 'data/mod/lsms_mod_fresh.rds')
     
@@ -16,9 +18,10 @@ fig_heat<-function(dat){
     dri<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                   Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-                  Swealth = 0.1,
+               country = 'marginal',
+                  Swealth = 0,
                   Sn_hh = 0) %>% 
-        add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
+        add_epred_draws(m2, ndraws = 1000, re_formula = NULL, allow_new_levels = TRUE, sample_new_levels = "gaussian") %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
         summarise(mu = median(.epred)) 
     
@@ -28,9 +31,10 @@ fig_heat<-function(dat){
     fres<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                      Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-               Swealth = 0.1,
+               country = 'marginal',
+               Swealth = 0,
                Sn_hh = 0) %>% 
-        add_epred_draws(m3, ndraws = 100, re_formula = NA) %>% 
+        add_epred_draws(m3, ndraws = 1000, re_formula = NULL, allow_new_levels = TRUE, sample_new_levels = "gaussian") %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
         summarise(mu = median(.epred))
     
@@ -45,18 +49,21 @@ fig_heat<-function(dat){
                              # midpoint = median(dri$mu),
                              colors = rev(hcl.colors(20, "RdYlBu")),
                              limits=c(0, max(dri$mu))) +
-        geom_point(data = dat, alpha=0.1, size=.05) +
-        theme(legend.position = 'inside', legend.position.inside = c(0.85, 0.85)) +
-        labs(fill = 'P(consumption)',x = 'Distance to marine, km', y = 'Distance to inland, km', subtitle = 'Dried fish')
+        geom_point(data = dat, alpha=0.1, size=.005, col='black') +
+        theme(legend.position = 'inside', legend.position.inside = c(0.98, 0.7),
+              legend.text=element_text(color='white'),
+              text = element_text(size = basesize)) +
+        labs(fill = '',x = 'Distance to marine, km', y = 'Distance to inland, km') 
     
     # ggMarginal(g1, type='histogram')
     
     
     g2<-g1 %+% fres +
-        labs(subtitle = 'Fresh fish') +
+        # annotate('text', x = 1000, y = 330, label = 'Fresh fish', colour='white') +
         guides(fill = 'none') 
     
-    lhs<-plot_grid(g1, g2, nrow=2)#, labels=c('a', 'b'))
+    lhs<-plot_grid(g1 ,#+ annotate('text', x = 1000, y = 330, label = 'Dried fish', colour='white'), 
+                   g2, nrow=2)#, labels=c('a', 'b'))
     # top<-plot_grid(gc, gd, nrow=1, labels=c('a', 'b'))
     # pp<-plot_grid(top, lhs, nrow=2, rel_heights=c(0.4, 1))
     

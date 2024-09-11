@@ -98,7 +98,7 @@ ranef(m3)$country
 ppc_dens_overlay(y = dat$response_fresh,
                  yrep = posterior_predict(m3, draws = 50))
 
-mcmc_intervals_data(m2)
+
 
 posterior <- as.array(m2)
 mcmc_pairs(posterior, regex_pars = 'S*')

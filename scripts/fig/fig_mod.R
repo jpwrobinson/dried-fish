@@ -1,13 +1,15 @@
 
 fig_mod<-function(dat, model = 'dried'){
     
+    basesize = 9
+    
     if(model == 'dried'){
         load(file = 'data/mod/lsms_mod.rds')
-        ylab = 'P(dried fish consumption)'
+        ylab = 'Probability consumption - dried'
     } else {
         load(file = 'data/mod/lsms_mod_fresh.rds')
         m2<-m3
-        ylab = 'P(fresh fish consumption)'
+        ylab = 'Probability consumption - fresh'
     }
     
     scales<-list(
@@ -36,8 +38,10 @@ fig_mod<-function(dat, model = 'dried'){
         geom_lineribbon(aes(y = estimate__, ymin = lower50, ymax = upper50,fill=nearest_water), alpha = 0.5) +
         geom_lineribbon(aes(y = estimate__, ymin = lower95, ymax = upper95,fill=nearest_water), alpha = 0.3) +
         scales +
-        theme(legend.position = 'inside', legend.position.inside = c(0.9, 0.9), legend.title = element_blank()) +
-        labs(x = 'Proximity to water, km', y = ylab)
+        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.9), legend.title = element_blank(),
+              plot.margin = unit(c(.05, .01, .05, .05), 'cm'),
+              text = element_text(size = basesize)) +
+        labs(x = 'Distance to water, km', y = ylab)
     
     
     # proximity to urban centre
@@ -45,14 +49,16 @@ fig_mod<-function(dat, model = 'dried'){
         geom_lineribbon(aes(y = estimate__,ymin = lower50, ymax = upper50), alpha = 0.5) +
         geom_lineribbon(aes(y = estimate__,ymin = lower95, ymax = upper95), alpha = 0.3) +
         scales +
-        theme(legend.position = 'none') +
-        labs(x = 'Proximity to urban centre, mins', y = ylab)
+        theme(legend.position = 'none', plot.margin = unit(c(.05, .05, .05, .01), 'cm'),
+              text = element_text(size = basesize)) +
+        labs(x = 'Distance to urban centre, mins', y = '')
     
     gc<-gb %+% dc +
-        labs(x = 'Household wealth', y = ylab)
+        labs(x = 'Household wealth', y = '') +
+        scale_x_continuous(breaks = c(0,.25, .5, .75, 1), labels =c('0', '0.25', 0.5, 0.75, '1'))
     
-    gd<-gc %+% dd +
-        labs(x = 'Household size, people', y = ylab)
+    gd<-gb %+% dd +
+        labs(x = 'Household size', y = '')
         
     
     lhs<-plot_grid(ga, gb, gc, gd, nrow=1)

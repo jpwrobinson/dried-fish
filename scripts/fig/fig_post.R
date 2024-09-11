@@ -3,7 +3,7 @@ fig_post<-function(dat){
     
         load(file = 'data/mod/lsms_mod.rds')
         load(file = 'data/mod/lsms_mod_fresh.rds')
-        ylab = 'P(fish consumption)'
+        ylab = 'Probability fish consumption'
         
     
     # posterior effect sizes
@@ -21,15 +21,15 @@ fig_post<-function(dat){
         geom_vline(xintercept = 0, col='grey') +
         geom_pointrange(data = poster, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
         geom_pointrange(data=poster, linewidth=1, aes(xmax=h, xmin =l), position = position_dodge(width=0.5)) +
-        scale_x_continuous(breaks=seq(-.5, 1.5, by = 0.5)) +
+        scale_x_continuous(breaks=seq(-1, 4, by = 1)) +
         scale_y_discrete(limits = p[c(6,1,2,3,4,5)],
                          position = 'right',
-            labels = c('b_Sproximity_to_marine_km' = 'Distance to marine water', 
-                                'b_Sproximity_to_inland_km' = 'Distance to inland water', 
-                                'b_Sproximity_to_city_mins' = 'Distance to city', 
-                                'b_Sn_hh' = 'Household size', 
-                                'b_Swealth' = 'Household wealth', 
-                                'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance to marine:inland interaction')) +
+            labels = c('b_Sproximity_to_marine_km' = 'Distance\nmarine water', 
+                                'b_Sproximity_to_inland_km' = 'Distance\ninland water', 
+                                'b_Sproximity_to_city_mins' = 'Distance\nurban centre', 
+                                'b_Sn_hh' = 'Household\nsize', 
+                                'b_Swealth' = 'Household\nwealth', 
+                                'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance\nmarine*inland')) +
         labs(x = 'Posterior effect', y = '') +
         theme_sleek() +
         scale_colour_manual(values = pcols_named) +
@@ -58,7 +58,7 @@ fig_post<-function(dat){
         theme(legend.position = 'none')
     
     
-    lhs<-plot_grid(ga, gb, nrow=1, labels=c('a', 'b'))
+    lhs<-plot_grid(ga, gb, nrow=1, labels=c('a', 'b'), rel_widths=c(0.8, 1))
     return(lhs)
     
 }

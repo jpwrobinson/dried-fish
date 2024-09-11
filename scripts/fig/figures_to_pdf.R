@@ -18,18 +18,18 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4a, fig4b, fig4c, figS1, figS
     )
     dev.off()
     
-    pdf(file = 'fig/Figure3.pdf', height =4, width=11)
+    pdf(file = 'fig/Figure3.pdf', height =3, width=8)
     print(
         fig3
     )
     dev.off()
     
-    pdf(file = 'fig/Figure4.pdf', height =4, width=14)
+    pdf(file = 'fig/Figure4.pdf', height =5, width=11)
     print(
         plot_grid(
             plot_grid(
-            plot_grid(fig4a, fig4b, nrow=2),
-            fig4c, labels=c('a', 'b', ''), nrow=1, align='hv')
+            plot_grid(fig4a, fig4b, nrow=2, labels =c('a', 'b')),
+            fig4c, nrow=1, align='hv', rel_widths=c(1, .3))
     ))
     dev.off()
     

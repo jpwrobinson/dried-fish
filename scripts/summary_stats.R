@@ -164,3 +164,11 @@ m2 %>%
 m2 %>% 
     emmeans(~ Sn_hh,
             epred = TRUE)
+
+m2 %>% 
+    emmeans(~ Swealth,
+            epred = TRUE) 
+
+m3 %>% 
+    emmeans(~ Swealth,
+            epred = TRUE) 
