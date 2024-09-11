@@ -19,11 +19,12 @@ mod_prep<-function(dat){
     mod_dat<-dat %>% 
         filter(!is.na(n_hh) & !is.na(monthly_exp)) %>%  ## mostly in Tanzania - check these
         group_by(country) %>% 
-        mutate(Swealth = scales::rescale(monthly_exp / sqrt(n_hh), to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size
+        mutate(wealth = scales::rescale(monthly_exp / sqrt(n_hh), to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size
         ungroup() %>% mutate(
             proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
             log10_proximity_to_city_mins = log10(proximity_to_city_mins),
             Sn_hh = scale(n_hh)[,1],
+            Swealth = scale(wealth)[,1],
             Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
             Sproximity_to_inland_km = scale(distance_to_inland)[,1],
             Sproximity_to_marine_km = scale(distance_to_marine)[,1],
