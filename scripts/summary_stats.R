@@ -118,7 +118,7 @@ pops<-pop.df %>% group_by(country) %>% slice_max(year, n =1) %>%
 
 
 ## model summaries
-
+# https://www.andrewheiss.com/blog/2021/11/10/ame-bayes-re-guide/#average-marginal-effects
 ## country level probabilities, based on average covariate values per country
 pop_prob<-mod_dat %>% 
     group_by(country) %>% 

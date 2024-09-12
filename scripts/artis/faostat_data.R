@@ -45,6 +45,9 @@ years<-plotter %>% group_by(id, asfis_species_name, fao_major_fishing_area_name)
 dep<-years %>% filter(year < 2010) 
 plotter %>% ungroup() %>% filter(year %in% c(2017:2022) & id %in% dep$id) %>% summarise(mean(Scatch))
 
+dep<-years %>% filter(year > 2017 & asfis_species_name %in% c('Sardinellas nei', 'Round sardinella')) 
+plotter %>% ungroup() %>% filter(id %in% dep$id) %>% summarise(mean(Scatch))
+
 g1<-ggplot(plotter) + 
     geom_line(aes(year, Scatch, col=Scatch, group=asfis_species_name), linewidth=.3) +
     geom_text(data = plotter %>% filter(year==2022) %>% 
