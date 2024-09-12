@@ -113,21 +113,25 @@ pop.df <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$enti
     clean_names() %>%
     filter(country == countries) 
 
-pop.df %>% group_by(country) %>% slice_max(year, n =3)
+pops<-pop.df %>% group_by(country) %>% slice_max(year, n =1) %>% 
+    mutate(country = countrycode(iso2_wb_code, 'iso2c', 'iso3c'))
 
 
 ## model summaries
 
 ## country level probabilities, based on average covariate values per country
-mod_dat %>% 
+pop_prob<-mod_dat %>% 
     group_by(country) %>% 
     summarise(Sproximity_to_marine_km = median(Sproximity_to_marine_km),
               Sproximity_to_inland_km = median(Sproximity_to_inland_km),
               Sproximity_to_city_mins = median(Sproximity_to_city_mins),
               Swealth = median(Swealth),
               Sn_hh = median(Sn_hh)) %>%  
-    add_epred_draws(m2, ndraws = 100) %>% 
-    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2])
+    add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>% 
+    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 
+    left_join(pops, by = 'country') %>% 
+    mutate(m_pop = m*total_population, lo_pop = lo*total_population, hi_pop = hi*total_population) %>% 
+    select(country, m:hi, total_population:hi_pop)
 
 
 # marine / inland
@@ -205,7 +209,7 @@ m3 %>% emmeans(~ Swealth, var = 'Swealth',
                at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
 
 
-## distance water effects
+## distance water effects in the band
 m2 %>% emmeans(~ Swealth, var = 'Swealth', 
                at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
 
