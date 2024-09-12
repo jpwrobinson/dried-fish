@@ -22,7 +22,7 @@ fig_post<-function(dat){
         geom_vline(xintercept = 0, col='grey') +
         geom_pointrange(data = poster, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
         geom_pointrange(data=poster, linewidth=1, aes(xmax=h, xmin =l), position = position_dodge(width=0.5)) +
-        scale_x_continuous(breaks=seq(-1, 4, by = 1)) +
+        scale_x_continuous(breaks=seq(-1, 1, by = .2)) +
         scale_y_discrete(limits = p[c(6,1,2,3,4,5)],
                          position = 'right',
             labels = c('b_Sproximity_to_marine_km' = 'Distance\nmarine water', 
@@ -34,7 +34,7 @@ fig_post<-function(dat){
         labs(x = 'Posterior effect', y = '') +
         theme_sleek() +
         scale_colour_manual(values = pcols_named) +
-        theme(legend.position = 'inside', legend.position.inside = c(0.8, 0.2),
+        theme(legend.position = 'inside', legend.position.inside = c(0.25, 0.85),
               axis.text = element_text(size = basesize), 
               axis.title = element_text(size = basesize),
               legend.title=element_blank())

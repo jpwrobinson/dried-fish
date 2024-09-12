@@ -144,8 +144,11 @@ mod_dat %>%
     reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2])
 
 ## households in interaction hotspots
-mod_dat %>% filter(distance_to_marine/1000 > 1000 & distance_to_inland/1000 < 10) %>% summarise(n_distinct(hh_id)) # n = 111
+mod_dat %>% filter(distance_to_marine/1000 > 1000 & distance_to_inland/1000 < 10) %>% summarise(n_distinct(hh_id)) # n = 111, UGA, some TZA
 111/dim(mod_dat)[1]*100
+
+mod_dat %>% filter(distance_to_marine/1000 < 10 & distance_to_inland/1000 > 280) %>% summarise(n_distinct(hh_id)) # n = 42, NGA, some TZA
+42/dim(mod_dat)[1]*100
 
 mod_dat %>% filter(distance_to_marine/1000 < 250 & distance_to_inland/1000 < 320) %>% summarise(n_distinct(hh_id)) # n = 14715
 14715/dim(mod_dat)[1]*100
@@ -194,15 +197,18 @@ m3 %>%
                       Sproximity_to_marine_km = min(mod_dat$Sproximity_to_marine_km)),
             epred = TRUE)
 
+## wealth effects
+m2 %>% emmeans(~ Swealth, var = 'Swealth', 
+                at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
 
-m2 %>% 
-    emmeans(~ Sn_hh,
-            epred = TRUE)
+m3 %>% emmeans(~ Swealth, var = 'Swealth', 
+               at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
 
-m2 %>% 
-    emmeans(~ Swealth,
-            epred = TRUE) 
 
-m3 %>% 
-    emmeans(~ Swealth,
-            epred = TRUE) 
+## distance water effects
+m2 %>% emmeans(~ Swealth, var = 'Swealth', 
+               at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
+
+m3 %>% emmeans(~ Swealth, var = 'Swealth', 
+               at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
+
