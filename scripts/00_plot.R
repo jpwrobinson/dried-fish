@@ -65,10 +65,10 @@ rda$nutrient<-str_to_title(rda$nutrient)
 rda$nutrient[rda$nutrient=='Vitamin_a']<-'Vitamin A'
 rda$nutrient[rda$nutrient=='Vitamin_d']<-'Vitamin D'
 rda$nutrient[rda$nutrient=='Vitamin_b12']<-'Vitamin B12'
-rda$nutrient[rda$nutrient=='Omega_3']<-'Omega-3 (DHA + EPA)'
+rda$nutrient[rda$nutrient=='Omega_3']<-'Omega-3'
 
 ## get nutrient units
-units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega-3 (DHA + EPA)', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
+units<-data.frame(nutrient = c('Protein', 'Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 'Omega-3', 'Vitamin A', 'Vitamin D', 'Vitamin B12', 'Folate'),
                   unit = c('percent', 'mg', 'mg', 'mcg', 'mg','mcg', 'g', 'mcg', 'mcg', 'mcg', 'mcg'),
                   type = c('Protein', rep('Mineral', 5), 'Fat', rep('Vitamin', '4')))
 
@@ -80,6 +80,7 @@ nut_cols<-c('Protein' = 'black',
             'Zinc' = '#1f78b4',
             'Iodine' = '#1f78b4',
             'Omega-3 (DHA + EPA)' = '#a6cee3',
+            'Omega-3' = '#a6cee3',
             'Vitamin A' = '#abdda4',
             'Vitamin D' = '#abdda4',
             'Vitamin B12' = '#abdda4',
@@ -94,3 +95,4 @@ realm_cols_named<-c('Inland' = '#4daf4a','Marine' = '#386cb0')
 
 countries<-c('Senegal', 'Nigeria', 'Malawi', 'Tanzania', 'Uganda', "Cote d'Ivoire")
 countries2<-c('Senegal', 'Nigeria', 'Malawi', 'Tanzania', 'Uganda', "Ivory Coast")
+
