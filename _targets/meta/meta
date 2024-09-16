@@ -9,35 +9,35 @@ cont|object|733292be537f8551|||||||||||||||
 countries|object|28e529cba7faf2a7|||||||||||||||
 countries2|object|13222fcbe9913115|||||||||||||||
 fe|object|cdd3a956bea80472|||||||||||||||
-fig_dried_rni|function|702f012a29f77a87|||||||||||||||
+fig_dried_rni|function|a291daa22002565c|||||||||||||||
 fig_fresh_contrast|function|efbbd991bc1b3429|||||||||||||||
 fig_heat|function|538ef027ff1b81ce|||||||||||||||
 fig_mod|function|8196a0a26ba83c5c|||||||||||||||
-fig_ndensity|function|21cd6d73fea22cfb|||||||||||||||
+fig_ndensity|function|f1bdb91fc4a7f1e0|||||||||||||||
 fig_post|function|8aa0594fc24b1430|||||||||||||||
-figAll|stem|c6407a74d6524722|4e73b08bacb0555d|5e8390bdf6e0b098|-1799039079||t19978.3325195677s|40b3a10246f0095b|83|rds|local|vector|||7.803|Removed 251 rows containing missing values or values outside the scale rangegeom_line.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
-figContam|stem|2d6cbc439440bcf2|73ab9267f1028452|b438accd7d9544ce|-483990596||t19964.5533524981s|798cdeff4be2ff55|150965|rds|local|vector|||0.324||
-figContaminant|function|a0f276ab57d31f8b|||||||||||||||
-figContaminant_Species|function|9dc1da9b9ffa5fc1|||||||||||||||
-figContaminantPortion|function|8c90246763e3db9e|||||||||||||||
+figAll|stem|df4273d76388ed67|4e73b08bacb0555d|8dce10db61280bf4|-1799039079||t19982.5219604296s|c852eab37a726e04|78|rds|local|vector|||7.725|Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
+figContam|stem|2d6cbc439440bcf2|73ab9267f1028452|8bf182a0fc13976e|-483990596||t19982.521014841s|798cdeff4be2ff55|150965|rds|local|vector|||0.26||
+figContaminant|function|77a20bbd353d516c|||||||||||||||
+figContaminant_Species|function|5a45b19d864f66ce|||||||||||||||
+figContaminantPortion|function|f9d0a3c566dfd11d|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
-figContamS|stem|a3f1afc6bf1143ab|21343ba9428da644|87e1c9978dd62477|-1359281853||t19964.5533478999s|921b7079152b1112|370486|rds|local|vector|||0.637||
+figContamS|stem|a3f1afc6bf1143ab|21343ba9428da644|6e09234463f0cb7d|-1359281853||t19982.5210109895s|921b7079152b1112|370486|rds|local|vector|||0.614||
 figContrast|stem|e5a647d2b6823469|3b2b83b7bb7e4e00|1d688e8540cbd5a2|-1646584657||t19965.3931334295s|c3fa242fc023b8a8|221195|rds|local|vector|||0.519|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
 figHeat|stem|d820968fa1a6162d|58c252019fba30bb|3894897e755a88d2|-1374684747||t19978.3226247774s|1934e95dccf908ac|173933290|rds|local|vector|||19.73||
 figMap|stem|192878fdcf183f2a|ea3036115afc5dec|40933d92e3823f94|450328000||t19968.5224652709s|d8d4577a721cec00|14916462|rds|local|vector|||25.288|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
 figMod|stem|b151e7d8f45ceb12|75deb0b7d6a1b6e9|5d847faa62cc28e0|1382495384||t19978.3228114795s|ab96384a0b46db43|90750306|rds|local|vector|||8.383|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
 figModF|stem|68982dba15ef875c|deae51e26dc35694|5d847faa62cc28e0|1825040870||t19978.3230264516s|6ec4ec48b293b283|171131821|rds|local|vector|||7.987|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
-figND|stem|fb24a707df55f1f3|eb9061a8a8de87d8|39d2040cc4d0c496|1162846536||t19965.3931385695s|cdd483138fc13cc8|195529|rds|local|vector|||0.356||
-figPortion|function|0e3f7f0970898240|||||||||||||||
-figPortionDat|stem|958335dd2f813281|c88265a344c4521e|b7f1b931450d072b|-1593594165||t19965.3937751627s|e8a16f8a5b6607be|109942|rds|local|vector|||11.395|There was 1 warning in reframe.ℹ In argument portion  minportionwhichrni  0.15.ℹ In group 4 nutrient  Omega3.Caused by warning in min no nonmissing arguments to min returning Inf|
-figPortionSize|stem|7a0047b0abdcb39f|5f4ef142e50766c9|b7f1b931450d072b|985414519||t19965.3932758552s|488ac25d33023a66|902745|rds|local|vector|||11.641|There was 1 warning in reframe.ℹ In argument portion  minportionwhichrni  0.15.ℹ In group 4 nutrient  Omega3.Caused by warning in min no nonmissing arguments to min returning Inf|
+figND|stem|73b388874ffa243b|eb9061a8a8de87d8|a2b6d9d70b8c2ebe|1162846536||t19982.5210192167s|765daf2828dfa9d3|196446|rds|local|vector|||0.288||
+figPortion|function|61d2f44e0b0b8c97|||||||||||||||
+figPortionDat|stem|2f4bf5aca57dd3f1|c88265a344c4521e|1f1598b8622ce456|-1593594165||t19982.5216322846s|056330fd80d2086c|122182|rds|local|vector|||11.013||
+figPortionSize|stem|1ecddeee38a0d0e2|5f4ef142e50766c9|1f1598b8622ce456|985414519||t19982.5211548378s|47f4ede010a23457|972091|rds|local|vector|||11.488|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.|
 figPost|stem|f41afb04b8679e3b|5a5bc1f4936c5adf|8d07175181184893|-834622188||t19978.3322719665s|9c5db6aa8bee0919|170598761|rds|local|vector|||22.193||
-figRNI|function|40b07606478d3bec|||||||||||||||
-figRNI_avg|stem|b3fe3bb765944f41|1f401e08a0b20d11|b7f1b931450d072b|-2078976083||t19965.3934028784s|cbe9aa608c5b336b|813696|rds|local|vector|||10.719|There was 1 warning in reframe.ℹ In argument portion  minportionwhichrni  0.15.ℹ In group 4 nutrient  Omega3.Caused by warning in min no nonmissing arguments to min returning Inf|
-figRNI_forms|stem|b86f5220a16a592e|3962c4bf59f8f239|b22e1aab7b0d4ccc|1450393985||t19965.3934527746s|cb1faf0643591868|1524724|rds|local|vector|||3.585||
+figRNI|function|92a4fd9faf2de566|||||||||||||||
+figRNI_avg|stem|a36dc5285e24ccf2|1f401e08a0b20d11|1f1598b8622ce456|-2078976083||t19982.5212806547s|4ed6ad1a7e790d27|868493|rds|local|vector|||10.661||
+figRNI_forms|stem|aad174c1176d1265|3962c4bf59f8f239|44801cc5793e6a1e|1450393985||t19982.5213302715s|e40946c411a605b6|1524090|rds|local|vector|||3.575||
 figRNI_formsDat|stem||fdea3505504212ef|3fd0735cb982b627|998359102||t19912.5298462289s||0|rds|local|vector|||3.61||subscript out of bounds
 figRNI_nut|stem|57c12b645a6a43b0|7371083421e8fc8d|6c1e9b4f81cb2bfd|-359967961||t19803.5897901999s|2de9f12799cca7e8|1629702|rds|local|vector|||4.147||
-figRNI_species|stem|c89c3c0af3d7e974|758541c59ae590af|08b87fcf9ec8b6a6|416951054||t19965.3936428429s|a0190c0bdfac5fab|4552823|rds|local|vector|||13.556|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
+figRNI_species|stem|384128e311a4e9cd|758541c59ae590af|81b1c0ff8dcd1f8d|416951054||t19982.5215039596s|a6b25ebc43befaf5|4551521|rds|local|vector|||12.608|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
 figs|function|78da479fe096bc6a|||||||||||||||
 folate|object|73e9d248c95c1f30|||||||||||||||
 girl_36mo|object|c278f837ddddc29b|||||||||||||||
@@ -60,7 +60,7 @@ mod_dat|stem|c73b9ae9b4d98613|7506a3e6b01c2c7a|36e71d8e0e820b15|-1107520735||t19
 mod_post|function|dd0452b76773ff5a|||||||||||||||
 mod_prep|function|69d6b1b3ab9f7e3e|||||||||||||||
 norway_read|function|50738b260d4c00ad|||||||||||||||
-nut_cols|object|1b9b9d5e2dd1861a|||||||||||||||
+nut_cols|object|ed1d4032379c4e7e|||||||||||||||
 nut_cols2|object|4e59c1788205deda|||||||||||||||
 nut_data|stem|bbb163733ca371de|014fae1765e6f87d|897807e0ba5061b2|-1024543224||t19948.6461808213s|df78a0ab7edd72e4|8181|rds|local|vector|||1.585|Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. There was 1 warning in mutate.ℹ In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse NAs introduced by coercion|
 nutl|object|5aa2c6cb6f6148c4|||||||||||||||
@@ -73,7 +73,7 @@ pop|object|19d4312a955a1f26|||||||||||||||
 portion|object|034a656f55683244|||||||||||||||
 portionK|object|bfd2ca4835bfbdf3|||||||||||||||
 portionW|object|499521698191e4a4|||||||||||||||
-rda|object|7a6a93271daf5b96|||||||||||||||
+rda|object|cadbadf1e76d5be6|||||||||||||||
 read_dry|stem|5810fb7735d3c759|53336ebff4136a16|ffe66d558cdb4c45|-831724696||t19780.6162553215s|6bc8c359900bc152|892|rds|local|vector|||0.044||
 read_nut|stem|460000d6dd5d780f|1372f27cfa65365f|9111b0587d37e5d5|1140053488||t19780.6162944486s|40b3a10246f0095b|83|rds|local|vector|||3.364|Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. There was 1 warning in mutate.ℹ In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse NAs introduced by coercion|
 realm_cols|object|d714ecbb3fc3a6e5|||||||||||||||
@@ -81,7 +81,7 @@ realm_cols_named|object|d714ecbb3fc3a6e5|||||||||||||||
 se|object|7e02ad38317bcde4|||||||||||||||
 slice_min_max|function|3460311824a4e28b|||||||||||||||
 theme_sleek|function|ce34b1a968955dfd|||||||||||||||
-units|object|f21daa79c1870d32|||||||||||||||
+units|object|0ddc92d9599e6491|||||||||||||||
 vita|object|bee7c7e7a2a497ec|||||||||||||||
 vitb12|object|27f808620e4c9a5b|||||||||||||||
 vitd|object|42994cda87f9a93c|||||||||||||||

@@ -87,7 +87,9 @@ figPortionDat %>%
 # NRV values
 tar_load(figPortionDat)
 figPortionDat %>% mutate(rni = rni*100) %>% filter(portion == portionK)
-figPortionDat %>% group_by(nutrient) %>% filter(rni>= 0.1) %>% summarise(min(portion))
+
+# portion source values
+figPortionDat %>% group_by(nutrient) %>% filter(rni>= 0.15) %>% summarise(min(portion))
 
 ## summary stats - LSMS
 lsms_hh<-read.csv(file = 'data/lsms_subset/lsms_all_hh.csv')

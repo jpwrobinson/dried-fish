@@ -36,7 +36,7 @@ knitr::include_graphics("fig/FigureS1.pdf"); i = i + 1
 knitr::include_graphics("fig/FigureS2.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Portion size of processed fish species required to reach recommended nutrient intakes**. Lines show the contribution to RNI (children 0.5 - 5 years old) across range in portion sizes, for each nutrient and by processing type. 15% is the RNI for a food to qualify as a source of nutrients.
+**Fig. S`r i`. Portion size of processed fish species required to reach recommended nutrient intakes**. Lines show the contribution to NRV (children 0.5 - 5 years old) across range in portion sizes, for each nutrient and by processing type. We use 15% NRV as a threshold for a 'source' of a specific nutrient.
 
 
 \newpage
@@ -64,15 +64,7 @@ knitr::include_graphics("fig/FigureS5.pdf"); i = i + 1
 \newpage
 
 ```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
-knitr::include_graphics("fig/FigureS6.pdf"); i = i + 1
+knitr::include_graphics("fig/Figure2.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Change in fresh fish consumption with distance to water and markets**. Lines are the posterior median probability that a household consumed fresh fish (± 95% and 50% certainty intervals), for a) distance to marine (blue) and inland (green) water and b) distance to urban centres.
-
-\newpage
-
-```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
-knitr::include_graphics("fig/FigureS7.pdf"); i = i + 1
-```
-
-**Fig. S`r i`. Dried (a) and fresh (b) fish consumption along gradients in distance to marine (x-axis) and inland (y-axis) water**. Plot colour shows predicted median probability of fish consumption, overlaid with households from LSMS fitted to logistic models. Predictions control for effects of wealth, household size, distance to urban centres, and country.
+**Fig. S`r i`. Geographical location of LSMS across six countries.**. Red points are surveyed households.
