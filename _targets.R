@@ -6,12 +6,13 @@ portionW = 41
 pop = 'Children'
 nuts<-c('calcium', 'iron', 'selenium', 'zinc', 'iodine','epa_dha', 'vitamin_a1', 'vitamin_d3', 'vitamin_b12')
 cons<-c('lead', 'mercury', 'cadmium')
+mars<-c('Mombasa', "Accra", 'Seychelles', 'Lakshadweep')
 
 set.seed(909)
 
 source('scripts/functions.R')
 
-# tar_load(nut_data)
+tar_load(nut_data)
 # tar_load(lsms_data)
 # tar_load(lsms_proximity)
 # tar_load(mod_dat)

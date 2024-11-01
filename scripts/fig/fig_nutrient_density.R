@@ -49,7 +49,7 @@ fig_ndensity<-function(dat, portion){
         filter(form != 'Fresh') %>% 
         mutate(density = rowSums(across(where(is.numeric)), na.rm=TRUE)*100,
                id = paste(species, form, sep='\n'),
-               env = ifelse(location %in% c('Mombasa', "Accra"), 'Marine', 'Freshwater'))
+               env = ifelse(location %in% mars, 'Marine', 'Freshwater'))
 
     # form aggs
     datter2<-nutl_agg %>% 
@@ -60,7 +60,7 @@ fig_ndensity<-function(dat, portion){
         mutate(rni = rni/100 * portion/100) %>% ## correct portion size (portion * 100) then rescale between 0-1
         ## cap nutrient RDA at 100% (i.e. a species either meets (100%) or doesn't meet (<100%) the RDA)
         mutate(rni = case_when(rni > 1 ~ 1, TRUE ~ rni),
-               env = ifelse(location %in% c('Mombasa', "Accra"), 'Marine', 'Freshwater')) %>% 
+               env = ifelse(location %in% mars, 'Marine', 'Freshwater')) %>% 
         group_by(lab, nutrient, form, env) %>% 
         summarise(rni = mean(rni)) %>% 
         pivot_wider(id_cols = -lab,  names_from = nutrient, values_from = rni) %>% 

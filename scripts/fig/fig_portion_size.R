@@ -57,7 +57,7 @@ figPortion<-function(dat){
     # fresh vs dried, facet by nutrient for sup fig
     gg_port<-ggplot(porter, aes(portion, rni, col=form2)) + geom_line() + 
         facet_grid(~nutrient) +
-        labs(x = 'Portion size, g', y = 'Recommended Nutrient Intake', col='') +
+        labs(x = 'Portion size, g', y = 'Nutrient Reference Value', col='') +
         geom_hline(yintercept = 0.15, col='grey', linetype=5) +
         geom_text(data = data.frame(nutrient = 'Calcium', rni = 0.2, portion = 20, lab='Source'), 
                   aes(label = lab), col='grey40', size=3) +
