@@ -24,6 +24,8 @@ civ<-cotedivoire %>%
     mutate(hh_id = paste(vague, grappe, menage, sep = '_'),
            hh_cluster = paste(vague, grappe, sep = '_'),
            tot_hh = n_distinct(hh_id)) %>% 
+    left_join(read.csv('data/lsms_subset/weights/ehcvm_ponderations_civ2018.csv'),
+              by = 'grappe') %>% 
     left_join(read.csv('data/lsms_subset/gps/cotedivoire_grappe_gps_civ2018.csv') %>% 
                   mutate(hh_cluster = paste(vague, grappe, sep = '_'),
                          lat = coordonnes_gps__Latitude, lon = coordonnes_gps__Longitude) %>% 
@@ -43,15 +45,15 @@ civ<-cotedivoire %>%
                   summarise(monthly_exp = sum(s09cq03, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'CIV') 
 
-civ_hh<-civ %>% distinct(hh_id, hh_cluster, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+civ_hh<-civ %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
 
 civ_fish<-civ %>%
     filter(s07bq01 %in% c(35:40)) %>% 
-    select(country, tot_hh, hh_id, hh_cluster, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, n_hh) %>% 
+    select(country, tot_hh, hh_id, hh_cluster, hhweight, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, n_hh) %>% 
     left_join(civ_fish_code) %>% 
     rename('fish_item' = s07bq01, 'quantity' = s07bq03a, 'code' = s07bq03b) %>% 
     left_join(read_excel('data/lsms_subset/meta/civ_unit_codes.xlsx'), by = 'code') %>% 
-    select(tot_hh, hh_id, hh_cluster, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, hh_cluster, hhweight, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 2. SENEGAL ####
@@ -63,6 +65,8 @@ sen<-senegal %>%
     mutate(hh_id = paste(vague, grappe, menage, sep = '_'),
            hh_cluster = paste(vague, grappe, sep = '_'),
            tot_hh = n_distinct(hh_id)) %>% 
+    left_join(read.csv('data/lsms_subset/weights/ehcvm_ponderations_sen2018.csv'),
+              by = 'grappe') %>% 
     left_join(read.csv('data/lsms_subset/gps/senegal_grappe_gps_sen2018.csv') %>% 
                   mutate(hh_cluster = paste(vague, grappe, sep = '_'),
                          lat = coordonnes_gps__Latitude, lon = coordonnes_gps__Longitude) %>% 
@@ -82,15 +86,15 @@ sen<-senegal %>%
                   summarise(monthly_exp = sum(s09cq03, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'SEN')
 
-sen_hh<-sen %>% distinct(hh_id, hh_cluster, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+sen_hh<-sen %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
 
 sen_fish<-sen %>%
     filter(s07bq01 %in% c(35:43)) %>%
-    select(tot_hh, hh_id, hh_cluster, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, n_hh, country) %>% 
+    select(tot_hh, hh_id, hh_cluster, hhweight, s07bq01, s07bq03a, s07bq03b, lat, lon, urban_rural, n_hh, country) %>% 
     left_join(sen_fish_code) %>% 
     rename('fish_item' = s07bq01, 'quantity' = s07bq03a, 'code' = s07bq03b) %>% 
     left_join(read_excel('data/lsms_subset/meta/civ_unit_codes.xlsx'), by = 'code') %>% 
-    select(tot_hh, hh_id, hh_cluster, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, hh_cluster, hhweight, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 3. NIGERIA ####
@@ -105,6 +109,8 @@ nga<-nigeria %>%
            hh_cluster = paste(state, lga, ea, sep='_'), # state - local govt area - enumeration area
            tot_hh = n_distinct(hh_id),
            urban_rural = ifelse(sector == 1, 'Urban', 'Rural')) %>% 
+    left_join(read.csv('data/lsms_subset/weights/nigeria_secta_harvestw4.csv') %>% 
+                  mutate(hh_id = as.character(hhid), hhweight = wt_wave4) %>% select(hh_id, hhweight), by = 'hh_id') %>% 
     left_join(read.csv('data/lsms_subset/gps/nigeria_nga_householdgeovars_y4.csv') %>% 
                   mutate(hh_id = as.character(hhid), lat = lat_dd_mod, lon = lon_dd_mod) %>% 
                   select(hh_id, lat, lon),
@@ -120,15 +126,15 @@ nga<-nigeria %>%
                   summarise(monthly_exp = sum(s11bq4, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'NGA')
     
-nga_hh<-nga %>% distinct(hh_id,hh_cluster, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+nga_hh<-nga %>% distinct(hh_id,hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
 
 nga_fish<-nga %>% 
     filter(item_cd %in% c(100:107) & s10bq1 == 1) %>% ## select fish only, and YES consumed (1)
-    select(tot_hh, hh_id, hh_cluster, item_cd, s10bq2a, lat, lon, urban_rural, n_hh, country) %>% 
+    select(tot_hh, hh_id, hh_cluster, hhweight, item_cd, s10bq2a, lat, lon, urban_rural, n_hh, country) %>% 
     left_join(nga_fish_code) %>% 
     rename('quantity' = s10bq2a) %>% 
     mutate(unit = NA) %>% 
-    select(tot_hh, hh_id, hh_cluster, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, hh_cluster, hhweight, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 
 # ------------------------ #
@@ -148,9 +154,10 @@ mal<-malawi %>%
                   select(hh_id, lat, lon),
               by = 'hh_id') %>% 
     left_join(read.csv('data/lsms_subset/urban-rural/malawi_hh_mod_a_filt.csv') %>%
-                  mutate(hh_id = as.character(case_id), urban_rural = ifelse(reside == 'RURAL', 'rural', 'urban'),
+                  mutate(hh_id = as.character(case_id), hhweight = hh_wgt,
+                         urban_rural = ifelse(reside == 'RURAL', 'rural', 'urban'),
                          hh_cluster = paste(ea_id, region, district, sep='_')) %>% # area enumeration code - region - district
-                  select(hh_id, hh_wgt, hh_cluster, urban_rural), by = 'hh_id') %>%
+                  select(hh_id, hhweight, hh_cluster, urban_rural), by = 'hh_id') %>%
     left_join(read.csv('data/lsms_subset/household/malawi_hh_mod_b.csv') %>% 
         mutate(hh_id = as.character(case_id)) %>% 
         group_by(hh_id) %>% 
@@ -161,16 +168,16 @@ mal<-malawi %>%
                   summarise(monthly_exp = sum(hh_i06, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'MWI') 
 
-mal_hh<-mal %>% distinct(hh_id, hh_cluster, tot_hh, lat, lon, urban_rural,n_hh, n_adult, n_children, monthly_exp, country)
+mal_hh<-mal %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural,n_hh, n_adult, n_children, monthly_exp, country)
 
 mal_fish<-mal %>% 
     filter(hh_g02 %in% mal_fish_code$hh_g02 & hh_g01 == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id,hh_cluster, hh_g02, hh_g03a, hh_g03b, lat, lon, urban_rural,n_hh, country) %>% 
+    select(tot_hh, hh_id,hh_cluster, hhweight, hh_g02, hh_g03a, hh_g03b, lat, lon, urban_rural,n_hh, country) %>% 
     left_join(mal_fish_code) %>% 
     rename('quantity' = hh_g03a, 'unit_code' = hh_g03b, 'item_code' = hh_g02) %>% 
     left_join(unit %>% distinct(item_code, unit_code, unit_name, Otherunit)) %>%
     rename('unit' = unit_name) %>% 
-    select(tot_hh, hh_id, hh_cluster, lat, lon, urban_rural,n_hh, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, hh_cluster, hhweight, lat, lon, urban_rural,n_hh, fish, form, quantity, unit, country)
 
 # ------------------------ #
 #### 5. UGANDA ####
@@ -181,6 +188,8 @@ mal_fish<-mal %>%
 uga<-uganda %>% 
     mutate(hh_id = as.character(hh),
            tot_hh = n_distinct(hh_id)) %>% 
+    left_join(read.csv('data/lsms_subset/weights/uganda_GSEC1.csv') %>% 
+                  mutate(hhweight = wgt10, hh_id = as.character(HHID)) %>% select(hhweight, hh_id)) %>% 
     left_join(read.csv('data/lsms_subset/gps/uganda_UNPS_Geovars_1011.csv') %>%
                   mutate(hh_id = as.character(HHID), lat = lat_mod, lon = lon_mod) %>%
                   select(hh_id, lat, lon),
@@ -199,15 +208,15 @@ uga<-uganda %>%
                   summarise(monthly_exp = sum(h15cq5, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'UGA')
     
-uga_hh<-uga %>% distinct(hh_id, hh_cluster, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+uga_hh<-uga %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
 
 
 uga_fish<-uga %>% 
     filter(itmcd %in% uga_fish_1011_code$itmcd & h15bq3a == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, hh_cluster, itmcd, untcd, h15bq14, lat, lon, urban_rural, n_hh, country) %>%
+    select(tot_hh, hh_id, hh_cluster, hhweight, itmcd, untcd, h15bq14, lat, lon, urban_rural, n_hh, country) %>%
     left_join(uga_fish_1011_code) %>%
     rename('unit' = untcd, 'quantity' = h15bq14) %>%
-    select(tot_hh, hh_id, hh_cluster, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, hh_cluster, hhweight, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 
 # ------------------------ #
@@ -240,8 +249,9 @@ tza<-tanzania %>%
                   select(hh_id, urban_rural), by = 'hh_id') %>%
     left_join(read.csv('data/lsms_subset/urban-rural/tanzania_hh_sec_a.csv') %>% 
                   mutate(hh_id = as.character(y4_hhid),
+                         hhweight = y4_weights,
                          hh_cluster = paste(hh_a01_2, hh_a02_2, hh_a04_1, sep='_')) %>% # region- district - enumeration area code
-                  select(hh_id, y4_weights, hh_cluster, clusterid), by = 'hh_id') %>% 
+                  select(hh_id, hhweight, hh_cluster, clusterid), by = 'hh_id') %>% 
     left_join(read.csv('data/lsms_subset/gps/tanzania_npsy4.ea.offset.csv') %>% 
                   mutate(lat = lat_modified, lon = lon_modified) %>% 
                   select(clusterid, lat, lon),
@@ -258,15 +268,15 @@ tza<-tanzania %>%
                   summarise(monthly_exp = sum(hh_k02, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'TZA')
 
-tza_hh<-tza %>% distinct(hh_id, hh_cluster, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+tza_hh<-tza %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
 
 tza_fish<-tza %>% 
     filter(itemcode %in% tza_fish_code$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
-    select(tot_hh, hh_id, hh_cluster, itemcode, hh_j02_1, hh_j02_2, lat, lon, urban_rural, n_hh, country) %>%
+    select(tot_hh, hh_id, hh_cluster, hhweight, itemcode, hh_j02_1, hh_j02_2, lat, lon, urban_rural, n_hh, country) %>%
     left_join(tza_fish_code) %>%
     rename('quantity' = hh_j02_2) %>%
     left_join(tza_unit_code) %>% 
-    select(tot_hh, hh_id, hh_cluster, lat, lon,urban_rural, n_hh, fish, form, quantity, unit, country)
+    select(tot_hh, hh_id, hh_cluster, hhweight, lat, lon,urban_rural, n_hh, fish, form, quantity, unit, country)
 
 ## combine datasets
 lsms_hh<-rbind(
@@ -290,7 +300,8 @@ lsms<-lsms_fish %>%
     # mutate(any_fish = case_when(if_any(dried:canned, ~. == "yes") ~ 'yes', TRUE ~ 'no')) %>% 
     mutate(any_fish = 'yes') ## because all surveys contained fish already
 
-lsms_all<-lsms_hh %>% left_join(lsms %>% ungroup() %>% select(country, hh_id, dried, fresh, any_fish)) %>% 
+lsms_all<-lsms_hh %>% 
+    left_join(lsms %>% ungroup() %>% select(country, hh_id, dried, fresh, any_fish)) %>% 
     mutate(dried = ifelse(is.na(dried), 'no', dried),
            fresh = ifelse(is.na(fresh), 'no', fresh),
            any_fish = ifelse(is.na(any_fish), 'no', any_fish))
