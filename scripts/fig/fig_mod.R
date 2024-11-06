@@ -42,7 +42,7 @@ fig_mod<-function(dat, model = 'dried'){
               plot.margin = unit(c(.05, .01, .05, .05), 'cm'),
               axis.text = element_text(size = basesize), 
               axis.title = element_text(size = basesize)) +
-        labs(x = 'Distance to water, km', y = ylab)
+        labs(x = 'Distance to water, km', y = ylab) 
     
     
     # proximity to urban centre
@@ -50,7 +50,7 @@ fig_mod<-function(dat, model = 'dried'){
         geom_lineribbon(aes(y = estimate__,ymin = lower50, ymax = upper50), alpha = 0.5) +
         geom_lineribbon(aes(y = estimate__,ymin = lower95, ymax = upper95), alpha = 0.3) +
         scales +
-        theme(legend.position = 'none', plot.margin = unit(c(.05, .05, .05, .01), 'cm'),
+        theme(legend.position = 'none', plot.margin = unit(c(.05, .025, .05, .025), 'cm'),
               axis.text = element_text(size = basesize), 
               axis.title = element_text(size = basesize)) +
         labs(x = 'Distance to urban centre, mins', y = '')

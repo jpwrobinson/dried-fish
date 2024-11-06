@@ -3,6 +3,7 @@ library(srvyr)
 library(tidyverse)
 
 lsms_all<-read.csv(file = 'data/lsms_subset/lsms_for_mod.csv')
+lsms_fish<-read.csv(file = 'data/lsms_subset/lsms_fish.csv')
 
 # Observed proportions
 obs<-lsms_fish %>% group_by(country, tot_hh) %>% 
@@ -14,26 +15,32 @@ obs<-lsms_fish %>% group_by(country, tot_hh) %>%
     pivot_longer(-country, names_to = 'var', values_to = 'm')
 
 # Observed with weights
+# create survey object with household cluster 'weights', and household cluster 'ids'
+# strata not included, as not all datasets had this variable
 ss<-lsms_all %>% filter(!is.infinite(hhweight)) %>% 
     group_by(hh_cluster) %>% mutate(n_hh = n_distinct(hh_id)) %>% 
     filter(n_hh > 1) %>% 
-    as_survey_design(strata = hh_cluster, weights = hhweight)
+    as_survey_design(ids = hh_cluster, weights=hhweight)
+
+
+ss %>% group_by(country, dried) %>% 
+    summarise(m = survey_prop(vartype=c('ci'))) 
 
 obs_w<-rbind(
     ss %>% group_by(country, dried) %>% 
-        summarise(m = survey_prop(weights = hhweight, vartype=c('ci'))) %>% 
+        summarise(m = survey_prop(vartype=c('ci'))) %>% 
         mutate(var = 'Dried') %>% 
         filter(dried == 'yes') %>% 
         select(country, m, m_low, m_upp, var),
 
     ss %>% group_by(country, any_fish) %>% 
-        summarise(m = survey_prop(weights = hhweight, vartype=c('ci'))) %>% 
+        summarise(m = survey_prop(vartype=c('ci'))) %>% 
         mutate(var = 'fish') %>% 
         filter(any_fish == 'yes') %>% 
         select(country, m, m_low, m_upp, var),
 
     ss %>% group_by(country, fresh) %>% 
-        summarise(m = survey_prop(weights = hhweight, vartype=c('ci'))) %>% 
+        summarise(m = survey_prop(vartype=c('ci'))) %>% 
         mutate(var = 'Fresh') %>% 
         filter(fresh == 'yes') %>% 
         select(country, m, m_low, m_upp, var)
@@ -46,19 +53,34 @@ load(file = 'data/mod/lsms_mod_fresh.rds')
 posterior <- mcmc_intervals_data(m2, transformations = inv_logit)
 posterior2 <- mcmc_intervals_data(m3, transformations = inv_logit)
 
-posterc<-rbind(posterior %>% mutate(fish = 'Dried'),
+
+posterc<-rbind(m2 %>%
+        spread_draws(r_country[state, term], b_Intercept) %>% 
+        mutate(r_country = inv_logit(r_country + b_Intercept)) %>%
+        median_qi() %>% 
+        mutate(var = 'Dried', country = state, m = r_country, m_low = r_country.lower, m_upp = r_country.upper, data = 'Model') %>% 
+        select(country, m, m_low, m_upp, var, data),
+      m3 %>%
+          spread_draws(r_country[state, term], b_Intercept) %>% 
+          mutate(r_country = inv_logit(r_country + b_Intercept)) %>%
+          median_qi() %>% 
+          mutate(var = 'Fresh', country = state, m = r_country, m_low = r_country.lower, m_upp = r_country.upper, data = 'Model') %>% 
+          select(country, m, m_low, m_upp, var, data)
+)
+    
+posterc2<-rbind(posterior %>% mutate(fish = 'Dried'),
                posterior2 %>% mutate(fish = 'Fresh')) %>% 
     filter(str_detect(parameter, 'r_country\\[')) %>% 
     mutate(country = str_replace_all(parameter, 't\\(r_country\\[', ''),
            country = str_replace_all(country, ',Intercept\\]\\)', ''),
-           m_low = ll, m_upp = hh, var = fish, data = 'Model') %>% 
+           m_low = ll, m_upp = hh, var = fish, data = 'Model 2') %>% 
     select(country, m, m_low, m_upp, var, data)
 
 
 plotter<-rbind(obs %>% mutate(data = 'Observed'), 
                obs_w %>%
                    filter(var != 'fish') %>% 
-                   mutate(data = 'Weighted'), posterc) %>% 
+                   mutate(data = 'Weighted'), posterc, posterc2) %>% 
     mutate(group = paste(country, var))
 
 ggplot(plotter, aes(country, m, col=data)) +
@@ -67,7 +89,6 @@ ggplot(plotter, aes(country, m, col=data)) +
     geom_rect(xmin =4.5, xmax = 5.5, ymin =-Inf, ymax = Inf, fill='grey', alpha=0.01, col='white') +
     geom_pointrange(data = plotter, aes(ymin = m_low, ymax = m_upp), 
                     position = position_dodge(width=0.5)) +
-    # geom_path(aes(group=group)) +
     facet_wrap(~var, nrow=2) +
     scale_y_continuous(labels = scales::label_percent()) +
     scale_x_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
@@ -75,3 +96,4 @@ ggplot(plotter, aes(country, m, col=data)) +
     theme(legend.title = element_blank(),
           axis.text = element_text(size = 8), 
           axis.title = element_text(size = 8))
+

@@ -1,5 +1,5 @@
 
-figPortion<-function(dat){
+figPortion<-function(dat, pop){
     ## tidy names
     nutl<-dat %>% 
         filter(nutrient %in% nuts) %>%

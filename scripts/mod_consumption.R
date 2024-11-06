@@ -20,8 +20,8 @@ dat<-lsms_proximity
 
 mod_dat<-mod_prep(lsms_proximity)
 
-m2<-brm(data = mod_dat, family = bernoulli,
-        response_dried ~ 1 + 
+m2_zero<-brm(data = mod_dat, family = bernoulli,
+        response_dried ~ 0 + 
             # nearest_water*Sproximity_to_water_km +
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
             Sproximity_to_city_mins + Sn_hh + Swealth +
@@ -74,7 +74,8 @@ mod_dat %>%
     labs(x = 'Proximity to water, km', y = 'Probability of dried fish consumption')
 
 m2 %>%
-    spread_draws(r_country[state, term]) %>% 
+    spread_draws(r_country[state, term], b_Intercept) %>% 
+    mutate(r_country = r_country + b_Intercept) %>% 
     ggplot(aes(x = inv_logit(r_country),
                y = state)) +
     # stat_halfeye(.width = c(0.5, 0.8)) +
@@ -83,6 +84,7 @@ m2 %>%
     scale_x_continuous(labels = scales::label_percent()) +
     scale_y_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
     labs(y = '', x = 'Probability of dried fish consumption')
+
 
 ## summary stats
 # https://www.andrewheiss.com/blog/2021/11/10/ame-bayes-re-guide/

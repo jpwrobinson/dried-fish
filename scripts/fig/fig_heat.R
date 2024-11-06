@@ -52,7 +52,8 @@ fig_heat<-function(dat){
                              colors = rev(hcl.colors(20, "RdYlBu")),
                              limits=c(0, max(c(dri$y, fres$y)))) +
         geom_point(data = hh_clusters, alpha=0.1, size=.005, col='black') +
-        theme(legend.position = 'inside', legend.position.inside = c(0.85, 0.8),
+        theme(plot.margin = unit(c(.05, .01, .05, .05), 'cm'),
+              legend.position = 'inside', legend.position.inside = c(0.85, 0.8),
               legend.text=element_text(color='white'),
               axis.text = element_text(size = basesize), 
               axis.title = element_text(size = basesize)) +

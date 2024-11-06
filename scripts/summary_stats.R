@@ -88,6 +88,9 @@ figPortionDat %>%
 tar_load(figPortionDat)
 figPortionDat %>% mutate(rni = rni*100) %>% filter(portion == portionK)
 
+tar_load(figPortionDat_Women)
+figPortionDat_Women %>% mutate(rni = rni*100) %>% filter(portion == portionW)
+
 # portion source values
 figPortionDat %>% group_by(nutrient) %>% filter(rni>= 0.15) %>% summarise(min(portion))
 

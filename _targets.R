@@ -43,7 +43,7 @@ list(
     # Figure 1
     # nutrient density by species and form
     tar_target(figND, fig_ndensity(nut_data, portion = portionK)),
-    tar_target(figRNI_avg, figPortion(nut_data)[[3]]),
+    tar_target(figRNI_avg, figPortion(nut_data, pop=pop)[[3]]),
     # tar_target(figRNI_avg, fig_dried_rni(nut_data, portion = portionK)[[1]]),
 
     tar_target(figMap, lsms_map_fig(lsms_data)),
@@ -59,8 +59,12 @@ list(
     # species radar plots for RNI
     tar_target(figRNI_species, figRNI(nut_data, portion = portionK)),
     # portion size plots for RNI
-    tar_target(figPortionSize, figPortion(nut_data)[[2]]),
-    tar_target(figPortionDat, figPortion(nut_data)[[4]]),
+    tar_target(figPortionSize, figPortion(nut_data, pop=pop)[[2]]),
+    
+    # summary stats on RNI
+    tar_target(figPortionDat, figPortion(nut_data, pop=pop)[[4]]),
+    tar_target(figPortionDat_Women, figPortion(nut_data, pop='Adult women')[[4]]),
+    
     # processed forms RNI radars
     tar_target(figRNI_forms, fig_dried_rni(nut_data, portion = portionK)[[2]]),
     # contaminant levels
