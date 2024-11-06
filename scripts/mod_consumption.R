@@ -56,6 +56,7 @@ conditional_effects(m2)
 plot(m2)
 ranef(m2)$country
 
+# this is the expectation of the posterior
 mod_dat %>%  
     data_grid(Sproximity_to_water_km = seq_range(proximity_to_water_km, n = 100),
               Sproximity_to_city_mins = 0, 
@@ -73,6 +74,21 @@ mod_dat %>%
     # facet_wrap(~country) + 
     labs(x = 'Proximity to water, km', y = 'Probability of dried fish consumption')
 
+mod_dat %>%  
+    data_grid(Sproximity_to_inland_km = 0,
+              Sproximity_to_marine_km = 0,
+              Sproximity_to_city_mins = 0, 
+              Swealth = 0,
+              country=unique(mod_dat$country),
+              Sn_hh = 0) %>%  
+    add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>%  
+    ggplot(aes(x = country)) +
+    stat_pointinterval(aes(y = .epred), .width = 0.95, alpha = 0.5) +
+    scale_y_continuous(labels = scales::label_percent()) +
+    labs(x = '', y = 'Probability of dried fish consumption')
+
+
+# this is the linear predictor
 m2 %>%
     spread_draws(r_country[state, term], b_Intercept) %>% 
     mutate(r_country = r_country + b_Intercept) %>% 
