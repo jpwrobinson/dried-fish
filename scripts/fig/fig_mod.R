@@ -13,7 +13,7 @@ fig_mod<-function(dat, model = 'dried'){
     }
     
     scales<-list(
-        scale_y_continuous(labels = scales::label_percent()), 
+        scale_y_continuous(labels = scales::label_percent(), limits=c(0,1)), 
         scale_fill_manual(values = realm_cols_named),
         scale_colour_manual(values = realm_cols_named))
     
