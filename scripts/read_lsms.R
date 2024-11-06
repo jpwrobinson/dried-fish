@@ -150,7 +150,7 @@ mal<-malawi %>%
     left_join(read.csv('data/lsms_subset/urban-rural/malawi_hh_mod_a_filt.csv') %>%
                   mutate(hh_id = as.character(case_id), urban_rural = ifelse(reside == 'RURAL', 'rural', 'urban'),
                          hh_cluster = paste(ea_id, region, district, sep='_')) %>% # area enumeration code - region - district
-                  select(hh_id, hh_cluster, urban_rural), by = 'hh_id') %>%
+                  select(hh_id, hh_wgt, hh_cluster, urban_rural), by = 'hh_id') %>%
     left_join(read.csv('data/lsms_subset/household/malawi_hh_mod_b.csv') %>% 
         mutate(hh_id = as.character(case_id)) %>% 
         group_by(hh_id) %>% 
@@ -241,7 +241,7 @@ tza<-tanzania %>%
     left_join(read.csv('data/lsms_subset/urban-rural/tanzania_hh_sec_a.csv') %>% 
                   mutate(hh_id = as.character(y4_hhid),
                          hh_cluster = paste(hh_a01_2, hh_a02_2, hh_a04_1, sep='_')) %>% # region- district - enumeration area code
-                  select(hh_id, hh_cluster, clusterid), by = 'hh_id') %>% 
+                  select(hh_id, y4_weights, hh_cluster, clusterid), by = 'hh_id') %>% 
     left_join(read.csv('data/lsms_subset/gps/tanzania_npsy4.ea.offset.csv') %>% 
                   mutate(lat = lat_modified, lon = lon_modified) %>% 
                   select(clusterid, lat, lon),
