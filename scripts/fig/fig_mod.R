@@ -3,6 +3,11 @@ fig_mod<-function(dat, model = 'dried'){
     
     basesize = 9
     
+    scales<-list(
+        scale_y_continuous(labels = scales::label_percent(), limits=c(0,1)), 
+        scale_fill_manual(values = realm_cols_named),
+        scale_colour_manual(values = realm_cols_named))
+    
     if(model == 'dried'){
         load(file = 'data/mod/lsms_mod.rds')
         ylab = 'Probability, dried'
@@ -11,11 +16,6 @@ fig_mod<-function(dat, model = 'dried'){
         m2<-m3
         ylab = 'Probability, fresh'
     }
-    
-    scales<-list(
-        scale_y_continuous(labels = scales::label_percent(), limits=c(0,1)), 
-        scale_fill_manual(values = realm_cols_named),
-        scale_colour_manual(values = realm_cols_named))
     
     # proximity to water (marine)
     da1<-mod_post(m2, dat, 'Sproximity_to_marine_km', 'distance_to_marine') %>% 

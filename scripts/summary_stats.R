@@ -99,6 +99,8 @@ lsms_hh<-read.csv(file = 'data/lsms_subset/lsms_all_hh.csv')
 lsms_fish<-read.csv(file = 'data/lsms_subset/lsms_fish.csv')
 lsms_all<-read.csv(file = 'data/lsms_subset/lsms_for_mod.csv')
 
+lsms_all %>% summarise(n_distinct(hh_id))
+
 lsms_hh %>% group_by(country, tot_hh) %>% 
     filter(!is.na(n_hh)) %>% 
     summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))

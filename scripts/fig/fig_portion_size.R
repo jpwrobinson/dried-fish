@@ -77,7 +77,7 @@ figPortion<-function(dat, pop){
     
     gg_portMain<-ggplot(porter %>% filter(form2 != 'Fresh' & portion <=26), aes(portion, rni, col=nutrient)) +
         geom_line() + 
-        labs(x = 'Dried fish portion, g', y = 'Recommended Nutrient Intake', col='') +
+        labs(x = 'Dried fish portion, g', y = 'Nutrient Reference Value', col='') +
         geom_hline(yintercept = 0.15, col='grey', linetype=5) +
         geom_text(data = labber, aes(26.5, y = rni, label = nutrient), vjust=0, hjust=0, size=2.5) +
         geom_text(data = data.frame(rni = 0.18, portion = 0, lab='Source of nutrient'), 
@@ -99,7 +99,7 @@ figPortion<-function(dat, pop){
 
     gg_source<-ggplot(source, aes(portion, fct_reorder(nutrient,portion), portion, col=form2)) + 
         geom_point(size=2.5) +
-        labs(x = 'portion size for 15% RNI, g', y = '', col='') +
+        labs(x = 'portion size for 15% NRV, g', y = '', col='') +
         # geom_vline(xintercept = 12.75, linetype=5, col='grey') +
         geom_vline(xintercept = 6, linetype=5, col='grey') +
         # annotate('text', x = 24, y = 10, size=3, label = 'Daily intake for 6-23 months (Kimere et al.)', col='grey30') +
@@ -111,7 +111,7 @@ figPortion<-function(dat, pop){
 
     gg_source_hist<-ggplot(source, aes(portion)) + 
         geom_histogram() + 
-        labs(x = 'portion size for 15% RNI, g', y = 'Number of source foods') +
+        labs(x = 'portion size for 15% NRV, g', y = 'Number of source foods') +
         # geom_vline(xintercept = 12.75, linetype=5, col='grey') +
         geom_vline(xintercept = 6, linetype=5, col='grey') +
         scale_x_continuous(expand=c(0.01,0.01), breaks=c(1,5,10,seq(20,80,by=20))) +

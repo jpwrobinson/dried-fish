@@ -20,16 +20,19 @@ dat<-lsms_proximity
 
 mod_dat<-mod_prep(lsms_proximity)
 
-m2_zero<-brm(data = mod_dat, family = bernoulli,
-        response_dried ~ 0 + 
-            # nearest_water*Sproximity_to_water_km +
+# weights investigation
+# https://rpubs.com/corey_sparks/157901
+# mod_dat$weight<-mod_dat$weight/mean(mod_dat$weight)
+
+m2<-brm(data = mod_dat, family = bernoulli,
+        # response_dried | weights(weight) ~ 0 + 
+            response_dried ~ 1 + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
             Sproximity_to_city_mins + Sn_hh + Swealth +
-            # marine + inland + 
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
-                  prior(cauchy(0, 1), class = sd)),
+                  prior(cauchy(0, 10), class = sd)),
         iter = 1000, warmup = 500, chains = 3, cores = 6,
         seed = 10)
 
@@ -37,14 +40,12 @@ save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 
 m3<-brm(data = mod_dat, family = bernoulli,
         response_fresh ~ 1 + #nearest_water
-            # nearest_water*Sproximity_to_water_km +
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
             Sproximity_to_city_mins + Sn_hh + Swealth +
-            # marine + inland + 
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
-                  prior(cauchy(0, 1), class = sd)),
+                  prior(cauchy(0, 10), class = sd)),
         iter = 1000, warmup = 500, chains = 3, cores = 6,
         seed = 10)
 
@@ -83,7 +84,7 @@ mod_dat %>%
               Sn_hh = 0) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>%  
     ggplot(aes(x = country)) +
-    stat_pointinterval(aes(y = .epred), .width = 0.95, alpha = 0.5) +
+    stat_pointinterva(aes(y = .epred), .width = 0.95, alpha = 0.5) +
     scale_y_continuous(labels = scales::label_percent()) +
     labs(x = '', y = 'Probability of dried fish consumption')
 

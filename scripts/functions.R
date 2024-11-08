@@ -29,8 +29,6 @@ mod_prep<-function(dat){
             Sproximity_to_inland_km = scale(distance_to_inland)[,1],
             Sproximity_to_marine_km = scale(distance_to_marine)[,1],
             Sproximity_to_city_mins = scale(log10_proximity_to_city_mins)[,1],
-            # nearest_water = ifelse(distance_to_marine < 20000, 'Marine', 'Inland, no waterbody'),
-            # nearest_water = as.factor(ifelse(distance_to_inland < 20000, 'Inland, waterbody', nearest_water)),
             nearest_water = ifelse(distance_to_marine < distance_to_inland , 'Marine', 'Inland'),
             nearest_water = ifelse(distance_to_inland > 100000 & distance_to_marine > 100000, 'Remote', nearest_water),
             nearest_water = as.factor(ifelse(distance_to_inland < 50000 & distance_to_marine < 50000, 'Marine and Inland', nearest_water)),
