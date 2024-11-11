@@ -11,11 +11,11 @@ countries2|object|13222fcbe9913115|||||||||||||||
 fe|object|cdd3a956bea80472|||||||||||||||
 fig_dried_rni|function|a291daa22002565c|||||||||||||||
 fig_fresh_contrast|function|efbbd991bc1b3429|||||||||||||||
-fig_heat|function|37ee9738b2d3654d|||||||||||||||
+fig_heat|function|125316c5d9039b16|||||||||||||||
 fig_mod|function|37500de427f78b5b|||||||||||||||
 fig_ndensity|function|b5bd6501922a0772|||||||||||||||
 fig_post|function|8915b32e7c12cafd|||||||||||||||
-figAll|stem|c6407a74d6524722|4e73b08bacb0555d|76251003bc941907|-1799039079||t20035.7105152715s|40b3a10246f0095b|83|rds|local|vector|||9.641|Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
+figAll|stem|c6407a74d6524722|4e73b08bacb0555d|8186e236a283723d|-1799039079||t20038.6470505523s|40b3a10246f0095b|83|rds|local|vector|||9.596|Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
 figContam|stem|2d6cbc439440bcf2|73ab9267f1028452|8bf182a0fc13976e|-483990596||t19982.521014841s|798cdeff4be2ff55|150965|rds|local|vector|||0.26||
 figContaminant|function|77a20bbd353d516c|||||||||||||||
 figContaminant_Species|function|5a45b19d864f66ce|||||||||||||||
@@ -23,7 +23,7 @@ figContaminantPortion|function|f9d0a3c566dfd11d|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
 figContamS|stem|a3f1afc6bf1143ab|21343ba9428da644|6e09234463f0cb7d|-1359281853||t19982.5210109895s|921b7079152b1112|370486|rds|local|vector|||0.614||
 figContrast|stem|e5a647d2b6823469|3b2b83b7bb7e4e00|1d688e8540cbd5a2|-1646584657||t19965.3931334295s|c3fa242fc023b8a8|221195|rds|local|vector|||0.519|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
-figHeat|stem|a2313419772d7945|58c252019fba30bb|83faeee9b9e1ef1c|-1374684747||t20033.6921629567s|b8e40c41594a1166|173933927|rds|local|vector|||20.342||
+figHeat|stem|bc2444c26a179882|58c252019fba30bb|1fd04769ff18e630|-1374684747||t20038.6467610638s|2ce4927e0953e591|174095950|rds|local|vector|||20.615||
 figMap|stem|192878fdcf183f2a|ea3036115afc5dec|40933d92e3823f94|450328000||t20032.4467165344s|d8d4577a721cec00|14916462|rds|local|vector|||7.935|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
 figMod|stem|82b724d669f471a4|75deb0b7d6a1b6e9|f9c8d0dfdc7b1656|1382495384||t20035.6861757507s|18b63059fcf63112|90677676|rds|local|vector|||9.541|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
 figModF|stem|bbc1ada3388d62f1|deae51e26dc35694|f9c8d0dfdc7b1656|1825040870||t20035.6863904216s|da438ad4c30704c2|171491382|rds|local|vector|||8.558|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
@@ -89,3 +89,60 @@ vitb12|object|27f808620e4c9a5b|||||||||||||||
 vitd|object|42994cda87f9a93c|||||||||||||||
 water_prox|function|904c50acabf57243|||||||||||||||
 zn|object|ad60122b922747b6|||||||||||||||
+i|object|82d1d1c4d23d6aba
+norway_read|function|50738b260d4c00ad
+lead|object|c8f634b61ef52fcb
+cadmium|object|2b2759c574770a1b
+mercury|object|490d7dbf8e51da6d
+nut_cols|object|ed1d4032379c4e7e
+nuts|object|93d9954a0d0ba3b3
+pcols_named|object|6899d0311a67a401
+rda|object|cadbadf1e76d5be6
+units|object|0ddc92d9599e6491
+fig_heat|function|6533476f8ac5e661
+realm_cols|object|d714ecbb3fc3a6e5
+lsms_read|function|cc5b5a07f27efd8f
+adult|object|1d635f53cb385f1d
+vita|object|bee7c7e7a2a497ec
+cons|object|2c8c454a223605e7
+cont|object|733292be537f8551
+figs|function|a49ae15f2e830ca4
+realm_cols_named|object|d714ecbb3fc3a6e5
+vitd|object|42994cda87f9a93c
+pcols|object|05bf435179b26f54
+.Random.seed|object|d1eee20dccdf8538
+fe|object|cdd3a956bea80472
+se|object|7e02ad38317bcde4
+ca|object|56c2aa8aa08ebe52
+nut_cols2|object|4e59c1788205deda
+girl_36mo|object|c278f837ddddc29b
+water_prox|function|7a47320b2cb19a01
+mod_post|function|dd0452b76773ff5a
+portionW|object|499521698191e4a4
+lsms_map_fig|function|bfa6e8244bf93e8a
+countries2|object|13222fcbe9913115
+folate|object|73e9d248c95c1f30
+mod_prep|function|3e4d9f610b910c5c
+zn|object|ad60122b922747b6
+mars|object|cbeafb2569483339
+pop|object|19d4312a955a1f26
+city_prox|function|12c8fee957abf70f
+theme_sleek|function|ce34b1a968955dfd
+countries|object|28e529cba7faf2a7
+slice_min_max|function|3460311824a4e28b
+omega|object|cda1e9cedf983987
+metat_dry|function|c27c6802d003cd19
+portionK|object|bfd2ca4835bfbdf3
+pcols_order|object|f74477ab452f7a94
+vitb12|object|27f808620e4c9a5b
+figPortion|function|69ce084e2d6901c6
+lsms_map_hh|function|64fee69dd397388a
+figContaminantPortion|function|f9d0a3c566dfd11d
+figContaminant_Species|function|5a45b19d864f66ce
+figContaminant|function|77a20bbd353d516c
+fig_fresh_contrast|function|efbbd991bc1b3429
+fig_mod|function|ae49325f37d1c0ed
+fig_dried_rni|function|a291daa22002565c
+figRNI|function|92a4fd9faf2de566
+fig_ndensity|function|b5bd6501922a0772
+fig_post|function|8915b32e7c12cafd

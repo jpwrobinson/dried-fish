@@ -48,9 +48,9 @@ water_prox<-function(dat){
         
     
     dat2<-dat %>% ungroup() %>% 
-        mutate(distance_to_marine = dists$distance_to_marine, distance_to_inland = dists$distance_to_inland) %>% 
+        mutate(distance_to_marine = dists$distance_to_marine/1000, distance_to_inland = dists$distance_to_inland/1000) %>% 
         rowwise() %>% 
-        mutate(proximity_to_water_km = min(distance_to_marine, distance_to_inland)/1000)
+        mutate(proximity_to_water_km = min(distance_to_marine, distance_to_inland))
     
     return(dat2)
 }

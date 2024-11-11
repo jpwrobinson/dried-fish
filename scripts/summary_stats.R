@@ -120,12 +120,22 @@ lsms_fish %>% group_by(country, tot_hh) %>%
 ## country pouplations
 library(WDI)
 
-pop.df <- getWDItoSYB(name = "total_population", indicator = "SP.POP.TOTL")$entity %>%
+pop.df <- getWDI(name = "total_population", indicator = "SP.POP.TOTL") %>% 
     clean_names() %>%
-    filter(country == countries) 
+    filter(country %in% countries) 
+
+adult_prop<-getWDI(indicator = 'SP.POP.0014.TO.ZS') %>% 
+    clean_names() %>%
+    filter(country %in% countries) %>% 
+    group_by(country) %>% 
+    slice_max(year, n=1) %>% 
+    ungroup() %>% 
+    mutate(country = countrycode(iso2_wb_code, 'iso2c', 'iso3c'))
 
 pops<-pop.df %>% group_by(country) %>% slice_max(year, n =1) %>% 
-    mutate(country = countrycode(iso2_wb_code, 'iso2c', 'iso3c'))
+    mutate(country = countrycode(iso2_wb_code, 'iso2c', 'iso3c')) %>% 
+    left_join(adult_prop %>% select(iso2_wb_code, sp_pop_0014_to_zs)) %>% 
+    mutate(adult_pop = (100-sp_pop_0014_to_zs)/100 * total_population)
 
 
 ## model summaries
@@ -147,6 +157,11 @@ pop_prob<-mod_dat %>%
 sum(pop_prob$m_pop)/1e6
 sum(pop_prob$hi_pop)/1e6
 sum(pop_prob$lo_pop)/1e6
+
+# proportion of focal population
+sum(pop_prob$m_pop) / sum(pop_prob$total_population) * 100
+sum(pop_prob$lo_pop) / sum(pop_prob$total_population) * 100
+sum(pop_prob$hi_pop) / sum(pop_prob$total_population) * 100
 
 # marine / inland
 marine<-mod_dat$Sproximity_to_marine_km[mod_dat$proximity_to_marine_km<5]

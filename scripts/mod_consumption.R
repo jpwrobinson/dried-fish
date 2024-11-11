@@ -109,7 +109,7 @@ m2 %>%
     
 
 load(file = 'data/mod/lsms_mod_fresh.rds')
-summary(m2)
+summary(m3)
 conditional_effects(m3)
 plot(m3)
 ranef(m3)$country

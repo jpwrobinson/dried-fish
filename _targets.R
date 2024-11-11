@@ -12,7 +12,7 @@ set.seed(909)
 
 source('scripts/functions.R')
 
-tar_load(nut_data)
+# tar_load(nut_data)
 # tar_load(lsms_data)
 # tar_load(lsms_proximity)
 # tar_load(mod_dat)

@@ -49,7 +49,7 @@ lsms_map_hh<-function(dat1, dat2){
     dev.off()
 
     g3a<-ggplot(dat2, 
-                aes(distance_to_marine/1000, distance_to_inland/1000, col=nearest_water)) + geom_point()
+                aes(distance_to_marine, distance_to_inland, col=nearest_water)) + geom_point()
     
     g3<-base +
         tm_shape(ls_points) + 
@@ -61,13 +61,18 @@ lsms_map_hh<-function(dat1, dat2){
     
     g5<-base +
         tm_shape(ls_points) +
-        tm_dots(col = 'proximity_to_water_km', palette="-RdYlBu")
+        tm_dots(col = 'distance_to_inland', palette="-RdYlBu")
+    
+    g6<-base +
+        tm_shape(ls_points) +
+        tm_dots(col = 'distance_to_marine', palette="-RdYlBu")
     
     pdf(file = 'fig/map_lsms_proximity_covariates.pdf', height=7, width=12)
     print(g3a)
     print(g3)
     print(g4)
     print(g5)
+    print(g6)
     dev.off()
     
     
