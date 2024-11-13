@@ -25,7 +25,7 @@ ss<-read.csv('data/lsms_with_covariates.csv') %>%
     left_join(lsms_all %>% select(hh_id, country, hhweight), by = c('hh_id', 'country')) %>% 
     filter(!is.infinite(hhweight)) %>% 
     filter(!is.na(n_hh) & !is.na(monthly_exp)) %>%  ## mostly in Tanzania - check these
-    as_survey_design(ids = hh_cluster, weights=hhweight)
+    as_survey_design(strata = country, ids = hh_cluster, weights=hhweight, nest=TRUE)
 # 
 # # Model observed 
 # mod_dat %>% group_by(country) %>% 

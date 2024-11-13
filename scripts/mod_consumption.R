@@ -141,4 +141,58 @@ mS<-brm(data = mod_dat %>%
         seed = 10)
 
 conditional_effects(mS)
-# No difference between far and near consumption. Dried fish decreases with increasing distance from city. No wealth relationship or interaction with distance to city.
+# No difference between far and near consumption. 
+# Dried fish decreases with increasing distance from city. 
+# No wealth relationship or interaction with distance to city.
+
+
+
+# with weights + survey design
+# Logistic model of survey design
+survey_dat<-read.csv('data/lsms_with_covariates.csv') %>% 
+    left_join(lsms_all %>% select(hh_id, country, hhweight), by = c('hh_id', 'country')) %>% 
+    filter(!is.infinite(hhweight)) %>% 
+    filter(!is.na(n_hh) & !is.na(monthly_exp)) %>%  ## mostly in Tanzania - check these
+    group_by(country) %>% 
+    mutate(wealth = scales::rescale(monthly_exp / sqrt(n_hh), to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size
+    ungroup() %>% mutate(
+        proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
+        log10_proximity_to_city_mins = log10(proximity_to_city_mins),
+        Sn_hh = scale(n_hh)[,1],
+        Swealth = scale(wealth)[,1],
+        Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
+        Sproximity_to_inland_km = scale(distance_to_inland)[,1],
+        Sproximity_to_marine_km = scale(distance_to_marine)[,1],
+        Sproximity_to_city_mins = scale(log10_proximity_to_city_mins)[,1],
+        response_dried = ifelse(dried == 'yes', 1, 0),
+        response_fresh = ifelse(fresh == 'yes', 1, 0)) %>% 
+    as_survey_design(strata = country, ids = hh_cluster, weights=hhweight, nest=TRUE)
+
+mod1<-svyglm(
+        formula = response_dried ~ 1 +
+            Sproximity_to_marine_km * Sproximity_to_inland_km + 
+            Sproximity_to_city_mins + Sn_hh + Swealth,
+        design = survey_dat,
+        na.action = na.omit,
+        family = quasibinomial)
+
+mod2<-svyglm(
+    formula = response_fresh ~ 1 +
+        Sproximity_to_marine_km * Sproximity_to_inland_km + 
+        Sproximity_to_city_mins + Sn_hh + Swealth,
+    design = survey_dat,
+    na.action = na.omit,
+    family = quasibinomial)
+
+library(broom)
+summary(mod1)
+summary(mod2)
+
+rbind(tidy(mod1) %>% mutate(var = 'Dried'),
+      tidy(mod2) %>% mutate(var = 'Fresh')) %>% 
+    mutate(ymin = estimate - 1.96*std.error, ymax = estimate + 1.96*std.error) %>% 
+    filter(term!='(Intercept)') %>% 
+    ggplot(aes(x=term, estimate, ymin = ymin, ymax = ymax, col=var)) +
+    geom_hline(yintercept = 0) +
+    geom_pointrange(position = position_dodge(width=0.5)) +
+    coord_flip() 
