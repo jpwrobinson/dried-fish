@@ -28,7 +28,7 @@ m2<-brm(data = mod_dat, family = bernoulli,
         # response_dried | weights(weight) ~ 0 + 
             response_dried ~ 1 + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth +
+            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -41,7 +41,7 @@ save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 m3<-brm(data = mod_dat, family = bernoulli,
         response_fresh ~ 1 + #nearest_water
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth +
+            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
