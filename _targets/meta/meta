@@ -11,11 +11,11 @@ countries2|object|13222fcbe9913115|||||||||||||||
 fe|object|cdd3a956bea80472|||||||||||||||
 fig_dried_rni|function|a291daa22002565c|||||||||||||||
 fig_fresh_contrast|function|efbbd991bc1b3429|||||||||||||||
-fig_heat|function|6533476f8ac5e661|||||||||||||||
+fig_heat|function|10831ce748cb67ec|||||||||||||||
 fig_mod|function|ae49325f37d1c0ed|||||||||||||||
 fig_ndensity|function|b5bd6501922a0772|||||||||||||||
-fig_post|function|8915b32e7c12cafd|||||||||||||||
-figAll|stem|c6407a74d6524722|4e73b08bacb0555d|d269a304da4da4ee|-1799039079||t20038.7660671158s|40b3a10246f0095b|83|rds|local|vector|||8.221|Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
+fig_post|function|f8282394c14c3b3f|||||||||||||||
+figAll|stem|ae76fcc319b6a30a|4e73b08bacb0555d|9d6f3ff8ceb3e616|-432638723||t20046.7818782667s|e655bbbdcbba1d63|81|rds|local|vector|||7.171|1m22mRemoved 1 row containing missing values or values outside the scale rangegeom_text.. 1m22mRemoved 1 row containing missing values or values outside the scale rangegeom_point.. 1m22mRemoved 6 rows containing missing values or values outside the scale rangegeom_point.. 1m22mRemoved 1 row containing missing values or values outside the scale rangegeom_segment.. 1m22mRemoved 1500 rows containing missing values or values outside the scale rangegeom_line.|
 figContam|stem|7a9c1af6916f36bf|73ab9267f1028452|c949e6a2335e50f1|-1971198133||t20042.7819822084s|c0cb9de72339619c|151301|rds|local|vector|||0.202||
 figContaminant|function|77a20bbd353d516c|||||||||||||||
 figContaminant_Species|function|5a45b19d864f66ce|||||||||||||||
@@ -23,16 +23,16 @@ figContaminantPortion|function|f9d0a3c566dfd11d|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
 figContamS|stem|0a0d0e3d51a22927|21343ba9428da644|f78417ebeb2bd6f7|-383213440||t20042.7819792506s|e8cd917d5d8dfb1b|371995|rds|local|vector|||0.423||
 figContrast|stem|b389579dadf3ee30|3b2b83b7bb7e4e00|c200b1207a7b1616|981114568||t20042.7819856832s|9a3cd319dd85d652|221527|rds|local|vector|||0.224|1m22mA numeric legend.position argument in theme was deprecated in ggplot23.5.0.36mℹ39m Please use the legend.position.inside argument of theme instead.. 1m22mRemoved 6 rows containing missing values or values outside the scale rangegeom_point.. 1m22mRemoved 1 row containing missing values or values outside the scale rangegeom_segment.|
-figHeat|stem|7898e092e63245dc|58c252019fba30bb|3c5f1f14467729f7|-1374684747||t20038.7647347617s|69f3693c346d5aa3|174090007|rds|local|vector|||18.783||
+figHeat|stem|0f3813207d44691d|58c252019fba30bb|4ff5bc1a00c3e706|959724786||t20046.7768790094s|1c1636f842103723|173545274|rds|local|vector|||13.423||
 figMap|stem|7d78de206f6f721c|ea3036115afc5dec|c87101acc87512e4|-973833577||t20042.5972441005s|e015d7e1c26a507a|14959670|rds|local|vector|||5.255|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
-figMod|stem|e02e26b4f1b3a44a|75deb0b7d6a1b6e9|4bb119a64e48e223|1382495384||t20038.7649004849s|c4c7e0ca368c7ebb|90672878|rds|local|vector|||7.69|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
-figModF|stem|ef230ede6a2ff7c8|deae51e26dc35694|4bb119a64e48e223|1825040870||t20038.7650971434s|280fe123d8426b69|171483828|rds|local|vector|||7.019|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
+figMod|stem|8707d93681fa695f|75deb0b7d6a1b6e9|8bcf6761eb9c4fd7|-591259978||t20046.777657735s|b66bd2ed5392f2bd|89460575|rds|local|vector|||9.386|1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. 1m22mUsing the size aesthetic with geom_ribbon was deprecated in ggplot2 3.4.0.36mℹ39m Please use the linewidth aesthetic instead.. Unknown or uninitialised column linewidth.. 1m22mUsing the size aesthetic with geom_line was deprecated in ggplot2 3.4.0.36mℹ39m Please use the linewidth aesthetic instead.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.|
+figModF|stem|5b32d7ebe0f20079|deae51e26dc35694|8bcf6761eb9c4fd7|554606437||t20046.7778391854s|e73a425e7dc2e609|170602281|rds|local|vector|||8.283|1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.|
 figND|stem|f756182f10d53576|eb9061a8a8de87d8|c726572c99eb330e|473225306||t20042.7819891088s|9c1771e7784cb474|196724|rds|local|vector|||0.23||
 figPortion|function|69ce084e2d6901c6|||||||||||||||
 figPortionDat|stem|f87cf47943ef00fa|f291d81d0d621772|e6db428cd32ea494|1580785200||t20042.7824068873s|028ecd29e6cecabd|122181|rds|local|vector|||6.207||
 figPortionDat_Women|stem|7055a88063a21239|1dc5c96e3a52920f|eaf75b775d1fb3b2|1926664408||t20042.7823348714s|acfa0d9d4c21c952|128376|rds|local|vector|||6.74|1m22mThere was 1 warning in reframe.1m22m36mℹ39m In argument portion  minportionwhichrni  0.15.36mℹ39m In group 6 nutrient  Vitamin A.Caused by warning in min33m39m no nonmissing arguments to min returning Inf|
 figPortionSize|stem|603137900eb87797|1201d2278898d523|e6db428cd32ea494|-941368494||t20042.7820718104s|b400018a46f67836|972468|rds|local|vector|||6.972||
-figPost|stem|0a66e4a8c54c1782|5a5bc1f4936c5adf|3a7d81b2ea20e331|-834622188||t20038.7654082734s|6108ae7a04124cfc|170502347|rds|local|vector|||14.345||
+figPost|stem|708cd64f6ce8e25d|5a5bc1f4936c5adf|5bd7f3a6fd9ebe8e|1260739667||t20046.7811856859s|e2e5af8b9ac71cbe|169979749|rds|local|vector|||13.649|1m22mRemoved 2 rows containing missing values or values outside the scale rangegeom_pointrange.. 1m22mRemoved 2 rows containing missing values or values outside the scale rangegeom_pointrange.|
 figRNI|function|92a4fd9faf2de566|||||||||||||||
 figRNI_avg|stem|d7424a2a1414236e|f9ce7f5bb29a1eb0|e6db428cd32ea494|1911775390||t20042.7821512348s|e6c01288742d89e7|869003|rds|local|vector|||6.698||
 figRNI_forms|stem|6f72928dd1f169ce|3962c4bf59f8f239|401599549d69c1a6|1476941034||t20042.7821763043s|51f1d77d22799cd1|1538757|rds|local|vector|||1.63||
@@ -46,21 +46,21 @@ girl_6mo|object|5b5b9a643859028d|||||||||||||||
 i|object|82d1d1c4d23d6aba|||||||||||||||
 lead|object|c8f634b61ef52fcb|||||||||||||||
 lsms_data|stem|9b6a9ab80fac609f|796d377b4aa0881e|34dd3bcdbb8db415|1883202309||t20042.5971650283s|7340984c44b67742|717109|rds|local|vector|||23.824||
-lsms_map|stem|c6407a74d6524722|8fbac0960137620e|aa1d2aac610d85da|200212645||t20038.7659473769s|40b3a10246f0095b|83|rds|local|vector|||46.328||
+lsms_map|stem|ae76fcc319b6a30a|8fbac0960137620e|23833b7fa01acde0|505962854||t20046.7816883458s|e655bbbdcbba1d63|81|rds|local|vector|||43.312||
 lsms_map_fig|function|bfa6e8244bf93e8a|||||||||||||||
 lsms_map_hh|function|64fee69dd397388a|||||||||||||||
-lsms_proximity|stem|97b1fb2fac312c62|74a83983dae9b10c|74ab6ff8f192eeac|1569229195||t20038.7643623435s||997124|rds|local|vector|||0.029|datamapscit_017_accessibility_to_citiesaccessibility_to_cities_2015_v1.0.tif No such file or directory GDAL error 4|rast file does not exist datamapscit_017_accessibility_to_citiesaccessibility_to_cities_2015_v1.0.tif
+lsms_proximity|stem|a9974a9fa206786d|74a83983dae9b10c|74ab6ff8f192eeac|1569229195||t20046.7736173841s|4e942649d6cff250|1062559|rds|local|vector|||1.371||
 lsms_read|function|cc5b5a07f27efd8f|||||||||||||||
-lsms_save|stem|cc37473f3d7f648a|81d7d6700be79449|1d3539cef36dbcfb|677687539||t20038.7643713991s|a1c456b03adbfbf8|44|rds|local|vector|||0.353||
+lsms_save|stem|e0d1f2ac79fc7e12|81d7d6700be79449|a84c6deb20a4a366|-1154070774||t20046.7736300454s|44e327d1ee1978d7|43|rds|local|vector|||0.483||
 lsms_to_csv|function|e8953447c5527556|||||||||||||||
 lsms_water|stem|914ad6f2ace8da8e|9e68be2e625aed6f|1e204d961ba871be|-90361332||t20042.7819728404s|68c2a3b4be8c53dd|1029744|rds|local|vector|||15960.372||
 mars|object|cbeafb2569483339|||||||||||||||
 mercury|object|490d7dbf8e51da6d|||||||||||||||
 meta_dry|stem|87deec8dd382b8e6|804873b66153589c|431aa2f4241296cd|-950168402||t20042.5930707027s|fc4b69ad84fd3074|1136|rds|local|vector|||0.025||
 metat_dry|function|c27c6802d003cd19|||||||||||||||
-mod_dat|stem|7669ebb43b65a4c8|7506a3e6b01c2c7a|b9248c62942f5651|-1107520735||t20038.7643672233s|b33e38464e9546b0|1612126|rds|local|vector|||0.195||
+mod_dat|stem|2afa9e6dc9da16a7|7506a3e6b01c2c7a|41e0dc73d5d118f1|-351504546||t20046.7736243943s|0509e031224e26ea|1674597|rds|local|vector|||0.429||
 mod_post|function|dd0452b76773ff5a|||||||||||||||
-mod_prep|function|3e4d9f610b910c5c|||||||||||||||
+mod_prep|function|6b54ee1322be63ef|||||||||||||||
 norway_read|function|50738b260d4c00ad|||||||||||||||
 nut_cols|object|ed1d4032379c4e7e|||||||||||||||
 nut_cols2|object|4e59c1788205deda|||||||||||||||

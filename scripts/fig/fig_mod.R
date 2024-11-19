@@ -31,7 +31,7 @@ fig_mod<-function(dat, model = 'dried'){
     dc<-mod_post(m2, dat, 'Swealth', 'wealth') 
     
     # household size
-    dd<-mod_post(m2, dat, 'Sn_hh', 'n_hh') 
+    dd<-mod_post(m2, dat, 'Sn_hh', 'n_hh')
     
     # water panel
     ga<-ggplot(rbind(da1, da2) %>% mutate(raw = raw) , aes(x = raw)) +
@@ -61,7 +61,6 @@ fig_mod<-function(dat, model = 'dried'){
     
     gd<-gb %+% dd +
         labs(x = 'Household size', y = '')
-        
     
     lhs<-plot_grid(ga, gb, gc, gd, nrow=1)
     return(lhs)

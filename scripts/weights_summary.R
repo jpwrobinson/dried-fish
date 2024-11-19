@@ -22,7 +22,7 @@ obs<-read.csv('data/lsms_with_covariates.csv') %>%
 # create survey object with household cluster 'weights', and household cluster 'ids'
 # strata not included, as not all datasets had this variable
 ss<-read.csv('data/lsms_with_covariates.csv') %>% 
-    left_join(lsms_all %>% select(hh_id, country, hhweight), by = c('hh_id', 'country')) %>% 
+    # left_join(lsms_all %>% select(hh_id, country, hhweight), by = c('hh_id', 'country')) %>% 
     filter(!is.infinite(hhweight)) %>% 
     filter(!is.na(n_hh) & !is.na(monthly_exp)) %>%  ## mostly in Tanzania - check these
     as_survey_design(strata = country, ids = hh_cluster, weights=hhweight, nest=TRUE)
@@ -72,7 +72,9 @@ load(file = 'data/mod/lsms_mod_fresh.rds')
 targets::tar_load(lsms_proximity)
 dat<-lsms_proximity
 mod_sim<-mod_prep(lsms_proximity) %>% 
-    data_grid(Sproximity_to_inland_km = 0,Sproximity_to_marine_km = 0,Sproximity_to_city_mins = 0, Swealth = 0,country=unique(mod_dat$country),Sn_hh = 0)
+    data_grid(Sproximity_to_inland_km = 0,Sproximity_to_marine_km = 0,
+              urban_rural = 'Rural',
+              Sproximity_to_city_mins = 0, Swealth = 0,country=unique(mod_dat$country),Sn_hh = 0)
 
 # posterc<-rbind(m2 %>%
 #         spread_draws(r_country[state, term], b_Intercept) %>% 
