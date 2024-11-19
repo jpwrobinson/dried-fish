@@ -166,7 +166,7 @@ survey_dat<-read.csv('data/lsms_with_covariates.csv') %>%
         Sproximity_to_city_mins = scale(log10_proximity_to_city_mins)[,1],
         response_dried = ifelse(dried == 'yes', 1, 0),
         response_fresh = ifelse(fresh == 'yes', 1, 0)) %>% 
-    as_survey_design(strata = country, ids = hh_cluster, weights=hhweight, nest=TRUE)
+    as_survey_design(ids = hh_cluster, weights=hhweight)
 
 mod1<-svyglm(
         formula = response_dried ~ 1 +

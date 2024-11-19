@@ -72,10 +72,8 @@ g2<-ggplot(years, aes(year)) + geom_histogram(binwidth=1) +
     scale_y_continuous(expand=c(0,0)) +
     theme(axis.text = element_text(size=8),
           axis.title = element_text(size=8))
-    
-pdf(file = 'fig/fao_landing.pdf', height=5, width=9)
 
-ggdraw(g1) +
+gfao<-ggdraw(g1) +
     draw_plot(g2, .1, .75, .25, .25) +
     draw_plot_label(
         c("a", "b"),
@@ -84,5 +82,8 @@ ggdraw(g1) +
         size = 12
     )
 
+
+pdf(file = 'fig/fao_landing.pdf', height=5, width=9)
+print(gfao)
 dev.off()
 

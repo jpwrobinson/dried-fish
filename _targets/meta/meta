@@ -16,47 +16,47 @@ fig_mod|function|ae49325f37d1c0ed|||||||||||||||
 fig_ndensity|function|b5bd6501922a0772|||||||||||||||
 fig_post|function|8915b32e7c12cafd|||||||||||||||
 figAll|stem|c6407a74d6524722|4e73b08bacb0555d|d269a304da4da4ee|-1799039079||t20038.7660671158s|40b3a10246f0095b|83|rds|local|vector|||8.221|Removed 1 row containing missing values or values outside the scale rangegeom_text.. Removed 1 row containing missing values or values outside the scale rangegeom_point.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.. Removed 1500 rows containing missing values or values outside the scale rangegeom_line.|
-figContam|stem|2d6cbc439440bcf2|73ab9267f1028452|8bf182a0fc13976e|-483990596||t19982.521014841s|798cdeff4be2ff55|150965|rds|local|vector|||0.26||
+figContam|stem|7a9c1af6916f36bf|73ab9267f1028452|c949e6a2335e50f1|-1971198133||t20042.7819822084s|c0cb9de72339619c|151301|rds|local|vector|||0.202||
 figContaminant|function|77a20bbd353d516c|||||||||||||||
 figContaminant_Species|function|5a45b19d864f66ce|||||||||||||||
 figContaminantPortion|function|f9d0a3c566dfd11d|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
-figContamS|stem|a3f1afc6bf1143ab|21343ba9428da644|6e09234463f0cb7d|-1359281853||t19982.5210109895s|921b7079152b1112|370486|rds|local|vector|||0.614||
-figContrast|stem|e5a647d2b6823469|3b2b83b7bb7e4e00|1d688e8540cbd5a2|-1646584657||t19965.3931334295s|c3fa242fc023b8a8|221195|rds|local|vector|||0.519|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 6 rows containing missing values or values outside the scale rangegeom_point.. Removed 1 row containing missing values or values outside the scale rangegeom_segment.|
+figContamS|stem|0a0d0e3d51a22927|21343ba9428da644|f78417ebeb2bd6f7|-383213440||t20042.7819792506s|e8cd917d5d8dfb1b|371995|rds|local|vector|||0.423||
+figContrast|stem|b389579dadf3ee30|3b2b83b7bb7e4e00|c200b1207a7b1616|981114568||t20042.7819856832s|9a3cd319dd85d652|221527|rds|local|vector|||0.224|1m22mA numeric legend.position argument in theme was deprecated in ggplot23.5.0.36mℹ39m Please use the legend.position.inside argument of theme instead.. 1m22mRemoved 6 rows containing missing values or values outside the scale rangegeom_point.. 1m22mRemoved 1 row containing missing values or values outside the scale rangegeom_segment.|
 figHeat|stem|7898e092e63245dc|58c252019fba30bb|3c5f1f14467729f7|-1374684747||t20038.7647347617s|69f3693c346d5aa3|174090007|rds|local|vector|||18.783||
-figMap|stem|192878fdcf183f2a|ea3036115afc5dec|40933d92e3823f94|450328000||t20032.4467165344s|d8d4577a721cec00|14916462|rds|local|vector|||7.935|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
+figMap|stem|7d78de206f6f721c|ea3036115afc5dec|c87101acc87512e4|-973833577||t20042.5972441005s|e015d7e1c26a507a|14959670|rds|local|vector|||5.255|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
 figMod|stem|e02e26b4f1b3a44a|75deb0b7d6a1b6e9|4bb119a64e48e223|1382495384||t20038.7649004849s|c4c7e0ca368c7ebb|90672878|rds|local|vector|||7.69|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
 figModF|stem|ef230ede6a2ff7c8|deae51e26dc35694|4bb119a64e48e223|1825040870||t20038.7650971434s|280fe123d8426b69|171483828|rds|local|vector|||7.019|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas fill values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|
-figND|stem|89cef6068da5a08b|eb9061a8a8de87d8|bedacbd80367e5d4|1162846536||t20032.4467246997s|40d32e25b887a75f|194938|rds|local|vector|||0.571||
+figND|stem|f756182f10d53576|eb9061a8a8de87d8|c726572c99eb330e|473225306||t20042.7819891088s|9c1771e7784cb474|196724|rds|local|vector|||0.23||
 figPortion|function|69ce084e2d6901c6|||||||||||||||
-figPortionDat|stem|2f4bf5aca57dd3f1|f291d81d0d621772|2ac4b02f4b31722a|-1593594165||t20035.685983615s|056330fd80d2086c|122182|rds|local|vector|||11.166||
-figPortionDat_Women|stem|18a2857d824f5755|1dc5c96e3a52920f|784f63034d00a6b4|865242578||t20035.6858541323s|acfa0d9d4c21c952|128376|rds|local|vector|||11.352|There was 1 warning in reframe.ℹ In argument portion  minportionwhichrni  0.15.ℹ In group 6 nutrient  Vitamin A.Caused by warning in min no nonmissing arguments to min returning Inf|
-figPortionSize|stem|96ee1c43aad19539|1201d2278898d523|2ac4b02f4b31722a|985414519||t20035.6855852434s|4f2441edbad3dec9|968733|rds|local|vector|||12.205|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.|
+figPortionDat|stem|f87cf47943ef00fa|f291d81d0d621772|e6db428cd32ea494|1580785200||t20042.7824068873s|028ecd29e6cecabd|122181|rds|local|vector|||6.207||
+figPortionDat_Women|stem|7055a88063a21239|1dc5c96e3a52920f|eaf75b775d1fb3b2|1926664408||t20042.7823348714s|acfa0d9d4c21c952|128376|rds|local|vector|||6.74|1m22mThere was 1 warning in reframe.1m22m36mℹ39m In argument portion  minportionwhichrni  0.15.36mℹ39m In group 6 nutrient  Vitamin A.Caused by warning in min33m39m no nonmissing arguments to min returning Inf|
+figPortionSize|stem|603137900eb87797|1201d2278898d523|e6db428cd32ea494|-941368494||t20042.7820718104s|b400018a46f67836|972468|rds|local|vector|||6.972||
 figPost|stem|0a66e4a8c54c1782|5a5bc1f4936c5adf|3a7d81b2ea20e331|-834622188||t20038.7654082734s|6108ae7a04124cfc|170502347|rds|local|vector|||14.345||
 figRNI|function|92a4fd9faf2de566|||||||||||||||
-figRNI_avg|stem|bddce3925bdfedc8|f9ce7f5bb29a1eb0|2ac4b02f4b31722a|-2078976083||t20035.6857219835s|09450e6f5e88eccd|868507|rds|local|vector|||11.554||
-figRNI_forms|stem|aad174c1176d1265|3962c4bf59f8f239|44801cc5793e6a1e|1450393985||t19982.5213302715s|e40946c411a605b6|1524090|rds|local|vector|||3.575||
+figRNI_avg|stem|d7424a2a1414236e|f9ce7f5bb29a1eb0|e6db428cd32ea494|1911775390||t20042.7821512348s|e6c01288742d89e7|869003|rds|local|vector|||6.698||
+figRNI_forms|stem|6f72928dd1f169ce|3962c4bf59f8f239|401599549d69c1a6|1476941034||t20042.7821763043s|51f1d77d22799cd1|1538757|rds|local|vector|||1.63||
 figRNI_formsDat|stem||fdea3505504212ef|3fd0735cb982b627|998359102||t19912.5298462289s||0|rds|local|vector|||3.61||subscript out of bounds
 figRNI_nut|stem|57c12b645a6a43b0|7371083421e8fc8d|6c1e9b4f81cb2bfd|-359967961||t19803.5897901999s|2de9f12799cca7e8|1629702|rds|local|vector|||4.147||
-figRNI_species|stem|384128e311a4e9cd|758541c59ae590af|81b1c0ff8dcd1f8d|416951054||t19982.5215039596s|a6b25ebc43befaf5|4551521|rds|local|vector|||12.608|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
+figRNI_species|stem|d6728603c793c820|758541c59ae590af|4e4bf6fefb7a5d00|-69825538||t20042.7822566124s|3004db392c161283|4596780|rds|local|vector|||5.28|1m22mThe value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
 figs|function|a49ae15f2e830ca4|||||||||||||||
 folate|object|73e9d248c95c1f30|||||||||||||||
 girl_36mo|object|c278f837ddddc29b|||||||||||||||
 girl_6mo|object|5b5b9a643859028d|||||||||||||||
 i|object|82d1d1c4d23d6aba|||||||||||||||
 lead|object|c8f634b61ef52fcb|||||||||||||||
-lsms_data|stem|fc2f962e3f423b5d|796d377b4aa0881e|662063385725462c|-1909502147||t20032.4466002077s|bb55f1e53fe860cd|649072|rds|local|vector|||27.498||
+lsms_data|stem|9b6a9ab80fac609f|796d377b4aa0881e|34dd3bcdbb8db415|1883202309||t20042.5971650283s|7340984c44b67742|717109|rds|local|vector|||23.824||
 lsms_map|stem|c6407a74d6524722|8fbac0960137620e|aa1d2aac610d85da|200212645||t20038.7659473769s|40b3a10246f0095b|83|rds|local|vector|||46.328||
 lsms_map_fig|function|bfa6e8244bf93e8a|||||||||||||||
 lsms_map_hh|function|64fee69dd397388a|||||||||||||||
-lsms_proximity|stem|97b1fb2fac312c62|74a83983dae9b10c|6a0f6b99acd7f7b5|-2005814670||t20038.7643623435s|c5b22c266d72da40|997124|rds|local|vector|||2.172||
+lsms_proximity|stem|97b1fb2fac312c62|74a83983dae9b10c|74ab6ff8f192eeac|1569229195||t20038.7643623435s||997124|rds|local|vector|||0.029|datamapscit_017_accessibility_to_citiesaccessibility_to_cities_2015_v1.0.tif No such file or directory GDAL error 4|rast file does not exist datamapscit_017_accessibility_to_citiesaccessibility_to_cities_2015_v1.0.tif
 lsms_read|function|cc5b5a07f27efd8f|||||||||||||||
 lsms_save|stem|cc37473f3d7f648a|81d7d6700be79449|1d3539cef36dbcfb|677687539||t20038.7643713991s|a1c456b03adbfbf8|44|rds|local|vector|||0.353||
 lsms_to_csv|function|e8953447c5527556|||||||||||||||
-lsms_water|stem|5a9712b4b9d8e710|9e68be2e625aed6f|2a2abf4bf62b4734|408375142||t20038.7643338958s|d4524270a5ae428a|964803|rds|local|vector|||9323.013||
+lsms_water|stem|914ad6f2ace8da8e|9e68be2e625aed6f|1e204d961ba871be|-90361332||t20042.7819728404s|68c2a3b4be8c53dd|1029744|rds|local|vector|||15960.372||
 mars|object|cbeafb2569483339|||||||||||||||
 mercury|object|490d7dbf8e51da6d|||||||||||||||
-meta_dry|stem|90b28aa1276afae8|804873b66153589c|431aa2f4241296cd|-1899378500||t20032.4462797273s|8ac1f95ab4ac6eb1|1137|rds|local|vector|||0.035||
+meta_dry|stem|87deec8dd382b8e6|804873b66153589c|431aa2f4241296cd|-950168402||t20042.5930707027s|fc4b69ad84fd3074|1136|rds|local|vector|||0.025||
 metat_dry|function|c27c6802d003cd19|||||||||||||||
 mod_dat|stem|7669ebb43b65a4c8|7506a3e6b01c2c7a|b9248c62942f5651|-1107520735||t20038.7643672233s|b33e38464e9546b0|1612126|rds|local|vector|||0.195||
 mod_post|function|dd0452b76773ff5a|||||||||||||||
@@ -64,7 +64,7 @@ mod_prep|function|3e4d9f610b910c5c|||||||||||||||
 norway_read|function|50738b260d4c00ad|||||||||||||||
 nut_cols|object|ed1d4032379c4e7e|||||||||||||||
 nut_cols2|object|4e59c1788205deda|||||||||||||||
-nut_data|stem|bbb163733ca371de|014fae1765e6f87d|897807e0ba5061b2|-1024543224||t20032.446614272s|df78a0ab7edd72e4|8181|rds|local|vector|||1.092|Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. There was 1 warning in mutate.ℹ In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse NAs introduced by coercion|
+nut_data|stem|542cd8069232c08b|014fae1765e6f87d|f835996a77f44834|-740925104||t20042.5971751778s|56a18f37f00b1271|8180|rds|local|vector|||0.867|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse33m39m NAs introduced by coercion|
 nutl|object|5aa2c6cb6f6148c4|||||||||||||||
 nuts|object|93d9954a0d0ba3b3|||||||||||||||
 omega|object|cda1e9cedf983987|||||||||||||||

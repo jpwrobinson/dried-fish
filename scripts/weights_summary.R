@@ -36,6 +36,14 @@ ss %>% group_by(country, dried) %>%
     summarise(m = survey_prop(vartype=c('ci'))) %>% 
     filter(dried=='yes')
 
+ss %>% group_by(country, any_fish) %>% 
+    summarise(m = survey_prop(vartype=c('ci'))) %>% 
+    filter(any_fish=='yes') %>% ungroup() %>% summarise(range(m))
+
+ss %>% group_by(country, dried) %>% 
+    summarise(m = survey_prop(vartype=c('ci'))) %>% 
+    filter(dried=='yes') %>% ungroup() %>% summarise(range(m))
+
 obs_w<-rbind(
     ss %>% group_by(country, dried) %>% 
         summarise(m = survey_prop(vartype=c('ci'))) %>% 

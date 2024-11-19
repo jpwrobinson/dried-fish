@@ -182,6 +182,7 @@ mod_dat %>% filter(distance_to_marine/1000 > 1000 & distance_to_inland/1000 < 10
 
 mod_dat %>% filter(distance_to_marine/1000 < 10 & distance_to_inland/1000 > 280) %>% summarise(n_distinct(hh_id)) # n = 42, NGA, some TZA
 42/dim(mod_dat)[1]*100
+mod_dat %>% filter(distance_to_marine/1000 < 10 & distance_to_inland/1000 > 280) %>% data.frame
 
 mod_dat %>% filter(distance_to_marine/1000 < 250 & distance_to_inland/1000 < 320) %>% summarise(n_distinct(hh_id)) # n = 14715
 14715/dim(mod_dat)[1]*100
