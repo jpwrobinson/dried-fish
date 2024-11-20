@@ -22,6 +22,7 @@ fao<-read.csv('data/faostat_small_pelagic_catch.csv') %>%
     #                           'Buccaneer anchovy' = 'Sardinenel sp.',
     #                           ))
 
+marines<-c('Atlantic, Eastern Central', 'Indian Ocean, Western')
 
 plotter<-fao %>% group_by(asfis_species_name, fao_major_fishing_area_name, year) %>% 
     summarise(t = sum(catch_t)) %>% 
@@ -32,12 +33,13 @@ plotter<-fao %>% group_by(asfis_species_name, fao_major_fishing_area_name, year)
            Scatch_avg = slider::slide_dbl(Scatch, mean, .before = 1, .after = 1),
            id = paste(asfis_species_name, fao_major_fishing_area_name),
            nyears = n_distinct(year[t > 0])) %>% 
-    # filter(meaner > 10000) %>% 
-    filter(nyears > 20)
+    filter(nyears > 10 & t > 0) %>% 
+    filter(!(meaner < 10000 & fao_major_fishing_area_name %in% marines)) %>% 
+    filter(!(asfis_species_name == 'Round sardinella' & fao_major_fishing_area_name=='Africa - Inland waters'))
 
 plotter %>% filter(year > 2018 & Scatch > 0.9) %>% ungroup() %>% summarise(n_distinct(id), meaner = sum(meaner))
 length(unique(plotter$id))
-8/17*100
+7/17*100
 sum(plotter$meaner)
 
 years<-plotter %>% group_by(id, asfis_species_name, fao_major_fishing_area_name) %>% reframe(year = year[which(Scatch==1)]) %>% mutate(Scatch=1)
