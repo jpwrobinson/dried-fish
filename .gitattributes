@@ -4,3 +4,4 @@ data/lsms_subset/nigeria_sect6b_food_cons.csv filter=lfs diff=lfs merge=lfs -tex
 CurrentPackages.rds filter=lfs diff=lfs merge=lfs -text
 data/mod/lsms_mod_fresh.rds filter=lfs diff=lfs merge=lfs -text
 data/mod/lsms_mod.rds filter=lfs diff=lfs merge=lfs -text
+*artis_small_pelagics.csv filter=lfs diff=lfs merge=lfs -text
