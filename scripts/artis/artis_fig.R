@@ -37,6 +37,15 @@ source_agg<-trade %>%
     mutate(maxer = max(product_weight_t)) %>% 
     filter(!is.na(trade_direction)) # these are NEI / SCG values
 
+source_reg<-trade %>% 
+    group_by(subregion, source_region, trade_direction, lab, year) %>% 
+    summarise(product_weight_t = sum(product_weight_t),
+              live_weight_t = sum(live_weight_t)) %>% 
+    group_by(source_region) %>% 
+    mutate(maxer = max(product_weight_t)) %>% 
+    filter(!is.na(trade_direction)) # these are NEI / SCG values
+
+
 source_iso<-trade %>% 
     filter(!is.na(trade_direction) & trade_direction != 'Double imported\n[Global to Africa]')  %>% 
     group_by(subregion, source_country_iso3c, source_region, trade_direction, lab, year) %>% 
@@ -53,7 +62,7 @@ source_iso_prop<-source_iso %>%
     group_by(source_country_iso3c) %>% 
     mutate(nyears = n_distinct(year), meaner = mean(tot))
 
-pdf(file = 'fig/artis_explore.pdf')
+pdf(file = 'fig/artis_explore.pdf', height=7, width=12)
 
 # plot total import by trade direction
 ggplot(source_agg, 
@@ -66,13 +75,13 @@ ggplot(source_agg,
     coord_cartesian(clip='off') +
     labs(x= '', y = 'Trade of small pelagic catch, t')
 
-ggplot(source_iso, 
-       aes(year, scaler, group=source_country_iso3c, fill=source_country_iso3c)) + 
+ggplot(source_reg, 
+       aes(year, product_weight_t, group=trade_direction, col=trade_direction)) + 
     geom_line() +
-    geom_label(data = source_iso %>% filter(year ==2020) %>% mutate(year=2022),
-               aes(label=source_country_iso3c), size=3) +
-    facet_wrap(~trade_direction) +
-    guides(col='none', fill='none') + 
+    geom_label(data = source_reg %>% filter(year ==2020) %>% mutate(year=2022),
+               aes(label=trade_direction), size=3) +
+    facet_wrap(~subregion, scales='free') +
+    guides(col='none') + 
     scale_y_continuous(labels=scales::comma) +
     coord_cartesian(clip='off') +
     labs(x= '', y = 'Trade of small pelagic catch, t')
@@ -86,14 +95,16 @@ ggplot(source_iso_prop %>% filter(nyears > 20 & meaner > 1000 & prop > 0),
     scale_y_continuous(labels=label_percent()) +
     coord_cartesian(clip='off') +
     stat_smooth() +
-    labs(x= '', y = 'Small pelagic catch exported globally')
+    labs(x= '', y = 'Global export, % of total small pelagic trade')
 
 
 subs<-unique(artis$subregion)
 for(i in 1:length(subs)){
     print(
         plot_sankey(artis %>% filter(subregion == subs[i]),
-                cols = c("sciname", "exporter_iso3c", "importer_iso3c")))
+                cols = c("sciname", "exporter_iso3c", "importer_iso3c"),
+        plot.title = subs[i])
+        )
 }
 dev.off()
 
