@@ -13,13 +13,16 @@ files<-list.files('data/trade/artis_data')
 artis<-numeric()
 for(i in 1:length(files)){
     a<-read.csv(paste0('data/trade/artis_data/', files[i])) %>% 
-        filter(!is.na(live_weight_t) & !is.na(product_weight_t) & 
+        filter(    !is.na(live_weight_t) & 
+                   !is.na(product_weight_t) & 
                    exporter_iso3c != 'NEI' &
-                   method=='capture') %>%
+                   method=='capture' & 
+                   source_region == 'Africa' & 
+                   sciname %in% foc
+                   ) %>%
         mutate(export_region = countrycode(exporter_iso3c, origin = 'iso3c', destination = 'continent'),
                import_region = countrycode(importer_iso3c, origin = 'iso3c', destination = 'continent'),
-               source_region = countrycode(source_country_iso3c, origin = 'iso3c', destination = 'continent')) %>% 
-        filter(source_region == 'Africa' & sciname %in% foc)
+               source_region = countrycode(source_country_iso3c, origin = 'iso3c', destination = 'continent')) 
     
     print(files[i])
     artis<-rbind(artis, a)

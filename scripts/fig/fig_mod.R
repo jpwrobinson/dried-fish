@@ -34,7 +34,7 @@ fig_mod<-function(dat, model = 'dried'){
     dd<-mod_post(m2, dat, 'Sn_hh', 'n_hh')
     
     # water panel
-    ga<-ggplot(rbind(da1, da2) %>% mutate(raw = raw) , aes(x = raw)) +
+    ga<-ggplot(rbind(da1, da2) %>% mutate(raw = raw), aes(x = raw)) +
         geom_lineribbon(aes(y = estimate__, ymin = lower50, ymax = upper50,fill=nearest_water), alpha = 0.5) +
         geom_lineribbon(aes(y = estimate__, ymin = lower95, ymax = upper95,fill=nearest_water), alpha = 0.3) +
         scales +

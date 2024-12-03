@@ -60,7 +60,7 @@ source_iso_prop<-source_iso %>%
     mutate(tot = global + region + double, 
                   prop = global / tot) %>% 
     group_by(source_country_iso3c) %>% 
-    mutate(nyears = n_distinct(year), meaner = mean(tot))
+    mutate(nyears = n_distinct(year), meaner = mean(tot), scaler = rescale(tot, to = c(0,1)))
 
 pdf(file = 'fig/artis_explore.pdf', height=7, width=12)
 
@@ -90,12 +90,16 @@ ggplot(source_iso_prop %>% filter(nyears > 20 & meaner > 1000 & prop > 0),
        aes(year, prop, group=source_country_iso3c, col=log10(meaner), alpha=log10(meaner))) + 
        geom_line() +
     facet_wrap(source_country_iso3c~subregion) +
-    # geom_label(data = source_iso_prop %>% filter(year ==2020) %>% mutate(year=2022),
-    #            aes(label=source_country_iso3c), size=3) +
     scale_y_continuous(labels=label_percent()) +
     coord_cartesian(clip='off') +
     stat_smooth() +
     labs(x= '', y = 'Global export, % of total small pelagic trade')
+
+# ggplot(source_iso_prop %>% filter(nyears > 20 & meaner > 1000 & prop > 0), 
+#        aes(scaler, prop, col=source_country_iso3c)) + 
+#     geom_point() + 
+#     facet_wrap(~subregion)
+    
 
 
 subs<-unique(artis$subregion)
@@ -106,5 +110,9 @@ for(i in 1:length(subs)){
         plot.title = subs[i])
         )
 }
+
+# plot_chord(artis %>% filter(year == 2000), region_colors = region7_palette)
+# plot_chord(artis %>% filter(year == 2020), region_colors = region7_palette)
+
 dev.off()
 

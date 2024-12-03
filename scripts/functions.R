@@ -26,6 +26,8 @@ mod_prep<-function(dat){
             Sn_hh = scale(n_hh)[,1],
             Swealth = scale(wealth)[,1],
             urban_rural = factor(str_to_title(urban_rural)),
+            urban = ifelse(urban_rural == 'Urban', 1, 0),
+            rural = ifelse(urban_rural == 'Rural', 1, 0),
             Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
             Sproximity_to_inland_km = scale(distance_to_inland)[,1],
             Sproximity_to_marine_km = scale(distance_to_marine)[,1],

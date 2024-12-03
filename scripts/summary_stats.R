@@ -147,6 +147,7 @@ pop_prob<-mod_dat %>%
               Sproximity_to_inland_km = median(Sproximity_to_inland_km),
               Sproximity_to_city_mins = median(Sproximity_to_city_mins),
               Swealth = median(Swealth),
+              urban_rural = 'Urban',
               Sn_hh = median(Sn_hh)) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>% 
     reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 

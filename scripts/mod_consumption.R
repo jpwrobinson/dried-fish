@@ -28,7 +28,7 @@ m2<-brm(data = mod_dat, family = bernoulli,
         # response_dried | weights(weight) ~ 0 + 
             response_dried ~ 1 + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth + urban + rural
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -41,7 +41,7 @@ save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 m3<-brm(data = mod_dat, family = bernoulli,
         response_fresh ~ 1 + #nearest_water
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth + urban + rural +
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -62,7 +62,7 @@ mod_dat %>%
     data_grid(Sproximity_to_water_km = seq_range(proximity_to_water_km, n = 100),
               Sproximity_to_city_mins = 0, 
               Swealth = 0,
-              # marine = 0, inland = 0, 
+              urban = 0, rural = 0,
               nearest_water=levels(mod_dat$nearest_water),
               # country=unique(mod_dat$country),
               Sn_hh = 0) %>%  
@@ -80,6 +80,7 @@ mod_dat %>%
               Sproximity_to_marine_km = 0,
               Sproximity_to_city_mins = 0, 
               Swealth = 0,
+              urban = 0, rural = 0,
               country=unique(mod_dat$country),
               Sn_hh = 0) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>%  
