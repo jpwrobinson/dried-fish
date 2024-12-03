@@ -28,7 +28,7 @@ m2<-brm(data = mod_dat, family = bernoulli,
         # response_dried | weights(weight) ~ 0 + 
             response_dried ~ 1 + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth + urban + rural
+            Sproximity_to_city_mins + Sn_hh + Swealth + urban + rural +
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -85,7 +85,7 @@ mod_dat %>%
               Sn_hh = 0) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>%  
     ggplot(aes(x = country)) +
-    stat_pointinterva(aes(y = .epred), .width = 0.95, alpha = 0.5) +
+    stat_pointinterval(aes(y = .epred), .width = 0.95, alpha = 0.5) +
     scale_y_continuous(labels = scales::label_percent()) +
     labs(x = '', y = 'Probability of dried fish consumption')
 
@@ -115,7 +115,7 @@ conditional_effects(m3)
 plot(m3)
 ranef(m3)$country
 
-ppc_dens_overlay(y = dat$response_fresh,
+ppc_dens_overlay(y = mod_dat$response_fresh,
                  yrep = posterior_predict(m3, draws = 50))
 
 
