@@ -12,7 +12,9 @@ fig_post<-function(dat){
     posterior2 <- mcmc_intervals_data(m3)
     
     # parameters
-    p<- c('b_Sproximity_to_marine_km', 'b_Sproximity_to_inland_km', 'b_Sproximity_to_city_mins', 'b_Sn_hh', 'b_Swealth','b_urban_ruralUrban', 'b_Sproximity_to_marine_km:Sproximity_to_inland_km')
+    p<- c('b_Sproximity_to_marine_km', 'b_Sproximity_to_inland_km',
+          'b_Sproximity_to_city_mins', 'b_Sn_hh', 'b_Swealth',
+          'b_urban','b_rural', 'b_Sproximity_to_marine_km:Sproximity_to_inland_km')
     
     poster<-rbind(posterior %>% mutate(fish = 'Dried'),
                   posterior2 %>% mutate(fish = 'Fresh')) %>% 
@@ -30,7 +32,8 @@ fig_post<-function(dat){
                                 'b_Sproximity_to_city_mins' = 'Distance\nurban centre', 
                                 'b_Sn_hh' = 'Household\nsize', 
                                 'b_Swealth' = 'Household\nwealth', 
-                                'b_urban_ruralUrban' = 'Urban',
+                                'b_urban' = 'Urban',
+                                'b_rural' = 'Rural',
                                 'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance\nmarine*inland')) +
         labs(x = 'Posterior effect', y = '') +
         theme_sleek() +
@@ -54,7 +57,8 @@ fig_post<-function(dat){
     mod_sim<-dat %>% 
         data_grid(Sproximity_to_inland_km = 0,
                   Sproximity_to_marine_km = 0,Sproximity_to_city_mins = 0,
-                  urban_rural = 'Rural',
+                  # urban_rural = 'Rural',
+                  urban = 0, rural = 0,
                   Swealth = 0,country=unique(mod_dat$country),Sn_hh = 0)
     
     post_mdn<-rbind(
@@ -73,12 +77,12 @@ fig_post<-function(dat){
             add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>% 
             median_qi() %>% 
             mutate(m = .epred, ll = .lower, hh = .upper, data = 'Model (expected)', fish = 'Dried') %>% 
-            select(country, m, ll, hh, fish, urban_rural, data),
+            select(country, m, ll, hh, fish, data),
         mod_sim %>%  
             add_epred_draws(m3, ndraws = 100, re_formula = ~ (1 | country)) %>% 
             median_qi() %>% 
             mutate(m = .epred, ll = .lower, hh = .upper, data = 'Model (expected)', fish = 'Fresh') %>% 
-            select(country, m, ll, hh, fish, urban_rural, data)
+            select(country, m, ll, hh, fish, data)
     )
     
     
