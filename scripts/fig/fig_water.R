@@ -1,4 +1,4 @@
-fig_water<-function(dat,){
+fig_water<-function(dat,lab = c('a', 'b')){
     
     basesize = 9
     
@@ -30,7 +30,7 @@ fig_water<-function(dat,){
     mar<-rbind(fa1, da1)
     inl<-rbind(fa2, da2)
 
-    gmar<-ggplot(mar, aes(x = raw/1000)) +
+    gmar<-ggplot(mar, aes(x = raw)) +
         geom_lineribbon(aes(y = estimate__, ymin = lower50, ymax = upper50,fill=mod), alpha = 0.5) +
         geom_lineribbon(aes(y = estimate__, ymin = lower95, ymax = upper95,fill=mod), alpha = 0.1) +
         scales +
@@ -40,7 +40,7 @@ fig_water<-function(dat,){
               axis.title = element_text(size = basesize)) +
         labs(x = 'Distance to marine, km', y = ylab)  
     
-    ginl<-ggplot(inl, aes(x = raw/1000)) +
+    ginl<-ggplot(inl, aes(x = raw)) +
         geom_lineribbon(aes(y = estimate__, ymin = lower50, ymax = upper50,fill=mod), alpha = 0.5) +
         geom_lineribbon(aes(y = estimate__, ymin = lower95, ymax = upper95,fill=mod), alpha = 0.1) +
         scales +
@@ -53,12 +53,12 @@ fig_water<-function(dat,){
     
     # Create the inset histogram
     inset_hist <- ggplot(mod_dat, aes(distance_to_marine)) +
-        geom_histogram(bins = 20, fill = "steelblue", color = "black") +
+        geom_histogram(bins = 20, fill = "steelblue", color = "white") +
         scale_x_continuous(expand=c(0,0)) +
         theme_void() 
     
     inset_hist2 <- ggplot(mod_dat, aes(distance_to_inland)) +
-        geom_histogram(bins = 20, fill = "steelblue", color = "black") +
+        geom_histogram(bins = 20, fill = "steelblue", color = "white") +
         scale_x_continuous(expand=c(0,0)) +
         theme_void() 
     
@@ -70,16 +70,16 @@ fig_water<-function(dat,){
     gmar<-gmar +
         annotation_custom(
             grob = inset_grob,
-            xmin = 0, xmax = max(mod_dat$distance_to_marine/1000),  # Adjust the x-axis placement of the inset
+            xmin = 0, xmax = max(mod_dat$distance_to_marine),  # Adjust the x-axis placement of the inset
             ymin = -Inf, ymax = 0.1  # Adjust the y-axis placement of the inset
         )
     
     ginl<-ginl +
         annotation_custom(
             grob = inset_grob2,
-            xmin = 0, xmax = max(mod_dat$distance_to_inland/1000),  # Adjust the x-axis placement of the inset
+            xmin = 0, xmax = max(mod_dat$distance_to_inland),  # Adjust the x-axis placement of the inset
             ymin = -Inf, ymax = 0.1  # Adjust the y-axis placement of the inset
         )
     
-    plot_grid(gmar, ginl, nrow=1, labels=c('a', 'b'))
+    plot_grid(gmar, ginl, nrow=1, labels=lab)
 }

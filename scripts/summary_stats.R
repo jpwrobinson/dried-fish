@@ -140,6 +140,8 @@ pops<-pop.df %>% group_by(country) %>% slice_max(year, n =1) %>%
 
 ## model summaries
 # https://www.andrewheiss.com/blog/2021/11/10/ame-bayes-re-guide/#average-marginal-effects
+
+# DRIED FISH #
 ## country level probabilities, based on average covariate values per country
 pop_prob<-mod_dat %>% 
     group_by(country) %>% 
@@ -155,27 +157,58 @@ pop_prob<-mod_dat %>%
     mutate(m_pop = m*total_population, lo_pop = lo*total_population, hi_pop = hi*total_population) %>% 
     select(country, m:hi, total_population:hi_pop)
 
+# 145.7 million [131.7, 156.3]
 sum(pop_prob$m_pop)/1e6
 sum(pop_prob$hi_pop)/1e6
 sum(pop_prob$lo_pop)/1e6
 
-# proportion of focal population
+# proportion of focal population [35.8%, 32.3-38.4%]
+sum(pop_prob$m_pop) / sum(pop_prob$total_population) * 100
+sum(pop_prob$lo_pop) / sum(pop_prob$total_population) * 100
+sum(pop_prob$hi_pop) / sum(pop_prob$total_population) * 100
+
+# FRESH FISH #
+## country level probabilities, based on average covariate values per country
+pop_prob<-mod_dat %>% 
+    group_by(country) %>% 
+    summarise(Sproximity_to_marine_km = median(Sproximity_to_marine_km),
+              Sproximity_to_inland_km = median(Sproximity_to_inland_km),
+              Sproximity_to_city_mins = median(Sproximity_to_city_mins),
+              Swealth = median(Swealth),
+              urban_rural = 'Urban',
+              Sn_hh = median(Sn_hh)) %>%  
+    add_epred_draws(m3, ndraws = 100, re_formula = ~ (1 | country)) %>% 
+    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 
+    left_join(pops, by = 'country') %>% 
+    mutate(m_pop = m*total_population, lo_pop = lo*total_population, hi_pop = hi*total_population) %>% 
+    select(country, m:hi, total_population:hi_pop)
+
+# 93.6 million [84, 102.9]
+sum(pop_prob$m_pop)/1e6
+sum(pop_prob$hi_pop)/1e6
+sum(pop_prob$lo_pop)/1e6
+
+# proportion of focal population 23.0% [20.6, 25.3]
 sum(pop_prob$m_pop) / sum(pop_prob$total_population) * 100
 sum(pop_prob$lo_pop) / sum(pop_prob$total_population) * 100
 sum(pop_prob$hi_pop) / sum(pop_prob$total_population) * 100
 
 # marine / inland
-marine<-mod_dat$Sproximity_to_marine_km[mod_dat$proximity_to_marine_km<5]
-inland<-mod_dat$Sproximity_to_inland_km[mod_dat$proximity_to_inland_km<5]
+marine<-mod_dat$Sproximity_to_marine_km[mod_dat$distance_to_marine<5]
+inland<-mod_dat$Sproximity_to_inland_km[mod_dat$distance_to_inland<5]
 
 mod_dat %>% 
     data_grid(Sproximity_to_marine_km = median(marine),
               Sproximity_to_inland_km = median(inland),
               Sproximity_to_city_mins = 0,
+              urban_rural = 'Urban',
               Swealth = 0,
               Sn_hh = 0) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
-    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2])
+    reframe(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 
+    select(m,lo,hi)
+
+# 60% [44-76%]
 
 ## households in interaction hotspots
 mod_dat %>% filter(distance_to_marine/1000 > 1000 & distance_to_inland/1000 < 10) %>% summarise(n_distinct(hh_id)) # n = 111, UGA, some TZA
