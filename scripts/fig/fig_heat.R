@@ -16,8 +16,8 @@ fig_heat<-function(dat){
                   Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
                # country = 'marginal',
-               # urban_rural = 'Rural',
-               urban = 0, rural = 0,
+               urban_rural = 'Urban',
+               # urban = 0, rural = 0,
                   Swealth = 0,
                   Sn_hh = 0) %>% 
         add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
@@ -31,8 +31,8 @@ fig_heat<-function(dat){
                      Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
                # country = 'marginal',
-               # urban_rural = 'Rural',
-               urban = 0, rural = 0,
+               urban_rural = 'Urban',
+               # urban = 0, rural = 0,
                Swealth = 0,
                Sn_hh = 0) %>% 
         add_epred_draws(m3, ndraws = 100, re_formula = NA) %>% 

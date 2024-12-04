@@ -26,11 +26,11 @@ mod_dat<-mod_prep(lsms_proximity)
 
 m2<-brm(data = mod_dat, family = bernoulli,
         # response_dried | weights(weight) ~ 0 + 
-            response_dried ~ 1 + 
+            response_dried ~ 0 + Intercept +
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth + urban + rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
             (1 | country / hh_cluster),
-        prior = c(prior(normal(0, 1), class = Intercept),
+        prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
                   prior(cauchy(0, 10), class = sd)),
         iter = 1000, warmup = 500, chains = 3, cores = 6,
@@ -39,11 +39,11 @@ m2<-brm(data = mod_dat, family = bernoulli,
 save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 
 m3<-brm(data = mod_dat, family = bernoulli,
-        response_fresh ~ 1 + #nearest_water
+        response_fresh ~ 0 + Intercept + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth + urban + rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
             (1 | country / hh_cluster),
-        prior = c(prior(normal(0, 1), class = Intercept),
+        prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
                   prior(cauchy(0, 10), class = sd)),
         iter = 1000, warmup = 500, chains = 3, cores = 6,

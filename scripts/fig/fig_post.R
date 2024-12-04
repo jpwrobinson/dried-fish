@@ -14,7 +14,7 @@ fig_post<-function(dat){
     # parameters
     p<- c('b_Sproximity_to_marine_km', 'b_Sproximity_to_inland_km',
           'b_Sproximity_to_city_mins', 'b_Sn_hh', 'b_Swealth',
-          'b_urban','b_rural', 'b_Sproximity_to_marine_km:Sproximity_to_inland_km')
+          'b_urban_ruralUrban', 'b_Sproximity_to_marine_km:Sproximity_to_inland_km')
     
     poster<-rbind(posterior %>% mutate(fish = 'Dried'),
                   posterior2 %>% mutate(fish = 'Fresh')) %>% 
@@ -32,8 +32,8 @@ fig_post<-function(dat){
                                 'b_Sproximity_to_city_mins' = 'Distance\nurban centre', 
                                 'b_Sn_hh' = 'Household\nsize', 
                                 'b_Swealth' = 'Household\nwealth', 
-                                'b_urban' = 'Urban',
-                                'b_rural' = 'Rural',
+                                'b_urban_ruralUrban' = 'Urban',
+                                # 'b_rural' = 'Rural',
                                 'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance\nmarine*inland')) +
         labs(x = 'Posterior effect', y = '') +
         theme_sleek() +
@@ -57,8 +57,8 @@ fig_post<-function(dat){
     mod_sim<-dat %>% 
         data_grid(Sproximity_to_inland_km = 0,
                   Sproximity_to_marine_km = 0,Sproximity_to_city_mins = 0,
-                  # urban_rural = 'Rural',
-                  urban = 0, rural = 0,
+                  urban_rural = 'Urban',
+                  # urban = 0, rural = 0,
                   Swealth = 0,country=unique(mod_dat$country),Sn_hh = 0)
     
     post_mdn<-rbind(
