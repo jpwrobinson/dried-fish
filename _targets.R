@@ -48,8 +48,9 @@ list(
 
     tar_target(figMap, lsms_map_fig(lsms_data)),
     tar_target(figPost, fig_post(mod_dat)),
-    tar_target(figMod, fig_mod(mod_dat, model='dried')),
-    tar_target(figModF, fig_mod(mod_dat, model='fresh')),
+    # tar_target(figMod, fig_mod(mod_dat, model='dried')),
+    # tar_target(figModF, fig_mod(mod_dat, model='fresh')),
+    tar_target(figMod, fig_mod2(mod_dat)),
     tar_target(figHeat, fig_heat(mod_dat)),
 
     
@@ -80,14 +81,16 @@ list(
         fig1c = figContrast,
         fig2 = figMap,
         fig3 = figPost,
-        fig4a = figMod,
-        fig4b = figModF,
-        fig4c = figHeat,
+        # fig4a = figMod,
+        # fig4b = figModF,
+        # fig4c = figHeat,
+        fig4 = figMod,
         figS1 = figRNI_species,
         figS2 = figPortionSize,
         figS3 = figRNI_forms,
         figS4 = figContam,
-        figS5 = figContamS
+        figS5 = figContamS,
+        figS6 = figHeat
     ))
     
 )

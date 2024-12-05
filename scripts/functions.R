@@ -61,6 +61,55 @@ mod_post<-function(mod, dat, var, raw_var){
     return(condo)
 }
 
+plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab){
+    
+    scales<-list(
+        scale_y_continuous(labels = scales::label_percent(), limits=c(0,1)), 
+        scale_fill_manual(values = pcols_named),
+        scale_colour_manual(values = pcols_named))
+    
+    basesize = 9
+    ylab = 'Probability of fish consumption'
+    
+    # proximity to water (marine)
+    da1<-mod_post(dried, mod_dat, as.name(var), as.name(raw_var)) %>% 
+        mutate(mod = 'Dried') 
+    
+    fa1<-mod_post(fresh, mod_dat, as.name(var), as.name(raw_var)) %>% 
+        mutate(mod = 'Fresh') 
+    
+    datter<-rbind(da1, fa1)
+    
+    gg<-ggplot(datter, aes(x = raw)) +
+        geom_lineribbon(aes(y = estimate__, ymin = lower50, ymax = upper50,fill=mod), alpha = 0.5) +
+        geom_lineribbon(aes(y = estimate__, ymin = lower95, ymax = upper95,fill=mod), alpha = 0.1) +
+        scales +
+        theme(legend.position = 'none', 
+              plot.margin = unit(c(.05, .01, .05, .05), 'cm'),
+              axis.text = element_text(size = basesize), 
+              axis.title = element_text(size = basesize)) +
+        labs(x = xlab, y = ylab)  
+    
+    # Create the inset histogram
+    inset_hist <- ggplot(mod_dat, aes(.data[[raw_var]])) +
+        geom_histogram(bins = 20, fill = "steelblue", color = "white") +
+        scale_x_continuous(expand=c(0,0)) +
+        theme_void() 
+    
+    # Convert the inset plot into a grob
+    inset_grob <- ggplotGrob(inset_hist)
+    
+    # Add the inset histogram to the main plot
+    gg<-gg +
+        annotation_custom(
+            grob = inset_grob,
+            xmin = 0, xmax = max(mod_dat[[raw_var]]),  # Adjust the x-axis placement of the inset
+            ymin = -Inf, ymax = 0.1  # Adjust the y-axis placement of the inset
+        )
+    
+    return(print(gg))
+}
+
 
 
 # figure functions
@@ -73,6 +122,7 @@ source('scripts/fig/fig_portion_size.R')
 source('scripts/fig/fig_map.R')
 source('scripts/fig/fig_post.R')
 source('scripts/fig/fig_mod.R')
+source('scripts/fig/fig_mod2.R')
 source('scripts/fig/fig_heat.R')
 source('scripts/fig/fig_contaminant_species.R')
 source('scripts/fig/fig_contaminant_content.R')

@@ -105,17 +105,11 @@ lsms_hh %>% group_by(country, tot_hh) %>%
     filter(!is.na(n_hh)) %>% 
     summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))
 
-lsms_fish %>% group_by(country, tot_hh) %>% 
-    summarise(n_processed = n_distinct(hh_id[form %in% c('dried', 'smoked', 'dry/smoked')]),
-              n_dried = n_distinct(hh_id[form %in% c('dried')]),
-              n_smoked = n_distinct(hh_id[form %in% c('smoked')]),
-              n_fish = n_distinct(hh_id)) %>% 
-    mutate(prop_dried_pop = n_processed / tot_hh,
-           prop_fish_pop = n_fish / tot_hh,
-           prop_processed_of_fish = n_processed / n_fish,
-           prop_smoked_of_processed = n_smoked / n_processed,
-           prop_dried_of_processed = n_dried / n_processed
-    )
+# prop fish 
+mod_dat %>% group_by(country) %>% 
+    mutate(N = length(hh_id)) %>% 
+    summarise(dried = sum(response_dried)/unique(N)*100,
+              fresh = sum(response_fresh)/unique(N)*100)
 
 ## country pouplations
 library(WDI)
@@ -169,7 +163,7 @@ sum(pop_prob$hi_pop) / sum(pop_prob$total_population) * 100
 
 # FRESH FISH #
 ## country level probabilities, based on average covariate values per country
-pop_prob<-mod_dat %>% 
+pop_prob2<-mod_dat %>% 
     group_by(country) %>% 
     summarise(Sproximity_to_marine_km = median(Sproximity_to_marine_km),
               Sproximity_to_inland_km = median(Sproximity_to_inland_km),
@@ -184,14 +178,14 @@ pop_prob<-mod_dat %>%
     select(country, m:hi, total_population:hi_pop)
 
 # 93.6 million [84, 102.9]
-sum(pop_prob$m_pop)/1e6
-sum(pop_prob$hi_pop)/1e6
-sum(pop_prob$lo_pop)/1e6
+sum(pop_prob2$m_pop)/1e6
+sum(pop_prob2$hi_pop)/1e6
+sum(pop_prob2$lo_pop)/1e6
 
 # proportion of focal population 23.0% [20.6, 25.3]
-sum(pop_prob$m_pop) / sum(pop_prob$total_population) * 100
-sum(pop_prob$lo_pop) / sum(pop_prob$total_population) * 100
-sum(pop_prob$hi_pop) / sum(pop_prob$total_population) * 100
+sum(pop_prob2$m_pop) / sum(pop_prob2$total_population) * 100
+sum(pop_prob2$lo_pop) / sum(pop_prob2$total_population) * 100
+sum(pop_prob2$hi_pop) / sum(pop_prob2$total_population) * 100
 
 # marine / inland
 marine<-mod_dat$Sproximity_to_marine_km[mod_dat$distance_to_marine<5]
