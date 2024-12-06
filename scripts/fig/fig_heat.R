@@ -59,19 +59,13 @@ fig_heat<-function(dat){
               axis.text = element_text(size = basesize), 
               axis.title = element_text(size = basesize)) +
         labs(fill = '',x = 'Distance to marine, km', y = 'Distance to inland, km') 
-    
-    # ggMarginal(g1, type='histogram')
-    
+
     
     g2<-g1 %+% fres +
-        # annotate('text', x = 1000, y = 330, label = 'Fresh fish', colour='white') +
         guides(fill = 'none') 
     
     lhs<-plot_grid(g1 ,#+ annotate('text', x = 1000, y = 330, label = 'Dried fish', colour='white'), 
-                   g2, nrow=2)#, labels=c('a', 'b'))
-    # top<-plot_grid(gc, gd, nrow=1, labels=c('a', 'b'))
-    # pp<-plot_grid(top, lhs, nrow=2, rel_heights=c(0.4, 1))
-    
+                   g2, nrow=2, labels=c('a', 'b'))
     
     return(lhs)
     
