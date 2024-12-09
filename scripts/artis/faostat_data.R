@@ -5,6 +5,7 @@
 # ISSCAAP: Herrings, Sardines, Anchovies & 
 # Rastrineobola argentea & 
 # Lake Malawi sardine & Lake Tanganiyka sardine & Lake Tanganiyka sprat
+cs<-c('CIV', 'NGA', 'SEN', 'MWI', 'UGA', 'TNZ')
 
 fao<-read.csv('data/faostat_small_pelagic_catch.csv') %>% 
     clean_names() %>% 
@@ -12,15 +13,9 @@ fao<-read.csv('data/faostat_small_pelagic_catch.csv') %>%
     select(-starts_with('s')) %>% 
     pivot_longer(-c(country_name:unit), names_to = 'year', values_to = 'catch_t') %>% 
     mutate(year = as.numeric(str_replace_all(year, 'x_', ''))) %>% 
-    filter(!is.na(catch_t)) #%>% 
-    # mutate(man_group = recode(asfis_species_name,
-    #                           'Anchovies nei' = 'Anchovy sp.',
-    #                           'European anchovy' = 'Anchovy sp.',
-    #                           'Buccaneer anchovy' = 'Anchovy sp.',
-    #                           'Stolephorus anchovies nei' = 'Anchovy sp.',
-    #                           'Anchovies, etc. nei' = 'Anchovy sp.',
-    #                           'Buccaneer anchovy' = 'Sardinenel sp.',
-    #                           ))
+    filter(!is.na(catch_t)) %>% 
+    mutate(iso3c = countrycode(country_name, 'country.name.en', 'iso3c')) %>% 
+    filter(iso3c %in% cs) 
 
 marines<-c('Atlantic, Eastern Central', 'Indian Ocean, Western')
 
@@ -89,3 +84,12 @@ pdf(file = 'fig/fao_landing.pdf', height=5, width=9)
 print(gfao)
 dev.off()
 
+
+
+plotter2<-fao %>% group_by(asfis_species_name, fao_major_fishing_area_name, year) %>% 
+    summarise(t = sum(catch_t)) %>% 
+    group_by(year, fao_major_fishing_area_name) %>% 
+    mutate(t = sum(t))
+
+ggplot(plotter2, aes(year, t, col=fao_major_fishing_area_name)) + geom_line() + 
+    stat_smooth()

@@ -94,6 +94,13 @@ figPortionDat_Women %>% mutate(rni = rni*100) %>% filter(portion == portionW)
 # portion source values
 figPortionDat %>% group_by(nutrient) %>% filter(rni>= 0.15) %>% summarise(min(portion))
 
+# degradation stats
+tar_load(figContrast)
+figContrast$data
+
+figContrast$data %>% filter(nutrient %in% c('Calcium', 'Selenium', 'Zinc', 'Iodine')) %>% mutate(meaner*100)
+figContrast$data %>% filter(nutrient %in% c('Cadmium', 'Iron', 'Lead')) %>% mutate(meaner*100)
+
 ## summary stats - LSMS
 lsms_hh<-read.csv(file = 'data/lsms_subset/lsms_all_hh.csv')
 lsms_fish<-read.csv(file = 'data/lsms_subset/lsms_fish.csv')
