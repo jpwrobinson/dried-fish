@@ -16,6 +16,7 @@ source('scripts/functions.R')
 # tar_load(lsms_data)
 # tar_load(lsms_proximity)
 # tar_load(mod_dat)
+# tar_load(figAll)
 
 list(
     # read and clean nutrient dataset

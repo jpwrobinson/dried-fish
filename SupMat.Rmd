@@ -72,7 +72,7 @@ knitr::include_graphics("fig/Figure2.pdf"); i = i + 1
 \newpage
 
 ```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
-knitr::include_graphics("fig/Figure2.pdf"); i = i + 1
+knitr::include_graphics("fig/FigureS6.pdf"); i = i + 1
 ```
 
 **Fig. S`r i`. Effect of distance to water on consumption of dried (a) and fresh (b) fish**. Heat maps show median predicted probability of fish consumption (low = blue, high = red) along gradients in marine and inland water access. Heat maps are overlaid with the average location of all household clusters in LSMS.
