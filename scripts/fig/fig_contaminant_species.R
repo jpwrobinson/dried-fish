@@ -54,14 +54,14 @@ figContaminant_Species<-function(dat, portion){
         
     }
     
-    # No samples above Lead limit (0.3 mg / kg) (max sample = )
+    # 3 samples above Lead limit (0.3 mg / kg)
     leader<-nutl %>% filter(nutrient=='Lead') %>%
         mutate(limit_mg_100g = cont$max_limit_100g[cont$nutrient=='lead']) %>%
-        filter(mu > limit_mg_100g/10) %>% 
+        slice_max(mu, n = 20) %>% 
         mutate(lab2 = paste(species, form, sep='\n'),
                lab = 'Lead\nMaximum regulatory limit')
     
-    gg_1 <- ggplot(leader, aes(fct_reorder(lab2, mu), mu, fill = form)) + 
+    gg_1 <- ggplot(leader, aes(fct_reorder(sample_id, mu), mu, fill = form)) + 
         geom_hline(yintercept = cont$max_limit_100g[cont$nutrient=='lead'], linetype=5, col='grey') +
         geom_col(position = position_dodge(width = 0.8)) + 
         geom_text(aes(label = lab2), size=2, hjust=-.1, fontface=3) +
@@ -73,6 +73,6 @@ figContaminant_Species<-function(dat, portion){
         th
     
     pl<-list(gg_1, gg_2, gg_3)
-    gSX<-plot_grid(plotlist=pl, nrow=1)
+    gSX<-plot_grid(plotlist=pl, nrow=1, labels=c('a', 'b', 'c'))
     print(gSX)
 }

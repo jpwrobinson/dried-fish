@@ -24,15 +24,6 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4
     )
     dev.off()
     
-    # pdf(file = 'fig/Figure4.pdf', height =4.5, width=11)
-    # print(
-    #     plot_grid(
-    #         plot_grid(
-    #         plot_grid(fig4a, fig4b, nrow=2, labels =c('a', 'b')),
-    #         fig4c, nrow=1, align='hv', rel_widths=c(1, .3))
-    # ))
-    # dev.off()
-    
     pdf(file = 'fig/Figure4.pdf', height =3, width=13)
     print(fig4)
     dev.off()
@@ -57,7 +48,7 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4
     )
     dev.off()
 
-    pdf(file = 'fig/FigureS4.pdf', height =3, width=11)
+    pdf(file = 'fig/FigureS4.pdf', height =3, width=8.5)
     print(
         figS4
     )

@@ -27,6 +27,7 @@ fig_fresh_contrast<-function(dat){
     nut<-nut %>% filter(!is.na(fresh_value_dw) & form != 'Fresh') %>% 
         select(sample_id, latin_name, type, nutrient, unit, fresh_value_dw, form, value) %>%
         mutate(contrast = (value - fresh_value_dw) / fresh_value_dw) %>% 
+        mutate(contrast = ifelse(contrast > 2, 2, contrast)) %>% 
         group_by(nutrient, type) %>% 
         mutate(meaner = mean(contrast))
 
