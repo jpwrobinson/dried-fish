@@ -23,6 +23,7 @@ mod_prep<-function(dat){
         ungroup() %>% mutate(
             proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
             log10_proximity_to_city_mins = log10(proximity_to_city_mins),
+            wealth = log10(wealth + 1),
             Sn_hh = scale(n_hh)[,1],
             Swealth = scale(wealth)[,1],
             urban_rural = factor(str_to_title(urban_rural)),
