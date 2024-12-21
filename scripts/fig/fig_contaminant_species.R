@@ -53,63 +53,26 @@ figContaminant_Species<-function(dat, portion){
         assign(paste('gg', i, sep = '_'), gg)
         
     }
-# 
-#     for(i in 1:length(sp)){
-#         
-#         plotter<-datter[,c('form', 'nutrient', 'exposure', 'species')] %>% 
-#             filter(species == sp[i]) %>% select(-species) %>% 
-#             filter(form != 'Fresh') %>% 
-#             mutate(exposure = ifelse(is.na(exposure), 0, exposure)) %>% 
-#             pivot_wider(names_from = nutrient, values_from = exposure, values_fill = 0) 
-# 
-#         
-#         if(i != 1){
-#             ## All panels without top-left guide
-#             names(plotter)<-c('form','Cd', 'Pb', 'Hg')
-#             gg<-ggradar(plotter, 
-#                         # group.colours = pcols,
-#                         base.size = 1,
-#                         # values.radar = '',
-#                         grid.label.size = 3,
-#                         group.point.size = 2,
-#                         group.line.width = 1,
-#                         background.circle.colour = "white",
-#                         axis.label.size = 3,
-#                         fill=TRUE,
-#                         gridline.mid.colour = "grey") +
-#                 th + labs(subtitle = sp[i]) +coord_equal(clip='off') +
-#                 scale_color_manual(values=pcols_named) + scale_fill_manual(values=pcols_named) 
-#             
-#         } else {
-#             ## Top-left guide
-#             gg<-ggradar(plotter, 
-#                         # group.colours = pcols,
-#                         base.size = 1,
-#                         group.point.size = 2,
-#                         grid.label.size  = 3,
-#                         group.line.width = 1,
-#                         background.circle.colour = "white",
-#                         axis.label.size = 3,
-#                         fill=TRUE,
-#                         gridline.mid.colour = "grey") +
-#                 th + labs(subtitle = sp[i]) +coord_equal(clip='off') +
-#                 scale_color_manual(values=pcols_named) + scale_fill_manual(values=pcols_named) 
-#         }
-#         
-#         assign(paste('gg', i, sep = '_'), gg)
-#     }
-# 
-#     gg_leg<-ggradar(datter %>% filter(form %in% unique(datter$form)) %>% distinct(form, nutrient) %>% 
-#                         mutate(exposure = 0) %>% 
-#                         pivot_wider(names_from = nutrient, values_from = exposure), 
-#                     fill=TRUE) + 
-#             guides(color='none') + 
-#             scale_fill_manual(values=pcols_named[-1]) 
-# 
-#     pl<-list(gg_1, gg_2, gg_3, gg_4, gg_5, gg_6, gg_7, gg_8, gg_9, gg_10, gg_11,gg_12, gg_13, gg_14, gg_15, gg_16, gg_17, gg_18, get_legend(gg_leg))
-#     gSX<-plot_grid(plotlist=pl)
-
-    pl<-list(gg_1,gg_2, gg_3)
+    
+    # No samples above Lead limit (0.3 mg / kg) (max sample = )
+    leader<-nutl %>% filter(nutrient=='Lead') %>%
+        mutate(limit_mg_100g = cont$max_limit_100g[cont$nutrient=='lead']) %>%
+        filter(mu > limit_mg_100g/10) %>% 
+        mutate(lab2 = paste(species, form, sep='\n'),
+               lab = 'Lead\nMaximum regulatory limit')
+    
+    gg_1 <- ggplot(leader, aes(fct_reorder(lab2, mu), mu, fill = form)) + 
+        geom_hline(yintercept = cont$max_limit_100g[cont$nutrient=='lead'], linetype=5, col='grey') +
+        geom_col(position = position_dodge(width = 0.8)) + 
+        geom_text(aes(label = lab2), size=2, hjust=-.1, fontface=3) +
+        facet_wrap(~lab, scales='free_x') +
+        coord_flip(clip='off') + 
+        labs(x = '', y = 'mg per 100 g') +
+        scale_fill_manual(values = pcols_named) +
+        scale_y_continuous(expand=c(0,0)) +
+        th
+    
+    pl<-list(gg_1, gg_2, gg_3)
     gSX<-plot_grid(plotlist=pl, nrow=1)
     print(gSX)
 }

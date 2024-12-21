@@ -27,6 +27,7 @@ figContaminantPortion<-function(dat, portion){
     
     ## arrange data
     datter<-nutl_agg %>% 
+        filter(nutrient != 'Lead') %>% 
         mutate(exposure = exposure * portion/100) %>% ## correct for portion size (portion * 100) 
         # mutate(exposure = case_when(exposure > 1 ~ 1, TRUE ~ exposure)) %>% ## cap limits for plot - but note some forms are more than 100% limit
         group_by(form, nutrient, lab) %>% 
