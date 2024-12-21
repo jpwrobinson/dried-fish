@@ -28,14 +28,14 @@ m2<-brm(data = mod_dat, family = bernoulli,
         # response_dried | weights(weight) ~ 0 + 
             response_dried ~ 0 + Intercept +
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + log10(Swealth+1) + urban_rural +
             (1 | country / hh_cluster),
         prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
                   prior(cauchy(0, 10), class = sd)),
         iter = 1000, warmup = 500, chains = 3, cores = 6,
         seed = 10)
-
+m2log<-m2
 save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 
 m3<-brm(data = mod_dat, family = bernoulli,

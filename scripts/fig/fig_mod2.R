@@ -9,8 +9,9 @@ fig_mod2<-function(dat){
     # proximity to water (inland)
     db<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var = 'Sproximity_to_inland_km', raw_var='distance_to_inland', xlab = 'Distance to inland, km')
     
-    # proximity to city
-    dc<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var='Sproximity_to_city_mins', raw_var='proximity_to_city_mins', xlab='Distance to urban centre, mins') 
+    # proximity to city (change to hours here)
+    dc<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat %>% mutate(proximity_to_city_mins = proximity_to_city_mins/60), 
+                  var='Sproximity_to_city_mins', raw_var='proximity_to_city_mins', xlab='Proximity to urban centre, hours') 
     
     # household wealth
     dd<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var='Swealth', raw_var='wealth', xlab = 'Household wealth') 
