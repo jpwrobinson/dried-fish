@@ -45,7 +45,7 @@ civ<-cotedivoire %>%
                   summarise(monthly_exp = sum(s09cq03, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'CIV') 
 
-civ_hh<-civ %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+civ_hh<-civ %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country) %>% mutate(survey_year = 2018)
 
 civ_fish<-civ %>%
     filter(s07bq01 %in% c(35:40)) %>% 
@@ -86,7 +86,7 @@ sen<-senegal %>%
                   summarise(monthly_exp = sum(s09cq03, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'SEN')
 
-sen_hh<-sen %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+sen_hh<-sen %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country) %>% mutate(survey_year = 2018)
 
 sen_fish<-sen %>%
     filter(s07bq01 %in% c(35:43)) %>%
@@ -126,7 +126,7 @@ nga<-nigeria %>%
                   summarise(monthly_exp = sum(s11bq4, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'NGA')
     
-nga_hh<-nga %>% distinct(hh_id,hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+nga_hh<-nga %>% distinct(hh_id,hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country) %>% mutate(survey_year = 2018)
 
 nga_fish<-nga %>% 
     filter(item_cd %in% c(100:107) & s10bq1 == 1) %>% ## select fish only, and YES consumed (1)
@@ -168,7 +168,7 @@ mal<-malawi %>%
                   summarise(monthly_exp = sum(hh_i06, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'MWI') 
 
-mal_hh<-mal %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural,n_hh, n_adult, n_children, monthly_exp, country)
+mal_hh<-mal %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural,n_hh, n_adult, n_children, monthly_exp, country) %>% mutate(survey_year = 2016)
 
 mal_fish<-mal %>% 
     filter(hh_g02 %in% mal_fish_code$hh_g02 & hh_g01 == 1) %>% ## select fish only, and YES consumed
@@ -208,7 +208,7 @@ uga<-uganda %>%
                   summarise(monthly_exp = sum(h15cq5, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'UGA')
     
-uga_hh<-uga %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+uga_hh<-uga %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country) %>% mutate(survey_year = 2010)
 
 
 uga_fish<-uga %>% 
@@ -268,7 +268,7 @@ tza<-tanzania %>%
                   summarise(monthly_exp = sum(hh_k02, na.rm=TRUE)), by = 'hh_id') %>% 
     mutate(country = 'TZA')
 
-tza_hh<-tza %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country)
+tza_hh<-tza %>% distinct(hh_id, hh_cluster, hhweight, tot_hh, lat, lon, urban_rural, n_hh, n_adult, n_children, monthly_exp, country) %>% mutate(survey_year = 2014)
 
 tza_fish<-tza %>% 
     filter(itemcode %in% tza_fish_code$itemcode & hh_j01 == 1) %>% ## select fish only, and YES consumed
@@ -305,6 +305,18 @@ lsms_all<-lsms_hh %>%
     mutate(dried = ifelse(is.na(dried), 'no', dried),
            fresh = ifelse(is.na(fresh), 'no', fresh),
            any_fish = ifelse(is.na(any_fish), 'no', any_fish))
+
+# add PPP data [WorldBank]
+# https://data.worldbank.org/indicator/PA.NUS.PRVT.PP
+
+ppp<-read.csv('data/ppp/API_PA.NUS.PRVT.PP_DS2_en_csv_v2_14409/API_PA.NUS.PRVT.PP_DS2_en_csv_v2_14409.csv') %>% 
+    clean_names() %>% 
+    pivot_longer(x1960:x2023, names_to = 'year', values_to = 'ppp') %>% 
+    filter(!is.na(ppp)) %>% 
+    mutate(survey_year = as.numeric(str_replace_all(year, 'x', '')), country = country_code)
+
+lsms_all<-lsms_all %>% left_join(ppp %>% select(ppp, survey_year, country))
+
 
 
 ## Simmance stats for national total fish (dried within fish) consumption:
