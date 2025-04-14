@@ -52,6 +52,7 @@ list(
     # tar_target(figMod, fig_mod(mod_dat, model='dried')),
     # tar_target(figModF, fig_mod(mod_dat, model='fresh')),
     tar_target(figMod, fig_mod2(mod_dat)),
+    tar_target(figModContrast, fig_mod_contrast(mod_dat)),
     tar_target(figHeat, fig_heat(mod_dat)),
 
     
@@ -91,7 +92,8 @@ list(
         figS3 = figRNI_forms,
         figS4 = figContam,
         figS5 = figContamS,
-        figS6 = figHeat
+        figS6 = figHeat,
+        figS7 = figModContrast
     ))
     
 )

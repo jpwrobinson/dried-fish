@@ -46,6 +46,7 @@ mod_prep<-function(dat){
 }
 
 # model posteriors
+# Function takes model object, dataset, and variable name, estimates median y ~ var with 95% and 50% HPDI
 mod_post<-function(mod, dat, var, raw_var){
     
     condo<-conditional_effects(mod, as.name(var), prob=0.95)[[1]] %>% 
@@ -62,7 +63,29 @@ mod_post<-function(mod, dat, var, raw_var){
     return(condo)
 }
 
-plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab){
+# Function takes model object, dataset, and variable name, generates posterior samples across conditions, estimates median y ~ var with 95% and 50% HPDI
+mod_post_contrast<-function(mod, dat, var, raw_var, quantile){
+    
+    Q = quantile(dat[[var]], probs = quantile)
+    Swealth_Q = data.frame(Swealth = Q)
+    
+    condo<-conditional_effects(mod, effects = as.name(var), conditions = Swealth_Q, prob=0.95)[[1]] %>% 
+        mutate(raw = seq_range(dat[[raw_var]], n=100)) %>% 
+        mutate(lower95 = lower__, upper95 = upper__) %>% 
+        select({{var}}, raw, estimate__, lower95, upper95)
+    
+    c2<-conditional_effects(mod, as.name(var),, conditions = Swealth_Q, prob=0.5)[[1]] %>% 
+        select(lower__:upper__)
+    
+    condo$lower50<-c2$lower__
+    condo$upper50<-c2$upper__
+    
+    
+    return(condo)
+}
+
+
+plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab, quantile = NULL, type = 'conditional'){
     
     scales<-list(
         scale_y_continuous(labels = scales::label_percent(), limits=c(0,1)), 
@@ -72,12 +95,23 @@ plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab){
     basesize = 9
     ylab = 'Probability of fish consumption'
     
+    if(type == 'conditional'){
     # proximity to water (marine)
     da1<-mod_post(dried, mod_dat, as.name(var), as.name(raw_var)) %>% 
         mutate(mod = 'Dried') 
     
     fa1<-mod_post(fresh, mod_dat, as.name(var), as.name(raw_var)) %>% 
         mutate(mod = 'Fresh') 
+    }
+    
+    if(type == 'contrast'){
+        # proximity to water (marine)
+        da1<-mod_post_contrast(dried, mod_dat, as.name(var), as.name(raw_var), quantile = quantile) %>% 
+            mutate(mod = 'Dried') 
+        
+        fa1<-mod_post_contrast(fresh, mod_dat, as.name(var), as.name(raw_var), quantile = quantile) %>% 
+            mutate(mod = 'Fresh') 
+    }
     
     datter<-rbind(da1, fa1)
     

@@ -112,6 +112,7 @@ lsms_hh %>% group_by(country, tot_hh) %>%
     filter(!is.na(n_hh)) %>% 
     summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))
 
+
 # prop fish 
 mod_dat %>% group_by(country) %>% 
     mutate(N = length(hh_id)) %>% 

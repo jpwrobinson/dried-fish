@@ -6,7 +6,6 @@ dat<-lsms_proximity
 
 # ## binomial model of dried fish consumption, hierarchical by cluster + country
 
-
 # m1<-brm(data = mod_dat, family = bernoulli,
 #     response ~ 1 + proximity_to_water_km + proximity_to_city_mins + n_hh + wealth +
 #         # marine + inland + 
@@ -19,6 +18,13 @@ dat<-lsms_proximity
 #     seed = 10)
 
 mod_dat<-mod_prep(lsms_proximity)
+
+# correlation between covariates
+pdf(file = 'fig/model_covariate_pairs.pdf', height=7, width=12)
+mod_dat %>% mutate(Swealth = log10(Swealth + 1)) %>% 
+    select(urban_rural, n_hh, proximity_to_city_mins, distance_to_inland, distance_to_marine, Swealth) %>% 
+    GGally::ggpairs()
+dev.off()
 
 # weights investigation
 # https://rpubs.com/corey_sparks/157901

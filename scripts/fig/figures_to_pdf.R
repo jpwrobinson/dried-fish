@@ -1,4 +1,4 @@
-figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4, figS5, figS6){
+figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4, figS5, figS6, figS7){
 
     th2<-theme(plot.margin=unit(c(1,.5,.1,0), 'cm'), axis.title = element_text(size = 10), axis.text = element_text(size = 10))
     
@@ -69,4 +69,11 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4
     )
     dev.off()
 
+    
+    pdf(file = 'fig/FigureS7.pdf', height =4, width=11)
+    print(
+        figS7
+    )
+    dev.off()
+    
 }
