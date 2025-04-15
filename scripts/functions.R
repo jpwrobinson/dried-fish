@@ -19,13 +19,15 @@ mod_prep<-function(dat){
     mod_dat<-dat %>% 
         filter(!is.na(n_hh) & !is.na(monthly_exp) & !is.na(urban_rural)) %>%  ## mostly in Tanzania - check these
         group_by(country) %>% 
-        mutate(wealth = scales::rescale(monthly_exp / sqrt(n_hh), to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size
+        mutate(log10_wealth_country = log10((monthly_exp / sqrt(n_hh)) + 1),
+               Swealth_country = scales::rescale(log10_wealth_country, to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size, and 0-1 by country
         ungroup() %>% mutate(
             proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
             log10_proximity_to_city_mins = log10(proximity_to_city_mins),
-            wealth = log10(wealth + 1),
+            wealth_ppp = monthly_exp / ppp / sqrt(n_hh),  ## income is converted to PPP, scaled by square root of household size, and 0-1 across dataset
+            log10_wealth_ppp = log10(wealth_ppp + 1),
+            Swealth_ppp = rescale(log10_wealth_ppp, to=c(0,1)),
             Sn_hh = scale(n_hh)[,1],
-            Swealth = scale(wealth)[,1],
             urban_rural = factor(str_to_title(urban_rural)),
             urban = ifelse(urban_rural == 'Urban', 1, 0),
             rural = ifelse(urban_rural == 'Rural', 1, 0),
@@ -67,7 +69,7 @@ mod_post<-function(mod, dat, var, raw_var){
 mod_post_contrast<-function(mod, dat, var, raw_var, quantile){
     
     Q = quantile(dat[[var]], probs = quantile)
-    Swealth_Q = data.frame(Swealth = Q)
+    Swealth_Q = data.frame(Swealth_country = Q)
     
     condo<-conditional_effects(mod, effects = as.name(var), conditions = Swealth_Q, prob=0.95)[[1]] %>% 
         mutate(raw = seq_range(dat[[raw_var]], n=100)) %>% 

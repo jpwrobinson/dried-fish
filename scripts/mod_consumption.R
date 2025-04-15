@@ -19,10 +19,15 @@ dat<-lsms_proximity
 
 mod_dat<-mod_prep(lsms_proximity)
 
+# test wealth - note highly skewed
+ggplot(mod_dat, aes(log10_wealth_country, log10_wealth_ppp, col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
+ggplot(mod_dat, aes(Swealth_country, Swealth_ppp, col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
+ggplot(mod_dat, aes(Swealth_ppp, col=country)) + geom_histogram() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
+
 # correlation between covariates
 pdf(file = 'fig/model_covariate_pairs.pdf', height=7, width=12)
-mod_dat %>% mutate(Swealth = log10(Swealth + 1)) %>% 
-    select(urban_rural, n_hh, proximity_to_city_mins, distance_to_inland, distance_to_marine, Swealth) %>% 
+mod_dat %>%
+    select(urban_rural, n_hh, proximity_to_city_mins, distance_to_inland, distance_to_marine, Swealth_country, Swealth_ppp) %>% 
     GGally::ggpairs()
 dev.off()
 
@@ -34,7 +39,7 @@ m2<-brm(data = mod_dat, family = bernoulli,
         # response_dried | weights(weight) ~ 0 + 
             response_dried ~ 0 + Intercept +
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + log10(Swealth+1) + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth_country + Swealth_ppp + urban_rural +
             (1 | country / hh_cluster),
         prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -47,7 +52,7 @@ save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 m3<-brm(data = mod_dat, family = bernoulli,
         response_fresh ~ 0 + Intercept + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth_country + urban_rural +
             (1 | country / hh_cluster),
         prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -67,7 +72,7 @@ ranef(m2)$country
 mod_dat %>%  
     data_grid(Sproximity_to_water_km = seq_range(proximity_to_water_km, n = 100),
               Sproximity_to_city_mins = 0, 
-              Swealth = 0,
+              Swealth_country = 0,
               urban = 0, rural = 0,
               nearest_water=levels(mod_dat$nearest_water),
               # country=unique(mod_dat$country),
@@ -85,7 +90,7 @@ mod_dat %>%
     data_grid(Sproximity_to_inland_km = 0,
               Sproximity_to_marine_km = 0,
               Sproximity_to_city_mins = 0, 
-              Swealth = 0,
+              Swealth_country = 0,
               urban = 0, rural = 0,
               country=unique(mod_dat$country),
               Sn_hh = 0) %>%  
@@ -137,8 +142,8 @@ mS<-brm(data = mod_dat %>%
         family = bernoulli,
         response_dried ~ 1 + #nearest_water + 
             #Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km + 
-            prox*Swealth +
-            Sproximity_to_city_mins + Sn_hh + Swealth +
+            prox*Swealth_country +
+            Sproximity_to_city_mins + Sn_hh + Swealth_country +
             # marine + inland + 
             (1 | country / hh_cluster),
         prior = c(prior(normal(0, 1), class = Intercept),
@@ -166,7 +171,7 @@ survey_dat<-read.csv('data/lsms_with_covariates.csv') %>%
         proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
         log10_proximity_to_city_mins = log10(proximity_to_city_mins),
         Sn_hh = scale(n_hh)[,1],
-        Swealth = scale(wealth)[,1],
+        Swealth_country = scale(wealth)[,1],
         Sproximity_to_water_km = scale(proximity_to_water_km)[,1],
         Sproximity_to_inland_km = scale(distance_to_inland)[,1],
         Sproximity_to_marine_km = scale(distance_to_marine)[,1],
@@ -178,7 +183,7 @@ survey_dat<-read.csv('data/lsms_with_covariates.csv') %>%
 mod1<-svyglm(
         formula = response_dried ~ 1 +
             Sproximity_to_marine_km * Sproximity_to_inland_km + 
-            Sproximity_to_city_mins + Sn_hh + Swealth,
+            Sproximity_to_city_mins + Sn_hh + Swealth_country,
         design = survey_dat,
         na.action = na.omit,
         family = quasibinomial)
@@ -186,7 +191,7 @@ mod1<-svyglm(
 mod2<-svyglm(
     formula = response_fresh ~ 1 +
         Sproximity_to_marine_km * Sproximity_to_inland_km + 
-        Sproximity_to_city_mins + Sn_hh + Swealth,
+        Sproximity_to_city_mins + Sn_hh + Swealth_country,
     design = survey_dat,
     na.action = na.omit,
     family = quasibinomial)

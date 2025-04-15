@@ -13,66 +13,68 @@ fig_dried_rni|function|a291daa22002565c|||||||||||||||
 fig_fresh_contrast|function|418d98d6673e6d49|||||||||||||||
 fig_heat|function|649b5d454984a0b4|||||||||||||||
 fig_mod|function|ae49325f37d1c0ed|||||||||||||||
-fig_mod2|function|c9908ae1288b31d8|||||||||||||||
+fig_mod_contrasts|function|5927fb078e037552|||||||||||||||
+fig_mod2|function|4875d336eec4feca|||||||||||||||
 fig_ndensity|function|b5bd6501922a0772|||||||||||||||
 fig_post|function|4a27c398dd603e05|||||||||||||||
 figAll|stem|42bf50969d05dd96|f81fcd65549a3927|321df537d2e72d04|-432638723||t20078.6903188277s|ff026697d66e9a9f|75|rds|local|vector|||6.67|1m22mRemoved 1 row containing missing values or values outside the scale rangegeom_text.. 1m22mRemoved 1 row containing missing values or values outside the scale rangegeom_point.. 1m22mRemoved 3 rows containing missing values or values outside the scale rangegeom_point.. 1m22mRemoved 1500 rows containing missing values or values outside the scale rangegeom_line.|
-figContam|stem|3d3ae23337838b6d|73ab9267f1028452|14e435947632a149|-1971198133||t20078.6723839519s|cdd937fe0c100439|151136|rds|local|vector|||0.248||
+figContam|stem|26b33efcdbafff48|73ab9267f1028452|d17e5134ff9dd467|-483990596||t20193.4391469847s|e52448866f4d316d|150810|rds|local|vector|||0.232||
 figContaminant|function|77a20bbd353d516c|||||||||||||||
 figContaminant_Species|function|3a7fefd36bc71c1e|||||||||||||||
 figContaminantPortion|function|99ad587faffbed11|||||||||||||||
 figContaminants|function|e33cee4f8f7d638c|||||||||||||||
-figContamS|stem|5c55699739dcbd75|21343ba9428da644|b9cafbe1e793b117|-383213440||t20078.6895030474s|b042068818a56267|387887|rds|local|vector|||0.535||
-figContrast|stem|8327e8215624db33|3b2b83b7bb7e4e00|4e426c46ceffe53d|981114568||t20078.6808787092s|32f8f47e5f1d7216|221451|rds|local|vector|||0.297|1m22mA numeric legend.position argument in theme was deprecated in ggplot23.5.0.36mℹ39m Please use the legend.position.inside argument of theme instead.. 1m22mRemoved 3 rows containing missing values or values outside the scale rangegeom_point.|
-figHeat|stem|978096cd616dc5c4|58c252019fba30bb|040eb0d98a3ea376|959724786||t20078.6475419603s|1a0ab23983b52e5e|173714913|rds|local|vector|||13.842||
-figMap|stem|7d78de206f6f721c|ea3036115afc5dec|c87101acc87512e4|-973833577||t20078.6723803871s|e015d7e1c26a507a|14959670|rds|local|vector|||5.29|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
-figMod|stem|bf756e34bd4c05a5|422b0d18821a690f|881a5e07c9c485a7|-591259978||t20078.6901158133s|fc4e24d95fd93bbc|849308760|rds|local|vector|||18.882|1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. 1m22mUsing the size aesthetic with geom_ribbon was deprecated in ggplot2 3.4.0.36mℹ39m Please use the linewidth aesthetic instead.. Unknown or uninitialised column linewidth.. 1m22mUsing the size aesthetic with geom_line was deprecated in ggplot2 3.4.0.36mℹ39m Please use the linewidth aesthetic instead.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.|
+figContamS|stem|2a04867fa44795b7|21343ba9428da644|11fb5bd55bf2ab65|-1359281853||t20193.4391434928s|c306038be39d3668|386073|rds|local|vector|||0.821||
+figContrast|stem|0d08ee636e3676df|3b2b83b7bb7e4e00|332a2131573ffeac|-1646584657||t20193.4391521483s|ab9f98b3ce1e104f|221120|rds|local|vector|||0.35|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.. Removed 4 rows containing missing values or values outside the scale rangegeom_point.|
+figHeat|stem|8c47f2f5a19136e0|58c252019fba30bb|62e1b3bddc8800c1|-1374684747||t20193.4538124031s|434f927845205a99|174488744|rds|local|vector|||20.945||
+figMap|stem|7c454d459ea95f82|ea3036115afc5dec|fafff7d15b82056a|450328000||t20193.3236866408s|8e52212947d42149|14961191|rds|local|vector|||5.617|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|
+figMod|stem|bf756e34bd4c05a5|422b0d18821a690f|27c366cf0bbc77df|1382495384||t20078.6901158133s||849308760|rds|local|vector|||14.158|No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.. No shared levels found between namesvalues of the manual scale and thedatas colour values.|All specified effects are invalid for this model.Valid effects are combinations of Sproximity_to_marine_km, Sproximity_to_inland_km, Sproximity_to_city_mins, Sn_hh, Swealth, urban_rural
 figModF|stem|868f585ca66eb5e2|deae51e26dc35694|857d5ba5e3056485|554606437||t20060.7008202351s|5adac5d784e546cc|170873060|rds|local|vector|||8.305|1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mfill39m values.. 1m22mNo shared levels found between namesvalues of the manual scale and thedatas 32mcolour39m values.. Unknown or uninitialised column linewidth.. Unknown or uninitialised column linewidth.|
-figND|stem|f756182f10d53576|eb9061a8a8de87d8|c726572c99eb330e|473225306||t20042.7819891088s|9c1771e7784cb474|196724|rds|local|vector|||0.23||
+figND|stem|4feed68904bbfceb|eb9061a8a8de87d8|bedacbd80367e5d4|1162846536||t20193.4391569345s|9c4576b0ca05c294|196445|rds|local|vector|||0.323||
 figPortion|function|69ce084e2d6901c6|||||||||||||||
-figPortionDat|stem|f87cf47943ef00fa|f291d81d0d621772|e6db428cd32ea494|1580785200||t20042.7824068873s|028ecd29e6cecabd|122181|rds|local|vector|||6.207||
-figPortionDat_Women|stem|7055a88063a21239|1dc5c96e3a52920f|eaf75b775d1fb3b2|1926664408||t20042.7823348714s|acfa0d9d4c21c952|128376|rds|local|vector|||6.74|1m22mThere was 1 warning in reframe.1m22m36mℹ39m In argument portion  minportionwhichrni  0.15.36mℹ39m In group 6 nutrient  Vitamin A.Caused by warning in min33m39m no nonmissing arguments to min returning Inf|
-figPortionSize|stem|603137900eb87797|1201d2278898d523|e6db428cd32ea494|-941368494||t20042.7820718104s|b400018a46f67836|972468|rds|local|vector|||6.972||
+figPortionDat|stem|2f4bf5aca57dd3f1|f291d81d0d621772|2ac4b02f4b31722a|-1593594165||t20193.439930445s|056330fd80d2086c|122182|rds|local|vector|||11.408||
+figPortionDat_Women|stem|18a2857d824f5755|1dc5c96e3a52920f|784f63034d00a6b4|865242578||t20193.4397981369s|acfa0d9d4c21c952|128376|rds|local|vector|||11.476|There was 1 warning in reframe.ℹ In argument portion  minportionwhichrni  0.15.ℹ In group 6 nutrient  Vitamin A.Caused by warning in min no nonmissing arguments to min returning Inf|
+figPortionSize|stem|0f7be8231e37cab3|1201d2278898d523|2ac4b02f4b31722a|985414519||t20193.4392954862s|f25d6bd0b70b0dff|972103|rds|local|vector|||11.742||
 figPost|stem|b91c86b64d475e24|5a5bc1f4936c5adf|960f065a6f3a5774|1260739667||t20061.52504006s|8937225c933dde8a|170236848|rds|local|vector|||12.389|1m22mRemoved 2 rows containing missing values or values outside the scale rangegeom_pointrange.. 1m22mRemoved 2 rows containing missing values or values outside the scale rangegeom_pointrange.|
 figRNI|function|92a4fd9faf2de566|||||||||||||||
-figRNI_avg|stem|d7424a2a1414236e|f9ce7f5bb29a1eb0|e6db428cd32ea494|1911775390||t20042.7821512348s|e6c01288742d89e7|869003|rds|local|vector|||6.698||
-figRNI_forms|stem|6f72928dd1f169ce|3962c4bf59f8f239|401599549d69c1a6|1476941034||t20042.7821763043s|51f1d77d22799cd1|1538757|rds|local|vector|||1.63||
+figRNI_avg|stem|bddce3925bdfedc8|f9ce7f5bb29a1eb0|2ac4b02f4b31722a|-2078976083||t20193.4394264035s|09450e6f5e88eccd|868507|rds|local|vector|||11.095||
+figRNI_forms|stem|f5344d4ca8e52cac|3962c4bf59f8f239|44801cc5793e6a1e|1450393985||t20193.4394795174s|e6015c2a858c5214|1524146|rds|local|vector|||3.871||
 figRNI_formsDat|stem||fdea3505504212ef|3fd0735cb982b627|998359102||t19912.5298462289s||0|rds|local|vector|||3.61||subscript out of bounds
 figRNI_nut|stem|57c12b645a6a43b0|7371083421e8fc8d|6c1e9b4f81cb2bfd|-359967961||t19803.5897901999s|2de9f12799cca7e8|1629702|rds|local|vector|||4.147||
-figRNI_species|stem|d6728603c793c820|758541c59ae590af|4e4bf6fefb7a5d00|-69825538||t20042.7822566124s|3004db392c161283|4596780|rds|local|vector|||5.28|1m22mThe value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
-figs|function|dcff34dd4a3a272c|||||||||||||||
+figRNI_species|stem|9d4f7263476b1a79|758541c59ae590af|81b1c0ff8dcd1f8d|416951054||t20193.4396649697s|4880b603eeb28624|4551563|rds|local|vector|||13.645|The value argument of names must have the same length as x as oftibble 3.0.0.. Multiple components found returning the first one. To return all, use return_all  TRUE.|
+figs|function|f4fda199d03a2673|||||||||||||||
 folate|object|73e9d248c95c1f30|||||||||||||||
 girl_36mo|object|c278f837ddddc29b|||||||||||||||
 girl_6mo|object|5b5b9a643859028d|||||||||||||||
 i|object|82d1d1c4d23d6aba|||||||||||||||
 lead|object|c8f634b61ef52fcb|||||||||||||||
-lsms_data|stem|9b6a9ab80fac609f|796d377b4aa0881e|34dd3bcdbb8db415|1883202309||t20078.672301244s|7340984c44b67742|717109|rds|local|vector|||24.573||
+lsms_data|stem|a027af6424dd65f5|796d377b4aa0881e|662063385725462c|-1909502147||t20193.3186242293s|55a2503fbcdb9871|719844|rds|local|vector|||27.533||
 lsms_map|stem|ae76fcc319b6a30a|8fbac0960137620e|e681f0a395b94b5e|505962854||t20060.7050676298s|e655bbbdcbba1d63|81|rds|local|vector|||41.839||
 lsms_map_fig|function|bfa6e8244bf93e8a|||||||||||||||
 lsms_map_hh|function|64fee69dd397388a|||||||||||||||
-lsms_proximity|stem|a9974a9fa206786d|74a83983dae9b10c|74ab6ff8f192eeac|1569229195||t20046.7736173841s|4e942649d6cff250|1062559|rds|local|vector|||1.371||
+lsms_proximity|stem|0615e44d3b33ee26|74a83983dae9b10c|526068d9f55c787b|-2005814670||t20193.4399621868s|a2592d0e8fec960a|1064746|rds|local|vector|||2.501||
 lsms_read|function|cc5b5a07f27efd8f|||||||||||||||
-lsms_save|stem|e0d1f2ac79fc7e12|81d7d6700be79449|a84c6deb20a4a366|-1154070774||t20046.7736300454s|44e327d1ee1978d7|43|rds|local|vector|||0.483||
+lsms_save|stem|cc37473f3d7f648a|81d7d6700be79449|f85b14e5d773b972|677687539||t20193.4534100843s|a1c456b03adbfbf8|44|rds|local|vector|||0.442||
 lsms_to_csv|function|e8953447c5527556|||||||||||||||
-lsms_water|stem|914ad6f2ace8da8e|9e68be2e625aed6f|1e204d961ba871be|-90361332||t20042.7819728404s|68c2a3b4be8c53dd|1029744|rds|local|vector|||15960.372||
+lsms_water|stem|35420a2a55b2f900|9e68be2e625aed6f|7365bc10b24f98e5|408375142||t20193.4391313163s|ca22e39fa875a1ad|1032562|rds|local|vector|||9974.169||
 mars|object|cbeafb2569483339|||||||||||||||
 mercury|object|490d7dbf8e51da6d|||||||||||||||
-meta_dry|stem|87deec8dd382b8e6|804873b66153589c|431aa2f4241296cd|-950168402||t20078.6720150775s|fc4b69ad84fd3074|1136|rds|local|vector|||0.016||
+meta_dry|stem|90b28aa1276afae8|804873b66153589c|431aa2f4241296cd|-1899378500||t20192.6409985443s|8ac1f95ab4ac6eb1|1137|rds|local|vector|||0.051||
 metat_dry|function|c27c6802d003cd19|||||||||||||||
-mod_dat|stem|4def3420a7b9118b|7506a3e6b01c2c7a|8fb77fe8baf7b60c|-351504546||t20060.699679094s|ffbd736ef95cc47a|1691921|rds|local|vector|||0.231||
+mod_dat|stem|5856072b9d0dcc27|7506a3e6b01c2c7a|4bc9b60a2e4b8d58|-1107520735||t20193.4534047927s|ad31d4c245326ae7|2475615|rds|local|vector|||0.556||
 mod_post|function|dd0452b76773ff5a|||||||||||||||
-mod_prep|function|d5fc2beea24a6b1b|||||||||||||||
+mod_post_contrast|function|04bea5bfb9027abb|||||||||||||||
+mod_prep|function|90d131cae566ab39|||||||||||||||
 norway_read|function|50738b260d4c00ad|||||||||||||||
 nut_cols|object|ed1d4032379c4e7e|||||||||||||||
 nut_cols2|object|4e59c1788205deda|||||||||||||||
-nut_data|stem|542cd8069232c08b|014fae1765e6f87d|f835996a77f44834|-740925104||t20078.672311009s|56a18f37f00b1271|8180|rds|local|vector|||0.833|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse33m39m NAs introduced by coercion|
+nut_data|stem|bbb163733ca371de|014fae1765e6f87d|897807e0ba5061b2|-1024543224||t20192.6413402101s|df78a0ab7edd72e4|8181|rds|local|vector|||1.16|Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. There was 1 warning in mutate.ℹ In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse NAs introduced by coercion|
 nutl|object|5aa2c6cb6f6148c4|||||||||||||||
 nuts|object|93d9954a0d0ba3b3|||||||||||||||
 omega|object|cda1e9cedf983987|||||||||||||||
 pcols|object|05bf435179b26f54|||||||||||||||
 pcols_named|object|6899d0311a67a401|||||||||||||||
 pcols_order|object|f74477ab452f7a94|||||||||||||||
-plot_post|function|ab1ba619d4dbb50e|||||||||||||||
+plot_post|function|77d89188662e6601|||||||||||||||
 pop|object|19d4312a955a1f26|||||||||||||||
 portion|object|034a656f55683244|||||||||||||||
 portionK|object|bfd2ca4835bfbdf3|||||||||||||||
@@ -91,68 +93,3 @@ vitb12|object|27f808620e4c9a5b|||||||||||||||
 vitd|object|42994cda87f9a93c|||||||||||||||
 water_prox|function|7a47320b2cb19a01|||||||||||||||
 zn|object|ad60122b922747b6|||||||||||||||
-mod_post|function|dd0452b76773ff5a
-mod_post_contrast|function|856fe82f4e157021
-pcols_named|object|6899d0311a67a401
-i|object|82d1d1c4d23d6aba
-norway_read|function|50738b260d4c00ad
-lead|object|c8f634b61ef52fcb
-cadmium|object|2b2759c574770a1b
-mercury|object|490d7dbf8e51da6d
-nut_cols|object|ed1d4032379c4e7e
-nuts|object|93d9954a0d0ba3b3
-rda|object|cadbadf1e76d5be6
-units|object|0ddc92d9599e6491
-fig_heat|function|649b5d454984a0b4
-realm_cols|object|d714ecbb3fc3a6e5
-lsms_read|function|cc5b5a07f27efd8f
-adult|object|1d635f53cb385f1d
-vita|object|bee7c7e7a2a497ec
-cons|object|2c8c454a223605e7
-cont|object|733292be537f8551
-figs|function|f4fda199d03a2673
-realm_cols_named|object|d714ecbb3fc3a6e5
-vitd|object|42994cda87f9a93c
-pcols|object|05bf435179b26f54
-.Random.seed|object|d1eee20dccdf8538
-fe|object|cdd3a956bea80472
-se|object|7e02ad38317bcde4
-ca|object|56c2aa8aa08ebe52
-nut_cols2|object|4e59c1788205deda
-girl_36mo|object|c278f837ddddc29b
-water_prox|function|7a47320b2cb19a01
-portionW|object|499521698191e4a4
-lsms_map_fig|function|bfa6e8244bf93e8a
-countries2|object|13222fcbe9913115
-folate|object|73e9d248c95c1f30
-mod_prep|function|eeb1284241c3b511
-zn|object|ad60122b922747b6
-mars|object|cbeafb2569483339
-city_prox|function|12c8fee957abf70f
-pop|object|19d4312a955a1f26
-theme_sleek|function|ce34b1a968955dfd
-countries|object|28e529cba7faf2a7
-slice_min_max|function|3460311824a4e28b
-omega|object|cda1e9cedf983987
-metat_dry|function|c27c6802d003cd19
-portionK|object|bfd2ca4835bfbdf3
-pcols_order|object|f74477ab452f7a94
-vitb12|object|27f808620e4c9a5b
-plot_post|function|b55c144fbed67348
-figPortion|function|69ce084e2d6901c6
-lsms_map_hh|function|64fee69dd397388a
-figContaminantPortion|function|99ad587faffbed11
-figContaminant_Species|function|3a7fefd36bc71c1e
-fig_mod|function|ae49325f37d1c0ed
-figContaminant|function|77a20bbd353d516c
-fig_fresh_contrast|function|418d98d6673e6d49
-fig_dried_rni|function|a291daa22002565c
-figRNI|function|92a4fd9faf2de566
-fig_ndensity|function|b5bd6501922a0772
-fig_post|function|4a27c398dd603e05
-fig_mod_contrasts|function|d7184c3552ca7453
-fig_mod2|function|4a1697445f7599e4
-meta_dry|stem|90b28aa1276afae8|804873b66153589c|431aa2f4241296cd|-1899378500||t20192.6409985443s|8ac1f95ab4ac6eb1|1137|rds|local|vector|||0.051||
-lsms_data|stem|edd7eb484dacea7d|796d377b4aa0881e|662063385725462c|-1909502147||t20192.6413261936s|ec172f461cb18d62|717110|rds|local|vector|||28.116||
-nut_data|stem|bbb163733ca371de|014fae1765e6f87d|897807e0ba5061b2|-1024543224||t20192.6413402101s|df78a0ab7edd72e4|8181|rds|local|vector|||1.16|Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. Watch out  The mu or micro symbol is in the input string, and may have been converted to m while u may have been expected.  Consider adding the following to the replace argumentThe following characters are in the names to clean but are not replaced \u00b5. There was 1 warning in mutate.ℹ In argument value  ifelsestr_detectvalue, , NA, as.numericvalue.Caused by warning in ifelse NAs introduced by coercion|
-figMap|stem|04be619bbc9c463d|ea3036115afc5dec|eb945e4567421be3|450328000||t20192.6415783063s|dd88309eb8f05b35|14959682|rds|local|vector|||19.655|polygon from first part only. attribute variables are assumed to be spatially constant throughout all geometries|

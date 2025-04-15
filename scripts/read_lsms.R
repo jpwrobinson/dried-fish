@@ -289,6 +289,17 @@ lsms_fish<-rbind(
     mal_fish, uga_fish, tza_fish
 )
 
+# add PPP data [WorldBank]
+# https://data.worldbank.org/indicator/PA.NUS.PRVT.PP
+
+ppp<-read.csv('data/ppp/API_PA.NUS.PRVT.PP_DS2_en_csv_v2_14409/API_PA.NUS.PRVT.PP_DS2_en_csv_v2_14409.csv') %>% 
+    clean_names() %>% 
+    pivot_longer(x1960:x2023, names_to = 'year', values_to = 'ppp') %>% 
+    filter(!is.na(ppp)) %>% 
+    mutate(survey_year = as.numeric(str_replace_all(year, 'x', '')), country = country_code)
+
+lsms_hh<-lsms_hh %>% left_join(ppp %>% select(ppp, survey_year, country))
+
 ## produce yes no consumption for all LSMS households
 lsms<-lsms_fish %>% 
     mutate(form2 = ifelse(form %in% c('dried', 'dry/smoked', 'smoked'), 'dried', form)) %>% 
@@ -306,16 +317,6 @@ lsms_all<-lsms_hh %>%
            fresh = ifelse(is.na(fresh), 'no', fresh),
            any_fish = ifelse(is.na(any_fish), 'no', any_fish))
 
-# add PPP data [WorldBank]
-# https://data.worldbank.org/indicator/PA.NUS.PRVT.PP
-
-ppp<-read.csv('data/ppp/API_PA.NUS.PRVT.PP_DS2_en_csv_v2_14409/API_PA.NUS.PRVT.PP_DS2_en_csv_v2_14409.csv') %>% 
-    clean_names() %>% 
-    pivot_longer(x1960:x2023, names_to = 'year', values_to = 'ppp') %>% 
-    filter(!is.na(ppp)) %>% 
-    mutate(survey_year = as.numeric(str_replace_all(year, 'x', '')), country = country_code)
-
-lsms_all<-lsms_all %>% left_join(ppp %>% select(ppp, survey_year, country))
 
 
 
