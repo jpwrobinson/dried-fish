@@ -21,8 +21,10 @@ mod_dat<-mod_prep(lsms_proximity)
 
 # test wealth - note highly skewed
 ggplot(mod_dat, aes(scale(log10_wealth_country), scale(log10_wealth_ppp), col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
-ggplot(mod_dat, aes(Swealth_country, log10_wealth_ppp, col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
-ggplot(mod_dat, aes(Swealth_ppp, col=country)) + geom_histogram() 
+ggplot(mod_dat, aes(Swealth_country, log10(wealth_country0+1), col=country)) + geom_point() 
+
+ggplot(mod_dat, aes(wealth_ppp, col=country)) + stat_ecdf(geom = "point") + scale_x_log10()
+ggplot(mod_dat, aes(log10_wealth_country)) + stat_ecdf(aes(col=country), geom = "point") 
 
 # correlation between covariates
 pdf(file = 'fig/model_covariate_pairs.pdf', height=7, width=12)
