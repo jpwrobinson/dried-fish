@@ -1,8 +1,13 @@
 
-fig_post<-function(dat){
+fig_post<-function(dat, test=FALSE){
     
-        load(file = 'data/mod/lsms_mod.rds')
-        load(file = 'data/mod/lsms_mod_fresh.rds')
+    if(test == TRUE){
+        load(file = 'data/mod/lsms_mod_test.rds')
+        load(file = 'data/mod/lsms_mod_fresh_test.rds')
+        } else {
+                load(file = 'data/mod/lsms_mod.rds')
+                load(file = 'data/mod/lsms_mod_fresh.rds')
+                }
         ylab = 'Probability fish consumption'
         
         basesize = 9
@@ -13,7 +18,7 @@ fig_post<-function(dat){
     
     # parameters
     p<- c('b_Sproximity_to_marine_km', 'b_Sproximity_to_inland_km',
-          'b_Sproximity_to_city_mins', 'b_Sn_hh', 'b_Swealth',
+          'b_Sproximity_to_city_mins', 'b_Sn_hh', 'b_Swealth_country', 'b_Swealth_ppp',
           'b_urban_ruralUrban', 'b_Sproximity_to_marine_km:Sproximity_to_inland_km')
     
     poster<-rbind(posterior %>% mutate(fish = 'Dried'),
@@ -31,7 +36,8 @@ fig_post<-function(dat){
                                 'b_Sproximity_to_inland_km' = 'Distance\ninland water', 
                                 'b_Sproximity_to_city_mins' = 'Distance\nurban centre', 
                                 'b_Sn_hh' = 'Household\nsize', 
-                                'b_Swealth' = 'Household\nwealth', 
+                                'b_Swealth_country' = 'Household\nwealth', 
+                                'b_Swealth_ppp' = 'Household\nPPP', 
                                 'b_urban_ruralUrban' = 'Urban',
                                 # 'b_rural' = 'Rural',
                                 'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance\nmarine*inland')) +
@@ -56,10 +62,12 @@ fig_post<-function(dat){
     
     mod_sim<-dat %>% 
         data_grid(Sproximity_to_inland_km = 0,
-                  Sproximity_to_marine_km = 0,Sproximity_to_city_mins = 0,
+                  Sproximity_to_marine_km = 0,
+                  Sproximity_to_city_mins = 0,
                   urban_rural = 'Urban',
-                  # urban = 0, rural = 0,
-                  Swealth = 0,country=unique(mod_dat$country),Sn_hh = 0)
+                  Swealth_country = 0,
+                  Swealth_ppp = 0,
+                  country=unique(mod_dat$country),Sn_hh = 0)
     
     post_mdn<-rbind(
         mod_sim %>% filter(country=='CIV') %>% 

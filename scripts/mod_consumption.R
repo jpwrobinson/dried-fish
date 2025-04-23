@@ -21,7 +21,7 @@ mod_dat<-mod_prep(lsms_proximity)
 
 # test wealth - note highly skewed
 ggplot(mod_dat, aes(scale(log10_wealth_country), scale(log10_wealth_ppp), col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
-ggplot(mod_dat, aes(Swealth_country, log10(wealth_country0+1), col=country)) + geom_point() 
+ggplot(mod_dat, aes(Swealth_country, log10_wealth_country, col=country)) + geom_point() 
 
 ggplot(mod_dat, aes(wealth_ppp, col=country)) + stat_ecdf(geom = "point") + scale_x_log10()
 ggplot(mod_dat, aes(log10_wealth_country)) + stat_ecdf(aes(col=country), geom = "point") 
@@ -54,7 +54,7 @@ save(mod_dat, m2, file = 'data/mod/lsms_mod_test.rds')
 m3<-brm(data = mod_dat, family = bernoulli,
         response_fresh ~ 0 + Intercept + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth_country + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth_country + Swealth_ppp + urban_rural +
             (1 | country / hh_cluster),
         prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -62,7 +62,7 @@ m3<-brm(data = mod_dat, family = bernoulli,
         iter = 1000, warmup = 500, chains = 3, cores = 6,
         seed = 10)
 
-save(mod_dat, m3, file = 'data/mod/lsms_mod_fresh.rds')
+save(mod_dat, m3, file = 'data/mod/lsms_mod_fresh_test.rds')
 
 load(file = 'data/mod/lsms_mod.rds')
 summary(m2)
