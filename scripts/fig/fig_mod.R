@@ -28,7 +28,7 @@ fig_mod<-function(dat, model = 'dried'){
     db<-mod_post(m2, dat, 'Sproximity_to_city_mins', 'proximity_to_city_mins') 
     
     # household wealth
-    dc<-mod_post(m2, dat, 'Swealth', 'wealth') 
+    dc<-mod_post(m2, dat, 'Swealth_ppp', 'wealth') 
     
     # household size
     dd<-mod_post(m2, dat, 'Sn_hh', 'n_hh')

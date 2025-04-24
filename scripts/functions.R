@@ -20,14 +20,14 @@ mod_prep<-function(dat){
         filter(!is.na(n_hh) & !is.na(monthly_exp) & !is.na(urban_rural)) %>%  ## mostly in Tanzania - check these
         group_by(country) %>% 
         mutate(log10_wealth_country = log10((monthly_exp / sqrt(n_hh)) + 1),
-               # Swealth_country0 = scales::rescale(monthly_exp / sqrt(n_hh), to = c(0,1)),
-               Swealth_country = scales::rescale(log10_wealth_country, to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size, and 0-1 by country
+               Swealth_country0_1 = scales::rescale(log10_wealth_country, to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size, and 0-1 by country
         ungroup() %>% mutate(
             proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
             log10_proximity_to_city_mins = log10(proximity_to_city_mins),
             wealth_ppp = monthly_exp / ppp / sqrt(n_hh),  ## income is converted to PPP, scaled by square root of household size, and 0-1 across dataset
             log10_wealth_ppp = log10(wealth_ppp + 1),
             # Swealth_ppp = rescale(log10_wealth_ppp, to=c(0,1)),
+            Swealth_country = scale(log10_wealth_country)[,1],
             Swealth_ppp = scale(log10_wealth_ppp)[,1],
             Sn_hh = scale(n_hh)[,1],
             urban_rural = factor(str_to_title(urban_rural)),

@@ -4,24 +4,12 @@ library(brms)
 targets::tar_load(lsms_proximity)
 dat<-lsms_proximity
 
-# ## binomial model of dried fish consumption, hierarchical by cluster + country
-
-# m1<-brm(data = mod_dat, family = bernoulli,
-#     response ~ 1 + proximity_to_water_km + proximity_to_city_mins + n_hh + wealth +
-#         # marine + inland + 
-#         nearest_water +
-#         (1 | country / hh_cluster),
-#     prior = c(prior(normal(0, 1), class = Intercept),
-#               prior(normal(0, 1), class = b),
-#               prior(cauchy(0, 1), class = sd)),
-#     iter = 1000, warmup = 500, chains = 3, cores = 6,
-#     seed = 10)
-
 mod_dat<-mod_prep(lsms_proximity)
 
 # test wealth - note highly skewed
-ggplot(mod_dat, aes(scale(log10_wealth_country), scale(log10_wealth_ppp), col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
-ggplot(mod_dat, aes(Swealth_country, log10_wealth_country, col=country)) + geom_point() 
+ggplot(mod_dat, aes(log10_wealth_country, log10_wealth_ppp, col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
+ggplot(mod_dat, aes(Swealth_country0_1, Swealth_ppp, col=country)) + geom_point() + labs(x = 'Wealth / hh size', y = 'Wealth / PPP / hh size')
+ggplot(mod_dat, aes(Swealth_country, Swealth_ppp, col=country)) + geom_point() 
 
 ggplot(mod_dat, aes(wealth_ppp, col=country)) + stat_ecdf(geom = "point") + scale_x_log10()
 ggplot(mod_dat, aes(log10_wealth_country)) + stat_ecdf(aes(col=country), geom = "point") 
@@ -29,19 +17,20 @@ ggplot(mod_dat, aes(log10_wealth_country)) + stat_ecdf(aes(col=country), geom = 
 # correlation between covariates
 pdf(file = 'fig/model_covariate_pairs.pdf', height=7, width=12)
 mod_dat %>%
-    select(urban_rural, n_hh, proximity_to_city_mins, distance_to_inland, distance_to_marine, Swealth_country, Swealth_ppp) %>% 
-    GGally::ggpairs()
+    select(urban_rural, n_hh, proximity_to_city_mins, distance_to_inland, distance_to_marine, Swealth_country0_1, Swealth_country, Swealth_ppp) %>% 
+    GGally::ggpairs(size=1)
 dev.off()
 
 # weights investigation
 # https://rpubs.com/corey_sparks/157901
 # mod_dat$weight<-mod_dat$weight/mean(mod_dat$weight)
 
+# ## binomial model of dried fish consumption, hierarchical by cluster + country
 m2<-brm(data = mod_dat, family = bernoulli,
         # response_dried | weights(weight) ~ 0 + 
             response_dried ~ 0 + Intercept +
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth_country + Swealth_ppp + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth_ppp + urban_rural +
             (1 | country / hh_cluster),
         prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),
@@ -51,10 +40,11 @@ m2<-brm(data = mod_dat, family = bernoulli,
 
 save(mod_dat, m2, file = 'data/mod/lsms_mod_test.rds')
 
+# same model for fresh fish consumption
 m3<-brm(data = mod_dat, family = bernoulli,
         response_fresh ~ 0 + Intercept + 
             Sproximity_to_marine_km * Sproximity_to_inland_km + # Sproximity_to_water_km +
-            Sproximity_to_city_mins + Sn_hh + Swealth_country + Swealth_ppp + urban_rural +
+            Sproximity_to_city_mins + Sn_hh + Swealth_ppp + urban_rural +
             (1 | country / hh_cluster),
         prior = c(#prior(normal(0, 1), class = Intercept),
                   prior(normal(0, 1), class = b),

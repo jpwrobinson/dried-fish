@@ -15,10 +15,8 @@ fig_heat<-function(dat){
     dri<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                   Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-               # country = 'marginal',
                urban_rural = 'Urban',
-               # urban = 0, rural = 0,
-                  Swealth = 0,
+                  Swealth_ppp = 0,
                   Sn_hh = 0) %>% 
         add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
@@ -30,10 +28,8 @@ fig_heat<-function(dat){
     fres<-expand_grid(Sproximity_to_marine_km = seq_range(dat$Sproximity_to_marine_km, n = res),
                      Sproximity_to_inland_km = seq_range(dat$Sproximity_to_inland_km, n = res)) %>% 
         mutate(Sproximity_to_city_mins = 0, 
-               # country = 'marginal',
                urban_rural = 'Urban',
-               # urban = 0, rural = 0,
-               Swealth = 0,
+               Swealth_ppp = 0,
                Sn_hh = 0) %>% 
         add_epred_draws(m3, ndraws = 100, re_formula = NA) %>% 
         group_by(Sproximity_to_marine_km, Sproximity_to_inland_km) %>% 
