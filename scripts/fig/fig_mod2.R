@@ -14,7 +14,7 @@ fig_mod2<-function(dat){
                   var='Sproximity_to_city_mins', raw_var='proximity_to_city_mins', xlab='Proximity to urban centre, hours') 
     
     # household wealth
-    dd<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var='Swealth_ppp', raw_var='wealth_ppp', xlab = 'Household wealth') 
+    dd<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var='Swealth_ppp', raw_var='log10_wealth_ppp', xlab = 'Household wealth, PPP') 
     
     # household size
     de<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var='Sn_hh', raw_var='n_hh', xlab='Household size')
@@ -23,35 +23,36 @@ fig_mod2<-function(dat){
 }
 
 
-fig_mod_contrasts<-function(dat){
+fig_mod_contrast<-function(dat){
     
     load(file = 'data/mod/lsms_mod.rds')
     load(file = 'data/mod/lsms_mod_fresh.rds')
     
-    # WEALTHY (90% quantile)
+    # dried
     # proximity to water (marine)
-    da<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var = 'Sproximity_to_marine_km', raw_var='distance_to_marine', xlab = 'Distance to marine, km', type='contrast', quantile=0.9)
+    da<-plot_post_contrast(fish='dried', mod = m2, mod_dat = mod_dat, var = 'Sproximity_to_marine_km', raw_var='distance_to_marine', xlab = 'Distance to marine, km')
     
     # proximity to water (inland)
-    db<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var = 'Sproximity_to_inland_km', raw_var='distance_to_inland', xlab = 'Distance to inland, km', type='contrast', quantile=0.9)
+    db<-plot_post_contrast(fish='dried', mod = m2, mod_dat = mod_dat, var = 'Sproximity_to_inland_km', raw_var='distance_to_inland', xlab = 'Distance to inland, km')
     
     # proximity to city (change to hours here)
-    dc<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat %>% mutate(proximity_to_city_mins = proximity_to_city_mins/60), 
-                  var='Sproximity_to_city_mins', raw_var='proximity_to_city_mins', xlab='Proximity to urban centre, hours', type='contrast', quantile=0.9) 
+    dc<-plot_post_contrast(fish='dried', mod = m2, mod_dat = mod_dat %>% mutate(proximity_to_city_mins = proximity_to_city_mins/60), 
+                  var='Sproximity_to_city_mins', raw_var='proximity_to_city_mins', xlab='Proximity to urban centre, hours') 
     
-    # POOR (10% quantile)
+    # fresh
     # proximity to water (marine)
-    da2<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var = 'Sproximity_to_marine_km', raw_var='distance_to_marine', xlab = 'Distance to marine, km', type='contrast', quantile=0.1)
+    da2<-plot_post_contrast(fish='fresh', mod = m3, mod_dat = mod_dat, var = 'Sproximity_to_marine_km', raw_var='distance_to_marine', xlab = 'Distance to marine, km')
     
     # proximity to water (inland)
-    db2<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var = 'Sproximity_to_inland_km', raw_var='distance_to_inland', xlab = 'Distance to inland, km', type='contrast', quantile=0.1)
+    db2<-plot_post_contrast(fish='fresh', mod = m3, mod_dat = mod_dat, var = 'Sproximity_to_inland_km', raw_var='distance_to_inland', xlab = 'Distance to inland, km')
     
     # proximity to city (change to hours here)
-    dc2<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat %>% mutate(proximity_to_city_mins = proximity_to_city_mins/60), 
-                  var='Sproximity_to_city_mins', raw_var='proximity_to_city_mins', xlab='Proximity to urban centre, hours', type='contrast', quantile=0.1) 
+    dc2<-plot_post_contrast(fish='fresh', mod = m3, mod_dat = mod_dat %>% mutate(proximity_to_city_mins = proximity_to_city_mins/60), 
+                  var='Sproximity_to_city_mins', raw_var='proximity_to_city_mins', xlab='Proximity to urban centre, hours') 
     
 
-    plot_grid(da, db, dc, da2, db2, dc2, nrow=2, labels=c('a', 'b', 'c', 'd', 'e', 'f'))
+    plot_grid(da, db, dc, da2, db2, dc2, nrow=2, 
+              labels=c('a', 'b', 'c', 'd', 'e', 'f'))
 }
 
 
