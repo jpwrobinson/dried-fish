@@ -76,3 +76,11 @@ knitr::include_graphics("fig/FigureS6.pdf"); i = i + 1
 ```
 
 **Fig. S`r i`. Effect of distance to water on consumption of dried (a) and fresh (b) fish**. Heat maps show median predicted probability of fish consumption (low = blue, high = red) along gradients in marine and inland water access. Heat maps are overlaid with the average location of all household clusters in LSMS.
+
+\newpage
+
+```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
+knitr::include_graphics("fig/FigureS7.pdf"); i = i + 1
+```
+
+**Fig. S`r i`. Dried (top-row) and fresh (bottom-row) fish consumption for poor and rich households  (10% and 90% quantiles of household wealth, respectively).** Panels show distance to marine water (a, d), distance to inland water (b, e), and proximity to urban centre (c, f), where lines are the median posterior predicted probability that a poor (red) or wealth (blue) household consumed fish (shading = 50% and 95% posterior density intervals). sEach posterior prediction holds other covariates at their mean (0). Inset histograms show distribution of observed data.
