@@ -40,7 +40,7 @@ fig_post<-function(dat, test=FALSE){
                                 'b_Sproximity_to_city_mins' = 'Distance\nurban centre', 
                                 'b_Sn_hh' = 'Household\nsize', 
                                 # 'b_Swealth_country0_1' = 'Household\nwealth [0-1]', 
-                                'b_Swealth_ppp' = 'Household\nPPP', 
+                                'b_Swealth_ppp' = 'Household\nwealth (PPP)', 
                                 'b_urban_ruralUrban' = 'Urban',
                                 'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance\nmarine*inland')) +
         labs(x = 'Relative effect size', y = '') +
@@ -83,14 +83,15 @@ fig_post<-function(dat, test=FALSE){
             median_qi() %>% 
             mutate(m = .epred, ll = .lower, hh = .upper, data = 'Model (expected)', fish = 'Fresh') %>% 
             select(country, m, ll, hh, fish, data)
-    )
+    ) %>% 
+        left_join(c_labs)
     
     
-    ga<-ggplot(posterc %>% left_join(c_labs), aes(m,c_name, col=fish)) +
-        geom_pointrange(data = posterc, aes( ymin = ll, ymax = hh), position = position_dodge(width=0.5)) +
+    ga<-ggplot(posterc, aes(m,c_name, col=fish)) +
+        geom_pointrange(data = posterc, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
         scale_x_continuous(labels = scales::label_percent()) +
         scale_colour_manual(values = pcols_named) +
-        # scale_y_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
+        scale_y_discrete(limits=rev(c_labs$c_name)) +
         labs(y = '', x = ylab) +
         theme(legend.position = 'none',
               axis.text = element_text(size = basesize), 

@@ -38,7 +38,7 @@ m2<-brm(data = mod_dat, family = bernoulli,
         iter = 1000, warmup = 500, chains = 3, cores = 6,
         seed = 10)
 
-save(mod_dat, m2, file = 'data/mod/lsms_mod_test.rds')
+save(mod_dat, m2, file = 'data/mod/lsms_mod.rds')
 
 # same model for fresh fish consumption
 m3<-brm(data = mod_dat, family = bernoulli,
@@ -52,7 +52,7 @@ m3<-brm(data = mod_dat, family = bernoulli,
         iter = 1000, warmup = 500, chains = 3, cores = 6,
         seed = 10)
 
-save(mod_dat, m3, file = 'data/mod/lsms_mod_fresh_test.rds')
+save(mod_dat, m3, file = 'data/mod/lsms_mod_fresh.rds')
 
 load(file = 'data/mod/lsms_mod.rds')
 summary(m2)
