@@ -20,13 +20,15 @@ mod_prep<-function(dat){
         filter(!is.na(n_hh) & !is.na(monthly_exp) & !is.na(urban_rural)) %>%  ## mostly in Tanzania - check these
         group_by(country) %>% 
         mutate(log10_wealth_country = log10((monthly_exp / sqrt(n_hh)) + 1),
-               Swealth_country = scales::rescale(log10_wealth_country, to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size, and 0-1 by country
+               Swealth_country0_1 = scales::rescale(log10_wealth_country, to = c(0,1))) %>%  ## income is equivalence scaled by square root of household size, and 0-1 by country
         ungroup() %>% mutate(
             proximity_to_city_mins = ifelse(proximity_to_city_mins == 0, 1, proximity_to_city_mins),
             log10_proximity_to_city_mins = log10(proximity_to_city_mins),
             wealth_ppp = monthly_exp / ppp / sqrt(n_hh),  ## income is converted to PPP, scaled by square root of household size, and 0-1 across dataset
             log10_wealth_ppp = log10(wealth_ppp + 1),
-            Swealth_ppp = rescale(log10_wealth_ppp, to=c(0,1)),
+            # Swealth_ppp = rescale(log10_wealth_ppp, to=c(0,1)),
+            Swealth_country = scale(log10_wealth_country)[,1],
+            Swealth_ppp = scale(log10_wealth_ppp)[,1],
             Sn_hh = scale(n_hh)[,1],
             urban_rural = factor(str_to_title(urban_rural)),
             urban = ifelse(urban_rural == 'Urban', 1, 0),
@@ -68,8 +70,8 @@ mod_post<-function(mod, dat, var, raw_var){
 # Function takes model object, dataset, and variable name, generates posterior samples across conditions, estimates median y ~ var with 95% and 50% HPDI
 mod_post_contrast<-function(mod, dat, var, raw_var, quantile){
     
-    Q = quantile(dat[[var]], probs = quantile)
-    Swealth_Q = data.frame(Swealth_country = Q)
+    Q = quantile(dat$Swealth_ppp, probs = quantile)
+    Swealth_Q = data.frame(Swealth_ppp = Q)
     
     condo<-conditional_effects(mod, effects = as.name(var), conditions = Swealth_Q, prob=0.95)[[1]] %>% 
         mutate(raw = seq_range(dat[[raw_var]], n=100)) %>% 
@@ -87,7 +89,7 @@ mod_post_contrast<-function(mod, dat, var, raw_var, quantile){
 }
 
 
-plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab, quantile = NULL, type = 'conditional'){
+plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab, quantile = NULL){
     
     scales<-list(
         scale_y_continuous(labels = scales::label_percent(), limits=c(0,1)), 
@@ -96,24 +98,13 @@ plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab, quantile = NULL, 
     
     basesize = 9
     ylab = 'Probability of fish consumption'
-    
-    if(type == 'conditional'){
-    # proximity to water (marine)
+
+    # covariate effect
     da1<-mod_post(dried, mod_dat, as.name(var), as.name(raw_var)) %>% 
         mutate(mod = 'Dried') 
     
     fa1<-mod_post(fresh, mod_dat, as.name(var), as.name(raw_var)) %>% 
         mutate(mod = 'Fresh') 
-    }
-    
-    if(type == 'contrast'){
-        # proximity to water (marine)
-        da1<-mod_post_contrast(dried, mod_dat, as.name(var), as.name(raw_var), quantile = quantile) %>% 
-            mutate(mod = 'Dried') 
-        
-        fa1<-mod_post_contrast(fresh, mod_dat, as.name(var), as.name(raw_var), quantile = quantile) %>% 
-            mutate(mod = 'Fresh') 
-    }
     
     datter<-rbind(da1, fa1)
     
@@ -147,6 +138,68 @@ plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab, quantile = NULL, 
     return(print(gg))
 }
 
+
+plot_post_contrast<-function(fish, mod, mod_dat, var, raw_var, xlab, quantile){
+    
+    scales<-list(
+        scale_y_continuous(labels = scales::label_percent(), limits=c(0,1)), 
+        scale_fill_manual(values = c('Poor (10%)' = '#ED0606', 'Rich (90%)' = '#048E8E')),
+        scale_colour_manual(values = c('Poor (10%)' = '#ED0606', 'Rich (90%)' = '#048E8E')))
+    
+    basesize = 9
+    ylab = 'P(fish consumption)'
+    
+    if(fish == 'dried'){
+    # covariate posterior
+    q1<-mod_post_contrast(mod, mod_dat, as.name(var), as.name(raw_var), quantile = 0.1) %>% 
+            mutate(Q = 'Poor (10%)') 
+        
+    q2<-mod_post_contrast(mod, mod_dat, as.name(var), as.name(raw_var), quantile = 0.9) %>% 
+            mutate(Q = 'Rich (90%)') }
+    
+    if(fish == 'fresh'){
+        # covariate posterior
+        q1<-mod_post_contrast(mod, mod_dat, as.name(var), as.name(raw_var), quantile = 0.1) %>% 
+            mutate(Q = 'Poor (10%)') 
+        
+        q2<-mod_post_contrast(mod, mod_dat, as.name(var), as.name(raw_var), quantile = 0.9) %>% 
+            mutate(Q = 'Rich (90%)') }
+    
+    datter<-rbind(q1, q2)
+    
+    gg<-ggplot(datter, aes(x = raw)) +
+        geom_lineribbon(aes(y = estimate__, ymin = lower50, ymax = upper50,fill=Q), alpha = 0.5) +
+        geom_lineribbon(aes(y = estimate__, ymin = lower95, ymax = upper95,fill=Q), alpha = 0.1) +
+        scales +
+        theme(legend.position = 'none', 
+              plot.margin = unit(c(.05, .01, .05, .05), 'cm'),
+              axis.text = element_text(size = basesize), 
+              axis.title = element_text(size = basesize)) +
+        labs(x = xlab, y = ylab)  
+    
+    # Create the inset histogram
+    inset_hist <- ggplot(mod_dat, aes(.data[[raw_var]])) +
+        geom_histogram(bins = 20, fill = "steelblue", color = "white") +
+        scale_x_continuous(expand=c(0,0)) +
+        theme_void() 
+    
+    # Convert the inset plot into a grob
+    inset_grob <- ggplotGrob(inset_hist)
+    
+    # Add the inset histogram to the main plot
+    gg<-gg +
+        annotation_custom(
+            grob = inset_grob,
+            xmin = 0, xmax = max(mod_dat[[raw_var]]),  # Adjust the x-axis placement of the inset
+            ymin = -Inf, ymax = 0.1  # Adjust the y-axis placement of the inset
+        )
+    
+    # drop x axis on top row
+    if(fish == 'dried'){
+        gg<-gg + labs(xlab = '', ylab=ylab)}
+    
+    return(print(gg))
+}
 
 
 # figure functions

@@ -1,11 +1,19 @@
 
-fig_post<-function(dat){
+fig_post<-function(dat, test=FALSE){
     
-        load(file = 'data/mod/lsms_mod.rds')
-        load(file = 'data/mod/lsms_mod_fresh.rds')
+    if(test == TRUE){
+        load(file = 'data/mod/lsms_mod_test.rds')
+        load(file = 'data/mod/lsms_mod_fresh_test.rds')
+        } else {
+                load(file = 'data/mod/lsms_mod.rds')
+                load(file = 'data/mod/lsms_mod_fresh.rds')
+        }
+    
         ylab = 'Probability fish consumption'
-        
         basesize = 9
+        
+        c_labs<-data.frame(country = c("CIV","SEN","NGA","MWI","UGA","TZA"),
+                           c_name = c("Côte D'Ivoire", "Senegal", "Nigeria", "Malawi", "Uganda", "Tanzania"))
     
     # posterior effect sizes
     posterior <- mcmc_intervals_data(m2)
@@ -13,8 +21,8 @@ fig_post<-function(dat){
     
     # parameters
     p<- c('b_Sproximity_to_marine_km', 'b_Sproximity_to_inland_km',
-          'b_Sproximity_to_city_mins', 'b_Sn_hh', 'b_Swealth',
-          'b_urban_ruralUrban', 'b_Sproximity_to_marine_km:Sproximity_to_inland_km')
+          'b_Sproximity_to_city_mins', 'b_Sn_hh',# 'b_Swealth_country0_1', 
+          'b_Swealth_ppp', 'b_urban_ruralUrban', 'b_Sproximity_to_marine_km:Sproximity_to_inland_km')
     
     poster<-rbind(posterior %>% mutate(fish = 'Dried'),
                   posterior2 %>% mutate(fish = 'Fresh')) %>% 
@@ -31,11 +39,11 @@ fig_post<-function(dat){
                                 'b_Sproximity_to_inland_km' = 'Distance\ninland water', 
                                 'b_Sproximity_to_city_mins' = 'Distance\nurban centre', 
                                 'b_Sn_hh' = 'Household\nsize', 
-                                'b_Swealth' = 'Household\nwealth', 
+                                # 'b_Swealth_country0_1' = 'Household\nwealth [0-1]', 
+                                'b_Swealth_ppp' = 'Household\nwealth (PPP)', 
                                 'b_urban_ruralUrban' = 'Urban',
-                                # 'b_rural' = 'Rural',
                                 'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance\nmarine*inland')) +
-        labs(x = 'Posterior effect', y = '') +
+        labs(x = 'Relative effect size', y = '') +
         theme_sleek() +
         scale_colour_manual(values = pcols_named) +
         theme(legend.position = 'inside', legend.position.inside = c(0.25, 0.85),
@@ -43,23 +51,15 @@ fig_post<-function(dat){
               axis.title = element_text(size = basesize),
               legend.title=element_blank())
     
-    
-    # country level intercepts
-    # posterior <- mcmc_intervals_data(m2, transformations = inv_logit)
-    # posterior2 <- mcmc_intervals_data(m3, transformations = inv_logit)
-    # 
-    # posterc<-rbind(posterior %>% mutate(fish = 'Dried'),
-    #                posterior2 %>% mutate(fish = 'Fresh')) %>% 
-    #     filter(str_detect(parameter, 'r_country\\[')) %>% 
-    #     mutate(country = str_replace_all(parameter, 't\\(r_country\\[', ''),
-    #            country = str_replace_all(country, ',Intercept\\]\\)', ''))
-    
+    # gather country intercept posteriors holding other covariates to mean 0
     mod_sim<-dat %>% 
         data_grid(Sproximity_to_inland_km = 0,
-                  Sproximity_to_marine_km = 0,Sproximity_to_city_mins = 0,
+                  Sproximity_to_marine_km = 0,
+                  Sproximity_to_city_mins = 0,
                   urban_rural = 'Urban',
-                  # urban = 0, rural = 0,
-                  Swealth = 0,country=unique(mod_dat$country),Sn_hh = 0)
+                  # Swealth_country0_1 = 0,
+                  Swealth_ppp = 0,
+                  country=unique(mod_dat$country),Sn_hh = 0)
     
     post_mdn<-rbind(
         mod_sim %>% filter(country=='CIV') %>% 
@@ -83,15 +83,16 @@ fig_post<-function(dat){
             median_qi() %>% 
             mutate(m = .epred, ll = .lower, hh = .upper, data = 'Model (expected)', fish = 'Fresh') %>% 
             select(country, m, ll, hh, fish, data)
-    )
+    ) %>% 
+        left_join(c_labs)
     
     
-    ga<-ggplot(posterc, aes(country, m, col=fish)) +
-        geom_pointrange(data = posterc, aes( ymin = ll, ymax = hh), position = position_dodge(width=0.5)) +
-        scale_y_continuous(labels = scales::label_percent()) +
+    ga<-ggplot(posterc, aes(m,c_name, col=fish)) +
+        geom_pointrange(data = posterc, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
+        scale_x_continuous(labels = scales::label_percent()) +
         scale_colour_manual(values = pcols_named) +
-        scale_x_discrete(limits=levels(mod_dat$country)[c(1,4,3,2,6,5)]) +
-        labs(x = '', y = ylab) +
+        scale_y_discrete(limits=rev(c_labs$c_name)) +
+        labs(y = '', x = ylab) +
         theme(legend.position = 'none',
               axis.text = element_text(size = basesize), 
               axis.title = element_text(size = basesize))

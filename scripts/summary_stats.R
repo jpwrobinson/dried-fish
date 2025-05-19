@@ -124,13 +124,12 @@ library(WDI)
 
 pop.df <- getWDI(name = "total_population", indicator = "SP.POP.TOTL") %>% 
     clean_names() %>%
-    filter(country %in% countries) 
+    filter(country %in% countries & !(is.na(total_population)))
 
 adult_prop<-getWDI(indicator = 'SP.POP.0014.TO.ZS') %>% 
     clean_names() %>%
-    filter(country %in% countries) %>% 
+    filter(country %in% countries & year == 2023) %>% 
     group_by(country) %>% 
-    slice_max(year, n=1) %>% 
     ungroup() %>% 
     mutate(country = countrycode(iso2_wb_code, 'iso2c', 'iso3c'))
 
@@ -152,7 +151,7 @@ pop_prob<-mod_dat %>%
     summarise(Sproximity_to_marine_km = median(Sproximity_to_marine_km),
               Sproximity_to_inland_km = median(Sproximity_to_inland_km),
               Sproximity_to_city_mins = median(Sproximity_to_city_mins),
-              Swealth = median(Swealth),
+              Swealth_ppp = median(Swealth_ppp),
               urban_rural = 'Urban',
               Sn_hh = median(Sn_hh)) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = ~ (1 | country)) %>% 
@@ -178,7 +177,7 @@ pop_prob2<-mod_dat %>%
     summarise(Sproximity_to_marine_km = median(Sproximity_to_marine_km),
               Sproximity_to_inland_km = median(Sproximity_to_inland_km),
               Sproximity_to_city_mins = median(Sproximity_to_city_mins),
-              Swealth = median(Swealth),
+              Swealth_ppp = median(Swealth_ppp),
               urban_rural = 'Urban',
               Sn_hh = median(Sn_hh)) %>%  
     add_epred_draws(m3, ndraws = 100, re_formula = ~ (1 | country)) %>% 
@@ -209,7 +208,7 @@ mod_dat %>%
               Sproximity_to_inland_km = seq_range(inland, n = 100),
               Sproximity_to_city_mins = 0,
               urban_rural = 'Urban',
-              Swealth = 0,
+              Swealth_ppp = 0,
               Sn_hh = 0) %>%  
     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>% ungroup() %>% 
     summarise(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 
@@ -220,14 +219,14 @@ mod_dat %>%
               Sproximity_to_inland_km = seq_range(inland, n = 100),
               Sproximity_to_city_mins = 0,
               urban_rural = 'Urban',
-              Swealth = 0,
+              Swealth_ppp = 0,
               Sn_hh = 0) %>%  
     add_epred_draws(m3, ndraws = 100, re_formula = NA) %>% ungroup() %>% 
     summarise(m = median(.epred), lo = HPDI(.epred, .95)[1], hi = HPDI(.epred, .95)[2]) %>% 
     select(m,lo,hi)
 
-# Dried =  60% [36-71%]
-# Fresh =  33% [8-67%]
+# Dried =  58% [40-74%]
+# Fresh =  31% [8-68%]
 
 
 ## households in interaction hotspots
@@ -248,7 +247,7 @@ mod_dat %>%
     data_grid(Sproximity_to_marine_km = 0,
               Sproximity_to_inland_km = 0,
               Sproximity_to_city_mins = seq_range(Sproximity_to_city_mins, n = 100),
-              Swealth = 0,
+              Swealth_ppp = 0,
               Sn_hh = 0) %>%  
     mutate(proximity_to_city_mins = rep(seq_range(mod_dat$proximity_to_city_mins, n = 100), each=2)) %>% 
     add_epred_draws(m2, ndraws = 100, re_formula = NA) %>%  
@@ -261,7 +260,7 @@ mod_dat %>%
 m2 %>% 
     emmeans(~ 1,
             at = list(Sproximity_to_city_mins = 0, 
-                      Swealth = 0, 
+                      Swealth_ppp = 0, 
                       Sn_hh = 0, 
                       Sproximity_to_inland_km = 0,
                       Sproximity_to_marine_km = min(mod_dat$Sproximity_to_marine_km)),
@@ -271,7 +270,7 @@ m2 %>%
 m3 %>% 
     emmeans(~ 1,
             at = list(Sproximity_to_city_mins = 0, 
-                      Swealth = 0, 
+                      Swealth_ppp = 0, 
                       Sn_hh = 0, 
                       Sproximity_to_inland_km = min(mod_dat$Sproximity_to_inland_km),
                       Sproximity_to_marine_km = max(mod_dat$Sproximity_to_marine_km)),
@@ -281,24 +280,24 @@ m3 %>%
 m3 %>% 
     emmeans(~ 1,
             at = list(Sproximity_to_city_mins = 0, 
-                      Swealth = 0, 
+                      Swealth_ppp = 0, 
                       Sn_hh = 0, 
                       Sproximity_to_inland_km = max(mod_dat$Sproximity_to_inland_km),
                       Sproximity_to_marine_km = min(mod_dat$Sproximity_to_marine_km)),
             epred = TRUE)
 
 ## wealth effects
-m2 %>% emmeans(~ Swealth, var = 'Swealth', 
-                at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
+m2 %>% emmeans(~ Swealth_ppp, var = 'Swealth_ppp', 
+                at = list(Swealth_ppp = c(min(mod_dat$Swealth_ppp), max(mod_dat$Swealth_ppp))), epred =TRUE) 
 
-m3 %>% emmeans(~ Swealth, var = 'Swealth', 
-               at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
+m3 %>% emmeans(~ Swealth_ppp, var = 'Swealth_ppp', 
+               at = list(Swealth_ppp = c(min(mod_dat$Swealth_ppp), max(mod_dat$Swealth_ppp))), epred =TRUE) 
 
 
 ## distance water effects in the band
-m2 %>% emmeans(~ Swealth, var = 'Swealth', 
-               at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
+m2 %>% emmeans(~ Swealth_ppp, var = 'Swealth_ppp', 
+               at = list(Swealth_ppp = c(min(mod_dat$Swealth_ppp), max(mod_dat$Swealth_ppp))), epred =TRUE) 
 
-m3 %>% emmeans(~ Swealth, var = 'Swealth', 
-               at = list(Swealth = c(min(mod_dat$Swealth), max(mod_dat$Swealth))), epred =TRUE) 
+m3 %>% emmeans(~ Swealth_ppp, var = 'Swealth_ppp', 
+               at = list(Swealth_ppp = c(min(mod_dat$Swealth_ppp), max(mod_dat$Swealth_ppp))), epred =TRUE) 
 
