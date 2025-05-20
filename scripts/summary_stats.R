@@ -160,12 +160,12 @@ pop_prob<-mod_dat %>%
     mutate(m_pop = m*total_population, lo_pop = lo*total_population, hi_pop = hi*total_population) %>% 
     select(country, m:hi, total_population:hi_pop)
 
-# 145.7 million [131.7, 156.3]
+# 144.4 million [132.2, 155.0]
 sum(pop_prob$lo_pop)/1e6
 sum(pop_prob$m_pop)/1e6
 sum(pop_prob$hi_pop)/1e6
 
-# proportion of focal population [35.8%, 32.3-38.4%]
+# proportion of focal population [34.9%, 32.0 - 37.5%]
 sum(pop_prob$lo_pop) / sum(pop_prob$total_population) * 100
 sum(pop_prob$m_pop) / sum(pop_prob$total_population) * 100
 sum(pop_prob$hi_pop) / sum(pop_prob$total_population) * 100
@@ -186,18 +186,20 @@ pop_prob2<-mod_dat %>%
     mutate(m_pop = m*total_population, lo_pop = lo*total_population, hi_pop = hi*total_population) %>% 
     select(country, m:hi, total_population:hi_pop)
 
-# 93.6 million [84, 102.9]
+# 94.0 million [84.8 - 103.4]
 sum(pop_prob2$m_pop)/1e6
 sum(pop_prob2$hi_pop)/1e6
 sum(pop_prob2$lo_pop)/1e6
 
-# proportion of focal population 23.0% [20.6, 25.3]
+# proportion of focal population 22.7% [20.5, 25.0]
 sum(pop_prob2$m_pop) / sum(pop_prob2$total_population) * 100
 sum(pop_prob2$lo_pop) / sum(pop_prob2$total_population) * 100
 sum(pop_prob2$hi_pop) / sum(pop_prob2$total_population) * 100
 
 # ratio
-146 / 94
+144.4 / 94.0
+# percent
+(144.4 - 94) / 94 * 100
 
 # Within 20km of marine / inland
 marine<-mod_dat$Sproximity_to_marine_km[mod_dat$distance_to_marine<20]

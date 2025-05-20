@@ -63,6 +63,7 @@ list(
     tar_target(figRNI_species, figRNI(nut_data, portion = portionK)),
     # portion size plots for RNI
     tar_target(figPortionSize, figPortion(nut_data, pop=pop)[[2]]),
+    tar_target(figPortionSize_Women, figPortion(nut_data, pop='Adult women')[[2]]),
     
     # summary stats on RNI
     tar_target(figPortionDat, figPortion(nut_data, pop=pop)[[4]]),
@@ -88,7 +89,8 @@ list(
         # fig4c = figHeat,
         fig4 = figMod,
         figS1 = figRNI_species,
-        figS2 = figPortionSize,
+        figS2a = figPortionSize,
+        figS2b = figPortionSize_Women,
         figS3 = figRNI_forms,
         figS4 = figContam,
         figS5 = figContamS,

@@ -35,14 +35,14 @@ fig_post<-function(dat, test=FALSE){
         scale_x_continuous(breaks=seq(-1, 1, by = .2)) +
         scale_y_discrete(limits = p[c(6,1,2,3,4,5)],
                          position = 'right',
-            labels = c('b_Sproximity_to_marine_km' = 'Distance\nmarine water', 
-                                'b_Sproximity_to_inland_km' = 'Distance\ninland water', 
-                                'b_Sproximity_to_city_mins' = 'Distance\nurban centre', 
+            labels = c('b_Sproximity_to_marine_km' = 'Proximity\nmarine water', 
+                                'b_Sproximity_to_inland_km' = 'Proximity\ninland water', 
+                                'b_Sproximity_to_city_mins' = 'Proximity\nurban centre', 
                                 'b_Sn_hh' = 'Household\nsize', 
                                 # 'b_Swealth_country0_1' = 'Household\nwealth [0-1]', 
                                 'b_Swealth_ppp' = 'Household\nwealth (PPP)', 
                                 'b_urban_ruralUrban' = 'Urban',
-                                'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Distance\nmarine*inland')) +
+                                'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Proximity\nmarine*inland')) +
         labs(x = 'Relative effect size', y = '') +
         theme_sleek() +
         scale_colour_manual(values = pcols_named) +
@@ -89,6 +89,7 @@ fig_post<-function(dat, test=FALSE){
     
     ga<-ggplot(posterc, aes(m,c_name, col=fish)) +
         geom_pointrange(data = posterc, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
+        geom_path(colour='grey', alpha=0.8) +
         scale_x_continuous(labels = scales::label_percent()) +
         scale_colour_manual(values = pcols_named) +
         scale_y_discrete(limits=rev(c_labs$c_name)) +
@@ -98,7 +99,7 @@ fig_post<-function(dat, test=FALSE){
               axis.title = element_text(size = basesize))
     
     
-    lhs<-plot_grid(ga, gb, nrow=1, labels=c('a', 'b'), rel_widths=c(0.8, 1))
+    lhs<-plot_grid(ga, gb, nrow=1, labels=c('A', 'B'), rel_widths=c(0.8, 1))
     return(lhs)
     
 }

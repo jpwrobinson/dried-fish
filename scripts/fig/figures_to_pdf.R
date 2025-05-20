@@ -8,7 +8,7 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4
             fig1a + th2, 
             fig1b + th2, 
             fig1c + th2, 
-            ncol=3, labels=c('a', 'b', 'c'), rel_widths=c(1, 1, 1))
+            ncol=3, labels=c('A', 'B', 'C'), rel_widths=c(1, 1, 1))
     )
     dev.off()
     
@@ -37,7 +37,7 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2, figS3, figS4
 
     pdf(file = 'fig/FigureS2.pdf', height =3, width=12)
     print(
-        figS2
+        plot_grid(figS2a, figS2b, nrow = 2, labels=c('A', 'B'))
     )
     dev.off()
 

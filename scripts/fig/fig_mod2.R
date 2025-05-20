@@ -19,7 +19,7 @@ fig_mod2<-function(dat){
     # household size
     de<-plot_post(dried = m2, fresh = m3, mod_dat = mod_dat, var='Sn_hh', raw_var='n_hh', xlab='Household size')
     
-    plot_grid(da, db, dc, dd, de, nrow=1, labels=c('a', 'b', 'c', 'd', 'e'))
+    plot_grid(da, db, dc, dd, de, nrow=1, labels=c('A', 'B', 'C', 'D', 'E'))
 }
 
 
@@ -52,7 +52,7 @@ fig_mod_contrast<-function(dat){
     
 
     plot_grid(da, db, dc, da2, db2, dc2, nrow=2, 
-              labels=c('a', 'b', 'c', 'd', 'e', 'f'))
+              labels=c('A', 'B', 'C', 'D', 'E', 'F'))
 }
 
 

@@ -67,7 +67,7 @@ knitr::include_graphics("fig/FigureS5.pdf"); i = i + 1
 knitr::include_graphics("fig/Figure2.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Geographical location of LSMS across six countries.**. Red points are surveyed households.
+**Fig. S`r i`. Geographical location of LSMS across six countries**. Red points are surveyed households.
 
 \newpage
 
