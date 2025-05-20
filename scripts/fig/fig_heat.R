@@ -61,7 +61,7 @@ fig_heat<-function(dat){
         guides(fill = 'none') 
     
     lhs<-plot_grid(g1 ,#+ annotate('text', x = 1000, y = 330, label = 'Dried fish', colour='white'), 
-                   g2, nrow=2, labels=c('a', 'b'))
+                   g2, nrow=2, labels=c('A', 'B'), label_fontface = "plain")
     
     return(lhs)
     

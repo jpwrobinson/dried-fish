@@ -29,7 +29,7 @@ fig_post<-function(dat, test=FALSE){
         filter(parameter %in% p)
     
     gb<-ggplot(poster, aes(m, parameter, xmin = ll, xmax = hh, col=fish )) +
-        geom_vline(xintercept = 0, col='grey') +
+        geom_vline(xintercept = 0, col='grey', linetype=5) +
         geom_pointrange(data = poster, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
         geom_pointrange(data=poster, linewidth=1, aes(xmax=h, xmin =l), position = position_dodge(width=0.5)) +
         scale_x_continuous(breaks=seq(-1, 1, by = .2)) +
@@ -84,13 +84,17 @@ fig_post<-function(dat, test=FALSE){
             mutate(m = .epred, ll = .lower, hh = .upper, data = 'Model (expected)', fish = 'Fresh') %>% 
             select(country, m, ll, hh, fish, data)
     ) %>% 
-        left_join(c_labs)
+        left_join(c_labs) %>% 
+        mutate(c_name = factor(c_name, levels = rev(c_labs$c_name))) %>% 
+        arrange(c_name, fish) %>% 
+        mutate(c_name_dodge = ifelse(fish == 'Dried', 
+               as.numeric(as.factor(c_name)) - 0.15, as.numeric(as.factor(c_name)) + 0.15))
     
     
-    ga<-ggplot(posterc, aes(m,c_name, col=fish)) +
+    ga<-ggplot(posterc, aes(m,c_name_dodge, col=fish)) +
+        geom_path(colour='grey', alpha=0.8, aes(group=c_name)) +
         geom_pointrange(data = posterc, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
-        geom_path(colour='grey', alpha=0.8) +
-        scale_x_continuous(labels = scales::label_percent()) +
+        scale_x_continuous(labels = scales::label_percent(),  breaks=c(0, .2, .4, .6, .8)) +
         scale_colour_manual(values = pcols_named) +
         scale_y_discrete(limits=rev(c_labs$c_name)) +
         labs(y = '', x = ylab) +
@@ -99,7 +103,7 @@ fig_post<-function(dat, test=FALSE){
               axis.title = element_text(size = basesize))
     
     
-    lhs<-plot_grid(ga, gb, nrow=1, labels=c('A', 'B'), rel_widths=c(0.8, 1))
+    lhs<-plot_grid(ga, gb, nrow=1, labels=c('A', 'B'), label_fontface = "plain", rel_widths=c(0.8, 1))
     return(lhs)
     
 }

@@ -53,7 +53,12 @@ figPortion<-function(dat, pop){
         porter<-rbind(porter, datter %>% mutate(portion = portions[i]) %>% as.data.frame())
     }
 
-
+    # where is source achieved along portion size
+    intersect<-porter %>% 
+        group_by(nutrient, form2) %>% 
+        reframe(portion=min(portion[which(rni>=.15)])) %>% 
+        mutate(rni = .15)
+    
     # fresh vs dried, facet by nutrient for sup fig
     gg_port<-ggplot(porter, aes(portion, rni, col=form2)) + geom_line() + 
         facet_grid(~nutrient) +
@@ -61,16 +66,27 @@ figPortion<-function(dat, pop){
         geom_hline(yintercept = 0.15, col='grey', linetype=5) +
         geom_text(data = data.frame(nutrient = 'Calcium', rni = 0.2, portion = 20, lab='Source'), 
                   aes(label = lab), col='grey40', size=3) +
-        scale_y_continuous(labels=scales::percent) +
-        scale_x_continuous(limits =c(0, 25)) +
-        scale_colour_manual(values = pcols_named)
+        geom_point(data = intersect, aes(portion, rni, fill=form2), size=2, pch=21, col='black') + 
+        scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+        scale_colour_manual(values = pcols_named) +
+        scale_fill_manual(values = pcols_named) 
     
+    if(pop == 'Children') {
+        gg_port<-gg_port + 
+            scale_x_continuous(limits =c(1, 30), expand=c(0,0), breaks=c(1, 5, 15, 25)) +
+            geom_vline(xintercept = 9, col='#CF0000', linetype=5, alpha=0.5) }
+    
+    if(pop == 'Adult women') {
+        gg_port<-gg_port + 
+            scale_x_continuous(limits =c(1, 50), expand=c(0,0), breaks=c(1, 15, 30, 45)) +
+            geom_vline(xintercept = 41, col='#CF0000', linetype=5, alpha=0.5) }
+            
     # dried RNI only, for main fig 1b
     labber<-porter %>% filter(form2 != 'Fresh') %>% 
         group_by(nutrient) %>% 
         reframe(rni = rni[which(portion==25)])
     
-    intersect<-porter %>% filter(form2 != 'Fresh') %>% 
+    intersect2<-porter %>% filter(form2 != 'Fresh') %>% 
         group_by(nutrient) %>% 
         reframe(portion=min(portion[which(rni>=.15)])) %>% 
         mutate(rni = .15)
@@ -79,10 +95,11 @@ figPortion<-function(dat, pop){
         geom_line() + 
         labs(x = 'Dried fish portion, g', y = 'Nutrient Reference Value', col='') +
         geom_hline(yintercept = 0.15, col='grey', linetype=5) +
+        geom_vline(xintercept = 9, col='#CF0000', linetype=5, alpha=0.5) +
         geom_text(data = labber, aes(26.5, y = rni, label = nutrient), vjust=0, hjust=0, size=2.5) +
         geom_text(data = data.frame(rni = 0.18, portion = 0, lab='Source of nutrient'), 
                   aes(label = lab), col='grey40', size=2) +
-        geom_point(data = intersect, aes(portion, rni, fill=nutrient), size=3, pch=21, col='black') + 
+        geom_point(data = intersect2, aes(portion, rni, fill=nutrient), size=3, pch=21, col='black') + 
         scale_y_continuous(labels=scales::percent) +
         scale_x_continuous(limits =c(1, 30), expand=c(0,0), breaks=c(1, 5, 10, 15, 20, 25)) +
         scale_colour_manual(values = nut_cols) +
