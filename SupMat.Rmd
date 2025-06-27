@@ -4,6 +4,9 @@ header-includes:
 - \usepackage{pdflscape}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
+- \usepackage{graphicx}
+- \setkeys{Gin}{width=0.9\linewidth,keepaspectratio}  # 🔥 This forces figures to max 90% of the text width
+- \usepackage{pdflscape}    
 output:
   pdf_document: null
   latex_engine: pdflatex
@@ -83,4 +86,4 @@ knitr::include_graphics("fig/FigureS6.pdf"); i = i + 1
 knitr::include_graphics("fig/FigureS7.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Dried (top-row) and fresh (bottom-row) fish consumption for poor and rich households  (10% and 90% quantiles of household wealth, respectively).** Panels show distance to marine water (A, D), distance to inland water (B, E), and proximity to urban centre (C, F), where lines are the median posterior predicted probability that a poor (red) or wealth (blue) household consumed fish (shading = 50% and 95% posterior density intervals). Each posterior prediction holds other covariates at their mean (0). Inset histograms show distribution of observed data.
+**Fig. S`r i`. Dried (top-row) and fresh (bottom-row) fish consumption for poor and rich households  (10% and 90% quantiles of household wealth, respectively).** Panels show distance to marine water (A, D), distance to inland water (B, E), and proximity to urban centre (C, F), where lines are the median posterior predicted probability that a poor (red) or wealthy (blue) household consumed fish (shading = 50% and 95% posterior density intervals). Each posterior prediction holds other covariates at their mean (0). Inset histograms show distribution of observed data.
