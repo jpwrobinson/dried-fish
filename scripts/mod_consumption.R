@@ -56,6 +56,7 @@ save(mod_dat, m3, file = 'data/mod/lsms_mod_fresh.rds')
 
 load(file = 'data/mod/lsms_mod.rds')
 summary(m2)
+performance::r2_bayes(m2)
 conditional_effects(m2)
 plot(m2)
 ranef(m2)$country

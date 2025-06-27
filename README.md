@@ -1,7 +1,7 @@
-# Dried fish provide widespread access to critical nutrients across sub-Saharan Africa
+# Dried fish provide widespread access to critical nutrients across Africa
 > To download, click the green Code button, then either `git clone` or download the ZIP.
 
-This repository contains data and code needed to reproduce **Robinson et al.** Dried fish provide widespread access to critical nutrients across sub-Saharan Africa. [YEAR] *[JOURNAL]* [URL]
+This repository contains data and code needed to reproduce **Robinson et al.** Dried fish provide widespread access to critical nutrients across Africa. [YEAR] *[JOURNAL]* [URL]
 
 
 
