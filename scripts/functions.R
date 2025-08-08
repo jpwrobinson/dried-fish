@@ -114,8 +114,9 @@ plot_post<-function(dried, fresh, mod_dat, var, raw_var, xlab, quantile = NULL){
         scales +
         theme(legend.position = 'none', 
               plot.margin = unit(c(.05, .01, .05, .05), 'cm'),
-              axis.text = element_text(size = basesize), 
-              axis.title = element_text(size = basesize)) +
+              axis.text = element_text(size = basesize, colour='black'), 
+              axis.ticks = element_line(colour='black'), 
+              axis.title = element_text(size = basesize, colour='black')) +
         labs(x = xlab, y = ylab)  
     
     # Create the inset histogram

@@ -73,6 +73,6 @@ figContaminant_Species<-function(dat, portion){
         th
     
     pl<-list(gg_1, gg_2, gg_3)
-    gSX<-plot_grid(plotlist=pl, nrow=1, labels=c('A', 'B', 'C'))
+    gSX<-plot_grid(plotlist=pl, nrow=1, labels=c('A', 'B', 'C'), label_fontface = "plain")
     print(gSX)
 }

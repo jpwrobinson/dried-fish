@@ -49,14 +49,18 @@ conflicted::conflicts_prefer(purrr::map)
 
 # plot cols
 source('scripts/theme_sleek.R')
-theme_set(theme_sleek())
+theme_set(theme_sleek() +
+              theme(axis.ticks = element_line(colour='black'),
+                    axis.text = element_text(colour='black'),
+                    axis.title = element_text(colour='black')))
+
 pcols<-c(RColorBrewer::brewer.pal(9, 'Set1'), 'black') ## 10 colors
 pcols_order<-c('Fresh','Fried', 'Powder','Smoked', 'Sun-dried')
 # pcols_named<-c('Fresh' = pcols[1], 'Sun-dried' = pcols[2], 'Smoked' = pcols[3],'Fried' = pcols[4], 'Powder' = pcols[5])
 
 # https://paletton.com/#uid=73b0u0km0n-cfyYhFrXq1juvce8
-pcols_named<-c('Sun-dried' = '#ED0606', 'Smoked' = '#048E8E', 
-               'Fresh' = '#05BE05', 'Powder' = '#ED6F06', 'Fried' = '#EEB407', 'Dried' = '#ED6F06')
+pcols_named<-c('Sun-dried' = '#b30000', 'Smoked' = '#3690c0', 
+               'Fresh' = '#238b45', 'Powder' = '#ec7014', 'Fried' = '#EEB407', 'Dried' = '#ED6F06')
 
 ## get RDA reference vals
 source('scripts/rda_reader_integrated.R')

@@ -19,7 +19,7 @@ figs<-function(fig1a, fig1b, fig1c, fig2, fig3, fig4, figS1, figS2a, figS2b, fig
     )
     dev.off()
     
-    pdf(file = 'fig/Figure3.pdf', height =3, width=8)
+    pdf(file = 'fig/Figure3.pdf', height =2.5, width=8)
     print(
         fig3
     )

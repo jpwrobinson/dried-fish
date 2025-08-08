@@ -112,8 +112,14 @@ lsms_hh %>% group_by(country, tot_hh) %>%
     filter(!is.na(n_hh)) %>% 
     summarise(n_hh = mean(n_hh), n_adult = mean(n_adult), n_children = mean(n_children))
 
+lsms_all %>% group_by(country, tot_hh) %>% 
+    summarise(prop_fresh = length(fresh[fresh=='yes'])/unique(tot_hh)*100,
+              prop_dried = length(dried[dried=='yes'])/unique(tot_hh)*100,
+              prop_any_fish = length(any_fish[any_fish=='yes'])/unique(tot_hh)*100,)
+
 
 # prop fish 
+tar_load(mod_dat)
 mod_dat %>% group_by(country) %>% 
     mutate(N = length(hh_id)) %>% 
     summarise(dried = sum(response_dried)/unique(N)*100,

@@ -130,10 +130,9 @@ nga_hh<-nga %>% distinct(hh_id,hh_cluster, hhweight, tot_hh, lat, lon, urban_rur
 
 nga_fish<-nga %>% 
     filter(item_cd %in% c(100:107) & s10bq1 == 1) %>% ## select fish only, and YES consumed (1)
-    select(tot_hh, hh_id, hh_cluster, hhweight, item_cd, s10bq2a, lat, lon, urban_rural, n_hh, country) %>% 
+    select(tot_hh, hh_id, hh_cluster, hhweight, item_cd, s10bq2a,s10bq2b, lat, lon, urban_rural, n_hh, country) %>% 
     left_join(nga_fish_code) %>% 
-    rename('quantity' = s10bq2a) %>% 
-    mutate(unit = NA) %>% 
+    rename('quantity' = s10bq2a, unit = s10bq2b) %>% 
     select(tot_hh, hh_id, hh_cluster, hhweight, lat, lon, urban_rural, n_hh, fish, form, quantity, unit, country)
 
 
@@ -308,7 +307,7 @@ lsms<-lsms_fish %>%
     dplyr::select(-n) %>% 
     mutate(value = 'yes') %>% 
     pivot_wider(names_from = form2, values_from = value, values_fill = list(value = 'no')) %>% 
-    # mutate(any_fish = case_when(if_any(dried:canned, ~. == "yes") ~ 'yes', TRUE ~ 'no')) %>% 
+    mutate(any_fish = case_when(if_any(dried:canned, ~. == "yes") ~ 'yes', TRUE ~ 'no')) %>%
     mutate(any_fish = 'yes') ## because all surveys contained fish already
 
 lsms_all<-lsms_hh %>% 

@@ -28,7 +28,7 @@ i = 0
 ```
 
 ```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
-knitr::include_graphics("fig/FigureS1.pdf"); i = i + 1
+knitr::include_graphics("fig/FigureS1_ill.pdf"); i = i + 1
 ```
 
 **Fig. S`r i`. Nutrient content of processed fish species**. Radars show contribution of 9 g portion to recommend intakes of each nutrient, for each sampled species. Plots coloured by processing type.
@@ -36,10 +36,10 @@ knitr::include_graphics("fig/FigureS1.pdf"); i = i + 1
 \newpage
 
 ```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
-knitr::include_graphics("fig/FigureS2.pdf"); i = i + 1
+knitr::include_graphics("fig/FigureS2_ill.pdf"); i = i + 1
 ```
 
-**Fig. S`r i`. Portion size of processed fish species required to reach recommended nutrient intakes**. Lines show the contribution to NRV (children 0.5 - 5 years old) across range in portion sizes, for each nutrient and by processing type. We use 15% NRV as a threshold for a 'source' of a specific nutrient.
+**Fig. S`r i`. Portion size of processed fish species required to reach recommended nutrient intakes**. Lines show the contribution to NRV across range in portion sizes, for each nutrient and by processing type, for young children (A) and adult women (B). We use 15% NRV as a threshold for a 'rich source' of a specific nutrient.
 
 
 \newpage

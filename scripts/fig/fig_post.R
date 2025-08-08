@@ -28,10 +28,10 @@ fig_post<-function(dat, test=FALSE){
                   posterior2 %>% mutate(fish = 'Fresh')) %>% 
         filter(parameter %in% p)
     
-    gb<-ggplot(poster, aes(m, parameter, xmin = ll, xmax = hh, col=fish )) +
+    gb<-ggplot(poster, aes(m, parameter, xmin = ll, xmax = hh, fill=fish ), col='black') +
         geom_vline(xintercept = 0, col='grey', linetype=5) +
-        geom_pointrange(data = poster, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
-        geom_pointrange(data=poster, linewidth=1, aes(xmax=h, xmin =l), position = position_dodge(width=0.5)) +
+        geom_pointrange(data = poster, aes( xmin = ll, xmax = hh), pch=21, fatten=5, stroke=0.5, linewidth=.7, position = position_dodge(width=0.5)) +
+        geom_pointrange(data=poster, linewidth=1.2, aes(xmax=h, xmin =l), pch=21, fatten =5, stroke=0, position = position_dodge(width=0.5)) +
         scale_x_continuous(breaks=seq(-1, 1, by = .2)) +
         scale_y_discrete(limits = p[c(6,1,2,3,4,5)],
                          position = 'right',
@@ -45,7 +45,7 @@ fig_post<-function(dat, test=FALSE){
                                 'b_Sproximity_to_marine_km:Sproximity_to_inland_km' = 'Proximity\nmarine*inland')) +
         labs(x = 'Relative effect size', y = '') +
         theme_sleek() +
-        scale_colour_manual(values = pcols_named) +
+        scale_fill_manual(values = pcols_named) +
         theme(legend.position = 'inside', legend.position.inside = c(0.25, 0.85),
               axis.text = element_text(size = basesize), 
               axis.title = element_text(size = basesize),
@@ -91,11 +91,11 @@ fig_post<-function(dat, test=FALSE){
                as.numeric(as.factor(c_name)) - 0.15, as.numeric(as.factor(c_name)) + 0.15))
     
     
-    ga<-ggplot(posterc, aes(m,c_name_dodge, col=fish)) +
+    ga<-ggplot(posterc, aes(m,c_name_dodge, fill=fish)) +
         geom_path(colour='grey', alpha=0.8, aes(group=c_name)) +
-        geom_pointrange(data = posterc, aes( xmin = ll, xmax = hh), position = position_dodge(width=0.5)) +
+        geom_pointrange(data = posterc, aes( xmin = ll, xmax = hh),col='black', pch=21, fatten=5, linewidth=0.7, stroke=0.5, position = position_dodge(width=0.5)) +
         scale_x_continuous(labels = scales::label_percent(),  breaks=c(0, .2, .4, .6, .8)) +
-        scale_colour_manual(values = pcols_named) +
+        scale_fill_manual(values = pcols_named) +
         scale_y_discrete(limits=rev(c_labs$c_name)) +
         labs(y = '', x = ylab) +
         theme(legend.position = 'none',
