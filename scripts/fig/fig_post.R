@@ -13,7 +13,7 @@ fig_post<-function(dat, test=FALSE){
         basesize = 9
         
         c_labs<-data.frame(country = c("CIV","SEN","NGA","MWI","UGA","TZA"),
-                           c_name = c("Côte D'Ivoire", "Senegal", "Nigeria", "Malawi", "Uganda", "Tanzania"))
+                           c_name = c("Côte d'Ivoire", "Senegal", "Nigeria", "Malawi", "Uganda", "Tanzania"))
     
     # posterior effect sizes
     posterior <- mcmc_intervals_data(m2)
