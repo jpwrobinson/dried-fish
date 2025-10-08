@@ -7,7 +7,7 @@ figRNI<-function(dat, portion){
         mutate(nutrient = fct_relevel(nutrient, c('Calcium', 'Iron', 'Selenium', 'Zinc','Iodine', 
                                                   #'Omega3', 
                                                   'Vitamin_a1', 'Vitamin_b12', 'Vitamin_d3', 'Epa_dha'))) %>%
-        mutate(nutrient = recode(nutrient,  Epa_dha = 'Omega-3 (DHA + EPA)', 
+        mutate(nutrient = recode(nutrient,  Epa_dha = 'Omega-3', 
                                  Vitamin_a1 = 'Vitamin A', Vitamin_b12 = 'Vitamin B12', Vitamin_d3 = 'Vitamin D')) %>% 
         mutate(form = recode(form, Wet = 'Fresh', 'Fresh, gutted' = 'Fresh')) %>% 
         mutate(fbname = ifelse(species == 'Encrasicholina punctifer', 'Omena (marine)', fbname),
