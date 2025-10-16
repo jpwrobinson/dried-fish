@@ -28,7 +28,7 @@ i = 0
 ```
 
 ```{r, out.height="80%", echo=F,fig.align='center', warning=FALSE, message=FALSE}
-knitr::include_graphics("fig/FigureS1_ill.pdf"); i = i + 1
+knitr::include_graphics("fig/FigureS1_ill2.pdf"); i = i + 1
 ```
 
 **Fig. S`r i`. Nutrient content of processed fish species**. Radars show contribution of 9 g portion to recommend intakes of each nutrient, for each sampled species. Plots coloured by processing type.
